@@ -34,11 +34,13 @@
 </head>
 
 <body class="admin">
+<form action="{% url 'signin' %}" method="post">
+		{% csrf_token %}
+	
 	<!--[if lt IE 9]>
 		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="highlight">upgrade your browser</a> to improve your experience.</div>
 	<![endif]-->
-	<form action="{% url 'signin' %}" method="post"></form>
-		{% csrf_token %}
+	
 	<div class="preloader">
 		<div class="preloader_image"></div>
 	</div>
@@ -135,15 +137,6 @@
 								<h4 class="text-center">
 									Sign In to Your Account
 								</h4>
-								<center>
-									<div class="row">
-										<select name="role" id="">
-											<option>-----Select Your Role>-----</option>
-											<option>Company</option>
-											<option>Plastic</option>
-										</select>
-									</div>
-								</center>
 								<hr class="bottommargin_30">
 								<div class="wrap-forms">
 									<form>
@@ -152,7 +145,7 @@
 												<div class="form-group has-placeholder">
 													<label for="login-email">Email address</label>
 													<i class="grey fa fa-envelope-o"></i>
-													<input type="email" class="form-control" id="login-email" placeholder="Email Address">
+													<input type="email" class="form-control" id="login-email" placeholder="Email Address" name="email">
 												</div>
 
 											</div>
@@ -162,7 +155,7 @@
 												<div class="form-group has-placeholder">
 													<label for="login-password">Password</label>
 													<i class="grey fa fa-pencil-square-o"></i>
-													<input type="password" class="form-control" id="login-password" placeholder="Password">
+													<input type="password" class="form-control" id="login-password" placeholder="Password" name="password">
 												</div>
 											</div>
 										</div>
@@ -175,7 +168,7 @@
 												</div>
 											</div>
 										</div>
-										<button type="submit" class="theme_button block_button color1">Log In</button>
+										<button type="submit"  class="theme_button block_button color1">Log In</button>
 									</form>
 								</div>
 
@@ -320,8 +313,9 @@
 
 	<!-- dashboard init -->
 	<script src="js/admin.js"></script>
-
+</form>
 </body>
+
 
 
 <!-- Mirrored from webdesign-finder.com/html/gogreen/admin_signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Oct 2020 04:12:50 GMT -->

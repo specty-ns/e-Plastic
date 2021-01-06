@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'eplastic',
+        'NAME': 'eplastic1',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
