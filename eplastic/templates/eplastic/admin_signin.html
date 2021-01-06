@@ -133,14 +133,22 @@
 							<div class="with_border with_padding">
 
 								<h4 class="text-center">
-									Sign In to Your Account
+									Admin Sign In 
 								</h4>
+								{% if msg %}
+								
+								<strong><p style="color: red;">{{msg}}</p></strong>
+
+								{% endif %}
+								<form action="{% url 'login' %}" method="post">
+									{% csrf_token %}
+									<input type="hidden" name="role" id="" value="adminin">
 								<center>
-									<div class="row">
+									<div class="col-md-12 form-group">
 										<select name="role" id="">
-											<option>-----Select Your Role>-----</option>
-											<option>Company</option>
-											<option>Plastic</option>
+											<option>Select Your Role</option>
+											<option>RecyclingCompany</option>
+											<option>PlasticCollector</option>
 										</select>
 									</div>
 								</center>
@@ -152,7 +160,7 @@
 												<div class="form-group has-placeholder">
 													<label for="login-email">Email address</label>
 													<i class="grey fa fa-envelope-o"></i>
-													<input type="email" class="form-control" id="login-email" placeholder="Email Address">
+													<input type="email" class="form-control" id="login-email" placeholder="Email Address" name="email">
 												</div>
 
 											</div>
@@ -162,7 +170,7 @@
 												<div class="form-group has-placeholder">
 													<label for="login-password">Password</label>
 													<i class="grey fa fa-pencil-square-o"></i>
-													<input type="password" class="form-control" id="login-password" placeholder="Password">
+													<input type="password" class="form-control" id="login-password" placeholder="Password" name="password">
 												</div>
 											</div>
 										</div>
@@ -175,7 +183,7 @@
 												</div>
 											</div>
 										</div>
-										<button type="submit" class="theme_button block_button color1">Log In</button>
+										<button type="submit" name="login" class="theme_button block_button color1">Log In</button>
 									</form>
 								</div>
 
@@ -203,7 +211,7 @@
 							<!-- .with_border -->
 
 							<p class="divider_20 text-center">
-					Not registered? <a href="admin_signup.html">Create an account</a>.<br>
+					Not registered? <a href="{% url 'adminsp' %}">Create an account</a>.<br>
 					or go <a href="index.html">Home</a>
 				</p>
 

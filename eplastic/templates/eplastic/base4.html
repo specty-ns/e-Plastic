@@ -651,13 +651,13 @@
 										</li>
 										<!-- eof contacts -->
 										<li>
-											<a>Account</a>
+											<a>{{request.session.Firstname}}</a>
 											<ul>
 												<li>
-													<a href="{% url 'signin' %}">Signin</a>
+													<a href="{% url 'profile' %}">My Profile</a>
 												</li>
 												<li>
-													<a href="{% url 'signup' %}">Signup</a>
+													<a href="{% url 'signup' %}">Log Out</a>
 												</li>
 											</ul>
 										</li>
