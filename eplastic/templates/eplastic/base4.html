@@ -654,7 +654,7 @@
 											<a>{{request.session.Firstname}}</a>
 											<ul>
 												<li>
-													<a href="{% url 'profile' %}">My Profile</a>
+													<a href="{% url 'profiledata' pk=request.session.id %}">My Profile</a>
 												</li>
 												<li>
 													<a href="{% url 'signup' %}">Log Out</a>

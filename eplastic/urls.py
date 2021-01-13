@@ -12,6 +12,13 @@ urlpatterns = [
     path("profile/",views.CustomerProfile,name="profile"),
     path("login/",views.Login,name="login"),
     path("adminin/",views.AdminSignin,name="adminin"),
+    path("profiledata/<int:pk>",views.ProfileData,name="profiledata"),
+    path("update/<int:pk>",views.CustomerProfileUpdate,name="update"),
+    path("edata/<int:pk>",views.UpdateData,name="edata"),
+    path("ddata/<int:pk>",views.CustomerProfileDelete,name="ddata"),
+    path("adata/<int:pk>",views.AdminProfile,name="adata"),    
+    
+
     
 
 ]

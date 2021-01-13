@@ -34,19 +34,15 @@
 </head>
 
 <body class="admin">
-<form action="{% url 'signin' %}" method="post">
-		{% csrf_token %}
-	
 	<!--[if lt IE 9]>
 		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="highlight">upgrade your browser</a> to improve your experience.</div>
 	<![endif]-->
-	
+
 	<div class="preloader">
 		<div class="preloader_image"></div>
 	</div>
 
 	<!-- search modal -->
-	
 	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">
@@ -135,14 +131,10 @@
 							<div class="with_border with_padding">
 
 								<h4 class="text-center">
-									Customer Sign In 
+									Customer Profile Update
 								</h4>
-								{% if msg %}
-								
-								<strong><p style="color: red;">{{msg}}</p></strong>
-
-								{% endif %}
-								<form action="{% url 'login' %}" method="post">
+                                {% if key4 %}
+                                <form action="{% url 'edata' pk=request.session.id %}" method="post">
 									{% csrf_token %}
 									<input type="hidden" name="role" id="" value="customer">
 								<hr class="bottommargin_30">
@@ -151,9 +143,19 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group has-placeholder">
-													<label for="login-email">Email address</label>
-													<i class="grey fa fa-envelope-o"></i>
-													<input type="email" class="form-control" id="login-email" placeholder="Email Address" name="email">
+													<label for="login-name">First Name</label>
+													<i class="grey fa fa-user"></i>
+													<input type="text" class="form-control" id="login-name" placeholder="First Name" name="fname" value="{{key4.fname}}">
+												</div>
+
+											</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-sm-12">
+												<div class="form-group has-placeholder">
+													<label for="login-name">Last Name</label>
+													<i class="grey fa fa-user"></i>
+													<input type="text" class="form-control" id="login-name" placeholder="Last Name" name="lname" value="{{key4.lname}}">
 												</div>
 
 											</div>
@@ -161,51 +163,62 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group has-placeholder">
+													<label for="login-email">Email</label>
+													<i class="grey fa fa-envelope-o"></i>
+													<input type="email" class="form-control" id="login-email" placeholder="Email Address" name="email" value="{{request.session.Email}}">
+												</div>
+
+											</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-sm-12">
+												<div class="form-group has-placeholder">
+													<label for="login-name">Contact</label>
+													<i class="grey fa fa-user"></i>
+													<input type="number" class="form-control" name="contact" id="login-name" placeholder="contact" value="{{key4.contact}}">
+												</div>
+
+											</div>
+										</div>
+                                        <div class="row">
+											<div class="col-sm-12">
+												<div class="form-group has-placeholder">
+													<label for="login-name">Address</label>
+													<i class="grey fa fa-user"></i>
+													<input type="text" class="form-control" name="address" id="login-name" placeholder="address" value="{{key4.address}}">
+												</div>
+											</div>
+                                        </div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group has-placeholder">
 													<label for="login-password">Password</label>
 													<i class="grey fa fa-pencil-square-o"></i>
-													<input type="password" class="form-control" id="login-password" placeholder="Password" name="password">
+													<input type="password" class="form-control" id="login-password" placeholder="Password" name="password" value="{{request.session.Password}}">
 												</div>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="checkbox">
-													<input type="checkbox" id="remember_me_checkbox">
-													<label for="remember_me_checkbox">Remember Me
-													</label>
+												<div class="form-group has-placeholder">
+													<label for="login-password2">Retype Password</label>
+													<i class="grey fa fa-pencil-square-o"></i>
+													<input type="password" class="form-control" id="login-password2" placeholder="Retype Password" name="cpassword">
 												</div>
 											</div>
 										</div>
-										<button type="submit"  class="theme_button block_button color1">Log In</button>
-									</form>
-								</div>
-								</form>
-								<div class="darklinks text-center topmargin_20">
-
-									<a role="button" data-toggle="collapse" href="#signin-resend-password" aria-expanded="false" aria-controls="signin-resend-password">
-							Forgot your password?
-						</a>
-
-								</div>
-								<div class="collapse form-inline-button" id="signin-resend-password">
-									<form class="form-inline topmargin_20">
-										<div class="form-group">
-											<label class="sr-only">Enter your e-mail</label>
-											<input type="email" class="form-control" placeholder="E-mail">
 										</div>
-										<button type="submit" class="theme_button with_icon">
-											<i class="fa fa-share"></i>
-										</button>
+										<a href="{% url 'profiledata' pk=request.session.id %}"><button type="submit" class="theme_button block_button color1"> Update</button></a>
+                                        {% endif %}
 									</form>
+								</form>
 								</div>
-
 
 							</div>
 							<!-- .with_border -->
 
 							<p class="divider_20 text-center">
-					Not registered? <a href="{% url 'signup' %}">Create an account</a>.<br>
-					or go <a href="{% url 'index' %}">Home</a>
+					
 				</p>
 
 						</div>
@@ -321,10 +334,9 @@
 
 	<!-- dashboard init -->
 	<script src="js/admin.js"></script>
-</form>
+
 </body>
 
 
-
-<!-- Mirrored from webdesign-finder.com/html/gogreen/admin_signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Oct 2020 04:12:50 GMT -->
+<!-- Mirrored from webdesign-finder.com/html/gogreen/admin_signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Oct 2020 04:12:50 GMT -->
 </html>

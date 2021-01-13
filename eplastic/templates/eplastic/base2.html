@@ -138,12 +138,8 @@
 				</span>
 				<div class="scrollbar-macosx">
 					<div class="side_header_inner">
-
 						<!-- user -->
-
 						<div class="user-menu">
-
-
 							<ul class="menu-click">
 								<li>
 									<a href="#">
@@ -152,16 +148,19 @@
 												<img src="images/team/01.jpg" alt="">
 											</div>
 											<div class="media-body media-middle">
-												<h4>Ann Andersen</h4>
-												Administrator
-
+												<h4>{{request.session.pfname}}</h4>
+												{{request.session.prole}}
+												<a href="{% url 'adata' request.session.id %}">
+													<i class="fa fa-user"></i>
+													Profile
+												</a>
 											</div>
 
 										</div>
 									</a>
 									<ul>
 										<li>
-											<a href="admin_profile.html">
+											<a href="{% url 'adata' pk=request.session.id %}">
 												<i class="fa fa-user"></i>
 												Profile
 											</a>
@@ -348,7 +347,6 @@
 							10GB of
 							<strong>250GB</strong> Free
 						</div>
-
 					</div>
 				</div>
 			</header>
