@@ -16,22 +16,48 @@ class Customer(models.Model):
     master_id=models.ForeignKey(Master,on_delete=models.CASCADE)
     fname = models.CharField(max_length=50)
     lname = models.CharField(max_length=50)
-    contact = models.CharField(max_length=50)
+    contact = models.BigIntegerField()
     address = models.CharField(max_length=500)
     gender = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
+    image = models.ImageField(upload_to="customerimg/")
+
 
 class Company(models.Model):
     master_id=models.ForeignKey(Master,on_delete=models.CASCADE)
     comp_name = models.CharField(max_length=50)
     comp_address = models.CharField(max_length=500)
-    comp_contact = models.CharField(max_length=50)
+    comp_contact = models.BigIntegerField()
+    comp_image = models.ImageField(upload_to="companyimg/")
+    comp_fb = models.CharField(max_length=1000)
+    comp_insta = models.CharField(max_length=1000)
+    comp_linkedin = models.CharField(max_length=1000)
+    comp_twitter = models.CharField(max_length=1000) 
+    comp_website = models.CharField(max_length=200)
     owner_fname = models.CharField(max_length=50)
     owner_lname = models.CharField(max_length=50)
+    owner_gender = models.CharField(max_length=50)
+    owner_contact = models.CharField(max_length=50)
+    owner_email = models.EmailField(max_length=50)
+    
+
    
 class PlasticC(models.Model):
     master_id=models.ForeignKey(Master,on_delete=models.CASCADE)
-    pc_fname = models.CharField(max_length=50)
+    pc_name = models.CharField(max_length=50)
     pc_address = models.CharField(max_length=50)
-    pc_contact = models.CharField(max_length=50)
+    pc_contact = models.BigIntegerField()
+    pc_image = models.ImageField(upload_to="plasticcimg/")
+    pc_fb = models.CharField(max_length=1000)
+    pc_insta = models.CharField(max_length=1000)
+    pc_linkedin = models.CharField(max_length=1000)
+    pc_twitter = models.CharField(max_length=1000) 
+    pc_website = models.CharField(max_length=200)
+    owner_fname = models.CharField(max_length=50)
+    owner_lname = models.CharField(max_length=50)
+    owner_gender = models.CharField(max_length=50)
+    owner_contact = models.BigIntegerField()
+    owner_email = models.EmailField(max_length=50)
+
+
     

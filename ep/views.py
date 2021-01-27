@@ -88,13 +88,11 @@ def Register(request):
             if password==cpassword:
                 otp = randint(10000,99999)
                 newMaster=Master.objects.create(email=email,password=password,otp=otp,role=role)
-                newCust=PlasticC.objects.create(master_id=newMaster,pc_fname=name,pc_address=address,pc_contact=contact)
+                newCust=PlasticC.objects.create(master_id=newMaster,pc_name=name,pc_address=address,pc_contact=contact)
                 return render(request,"ep/admin_index.html")
             else:
                 message= "Password doesn't match!"
                 return render(request,"ep/admin_signup.html",{'msg':message})
-
-
 
 def LoginUser(request):
     try:
@@ -117,10 +115,7 @@ def LoginUser(request):
                     return render(request,"ep/index-2.html")
                 else:
                     message = "User Password or Role Doesnot match"
-
-                    
         elif request.POST['role']=="RecyclingCompany":
-
             email = request.POST['email']
             password= request.POST['password']
             user = Master.objects.get(email=email)
@@ -133,8 +128,17 @@ def LoginUser(request):
                     request.session['Cname']=comp.comp_name
                     request.session['Cadd']=comp.comp_address
                     request.session['Ccon']=comp.comp_contact
+                    request.session['Cimg']=comp.comp_image
+                    request.session['Cfb']=comp.comp_fb
+                    request.session['Cins']=comp.comp_insta
+                    request.session['Clin']=comp.comp_linkedin
+                    request.session['Ctwit']=comp.comp_twitter
+                    request.session['Cweb']=comp.comp_website
                     request.session['Ofname']=comp.owner_fname
                     request.session['Olname']=comp.owner_lname
+                    request.session['Ogen']=comp.owner_gender
+                    request.session['Ocon']=comp.owner_contact
+                    request.session['Oemail']=comp.owner_email
                     return render(request,"ep/admin_index.html")
     except Exception as e1:
         print("LoginException---------------------->",e1)
@@ -152,8 +156,6 @@ def CompanyProfileData(request,pk):
     if udata.role=="RecyclingCompany":
         comp = Company.objects.get(master_id=udata)
         return render(request,"ep/company_profile.html",{'key5':comp})
-
-
 def UpdateButtonClick(request,pk):
     udata = Master.objects.get(id=pk)
     if udata.role=="customer":
@@ -185,11 +187,22 @@ def CompanyUpdateData(request,pk):
     udata = Master.objects.get(id=pk)
     if udata.role=="RecyclingCompany":
         comp = Company.objects.get(master_id=udata)
-        comp.owner_fname = request.POST['ofname']
-        comp.owner_lname = request.POST['olname']
         udata.email = request.POST['email']
+        udata.password = request.POST['password']
+        comp.comp_name= request.POST['cname']
         comp.comp_contact = request.POST['ccontact']
         comp.comp_address = request.POST['caddress']
+        comp.comp_website = request.POST['cwebsite']
+        comp.comp_image = request.FILES['cimage']
+        comp.comp_insta = request.POST['cinsta']
+        comp.comp_linkedin = request.POST['clinkedin']
+        comp.comp_twitter = request.POST['ctwitter']
+        comp.comp_fb = request.POST['cfb']
+        comp.owner_fname = request.POST['cofname']
+        comp.owner_lname = request.POST['colname']
+        comp.owner_gender = request.POST['cogender']
+        comp.owner_email = request.POST['coemail']
+        comp.owner_contact = request.POST['cocontact']
         udata.save()
         comp.save()
         url = f'/companydata/{pk}'
