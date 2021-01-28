@@ -56,7 +56,7 @@ class PlasticC(models.Model):
     owner_fname = models.CharField(max_length=50)
     owner_lname = models.CharField(max_length=50)
     owner_gender = models.CharField(max_length=50)
-    owner_contact = models.BigIntegerField()
+    owner_contact = models.BigIntegerField(default=123)
     owner_email = models.EmailField(max_length=50)
 
 

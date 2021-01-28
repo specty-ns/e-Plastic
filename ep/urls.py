@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path("",views.IndexPage,name="index"),
+    path("adminindex/",views.AdminIndexPage,name="adminindex"),
     path("index2/",views.Index2Page,name="index2"),
     path("signup/",views.CustomerSignUp,name="signup"),
     path("adminsp/",views.AdminSignUp,name="adminsp"),
@@ -19,5 +20,8 @@ urlpatterns = [
     path("cupdate/<int:pk>",views.CompanyUpdateClick,name="cupdate"),
     path("update/<int:pk>",views.UpdateData,name="update"),
     path("companyupdate/<int:pk>",views.CompanyUpdateData,name="companyupdate"),
-
+    path("plasticCollectordata/<int:pk>",views.PlasticCollectorProfileData,name="plasticCollectordata"),
+    path("plasticCollectorupdatebutton/<int:pk>",views.PlasticCollectorUpdateButtonClick,name="plasticCollectorupdatebutton"),
+    path("plasticCollectorupdate/<int:pk>",views.PlasticCollectorUpdateData,name="plasticCollectorupdate"),
+    
 ]
