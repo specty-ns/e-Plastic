@@ -145,8 +145,8 @@
 									<a href="#">
 										<div class="media">
 											<div class="media-left media-middle">
-												<img src="{{MEDIA_URL}}{{key8.pc_image.url}}" ></img>
-												<img src="{{MEDIA_URL}}{{key7.pc_image.url}}" ></img>
+												<img src="" ></img>
+												<img src="" ></img>
 											</div>
 											<div class="media-body media-middle">
 												<h4>{{request.session.Pcname}}</h4>
@@ -169,6 +169,10 @@
 														<i class="fa fa-sign-out"></i>
 														Log Out
 													</a>
+													<a href="{% url 'product' %}">
+														<i class="fa fa-sign-out"></i>
+														Product
+												</a>
 												
 											</div>
 

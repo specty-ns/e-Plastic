@@ -23,6 +23,8 @@ def CompanyProfile(request):
     return render(request,"ep/company_profile.html")
 def PlasticCollectorProfile(request):
     return render(request,"ep/plasticCollector_profile.html")
+def Product(request):
+    return render(request,"ep/addpproduct.html")
 
 def Register(request):
     try:
@@ -120,7 +122,7 @@ def LoginUser(request):
                     request.session['id'] = user.id
                     return render(request,"ep/index-2.html")
                 else:
-                    message = "User Password or Role Doesnot match"
+                    message = "User Email or Password Doesnot match"
                     return render(request,"ep/customer_signin.html",{'msg':message})
 
         elif request.POST['role']=="RecyclingCompany":
@@ -148,7 +150,7 @@ def LoginUser(request):
                     request.session['Oemail']=comp.owner_email
                     return render(request,"ep/admin_index.html")
                 else:
-                    message= "Password doesn't match!"
+                    message= "Role or Email or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
 
         elif request.POST['role']=="PlasticCollector":
@@ -176,7 +178,7 @@ def LoginUser(request):
                     request.session['Oemail']=pc.owner_email
                     return render(request,"ep/plasticCollector_index.html")
                 else:
-                    message= "Password doesn't match!"
+                    message= "Role or Email or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
     except Exception as e2:
         print("LoginException---------------------->",e2)
@@ -205,6 +207,16 @@ def CompanyUpdateClick(request,pk):
         comp = Company.objects.get(master_id=udata)
         return render(request,"ep/company_update.html",{"key6":comp})
 
+def PlasticCollectorProfileData(request,pk):
+    udata = Master.objects.get(id=pk)
+    if udata.role=="PlasticCollector":
+        pc = PlasticC.objects.get(master_id=udata)
+        return render(request,"ep/plasticCollector_profile.html",{'key8':pc})
+def PlasticCollectorUpdateButtonClick(request,pk):
+    udata = Master.objects.get(id=pk)
+    if udata.role=="PlasticCollector":
+        pc = PlasticC.objects.get(master_id=udata)
+        return render(request,"ep/plasticCollector_update.html",{"key7":pc})
 
 def UpdateData(request,pk):
     udata = Master.objects.get(id=pk)
@@ -220,8 +232,7 @@ def UpdateData(request,pk):
         udata.save()
         cust.save()
         url = f'/profiledata/{pk}'
-        return redirect(url)
-        
+        return redirect(url)    
 
 def CompanyUpdateData(request,pk):
     udata = Master.objects.get(id=pk)
@@ -272,13 +283,21 @@ def PlasticCollectorUpdateData(request,pk):
         url = f'/plasticCollectordata/{pk}'
         return redirect(url)
 
-def PlasticCollectorProfileData(request,pk):
-    udata = Master.objects.get(id=pk)
-    if udata.role=="PlasticCollector":
-        pc = PlasticC.objects.get(master_id=udata)
-        return render(request,"ep/plasticCollector_profile.html",{'key8':pc})
-def PlasticCollectorUpdateButtonClick(request,pk):
-    udata = Master.objects.get(id=pk)
-    if udata.role=="PlasticCollector":
-        pc = PlasticC.objects.get(master_id=udata)
-        return render(request,"ep/plasticCollector_update.html",{"key7":pc})
+def AddPProduct(request,pk):
+    try:
+        udata = Master.objects.get(id=pk)
+        if udata.role=="PlasticCollector":
+            pc = PlasticC.objects.get(master_id=udata)
+
+
+            pro_name = request.POST['pname']
+            pro_date = request.POST['pdate']
+            pro_price = request.POST['pprice']
+            pro_image = request.FILES['pimage']
+            pro_quantity = request.POST['pqty']
+
+            newProduct=PlasticProduct.objects.create(plasticc_id=pc,pproduct_name=pro_name,pproduct_date=pro_date,pproduct_price=pro_price,pproduct_image=pro_image,pproduct_quantity=pro_quantity)
+            message= "Product Added Successfully"
+            return render(request,"ep/addpproduct.html",{'msg':message})
+    except Exception as ae:
+        print("Add Product--------->",ae)

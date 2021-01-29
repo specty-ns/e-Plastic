@@ -56,8 +56,15 @@ class PlasticC(models.Model):
     owner_fname = models.CharField(max_length=50)
     owner_lname = models.CharField(max_length=50)
     owner_gender = models.CharField(max_length=50)
-    owner_contact = models.BigIntegerField(default=123)
+    owner_contact = models.BigIntegerField(default=0000000000)
     owner_email = models.EmailField(max_length=50)
 
+class PlasticProduct(models.Model):
+    plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
+    pproduct_name = models.CharField(max_length=100)
+    pproduct_date = models.DateTimeField()
+    pproduct_price = models.BigIntegerField(default=0)
+    pproduct_image = models.ImageField(upload_to="pproductimg/")
+    pproduct_quantity = models.BigIntegerField(default=0)
 
-    
+

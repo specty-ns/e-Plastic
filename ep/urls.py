@@ -23,5 +23,7 @@ urlpatterns = [
     path("plasticCollectordata/<int:pk>",views.PlasticCollectorProfileData,name="plasticCollectordata"),
     path("plasticCollectorupdatebutton/<int:pk>",views.PlasticCollectorUpdateButtonClick,name="plasticCollectorupdatebutton"),
     path("plasticCollectorupdate/<int:pk>",views.PlasticCollectorUpdateData,name="plasticCollectorupdate"),
+    path("addpproduct/<int:pk>",views.AddPProduct,name="addpproduct"),
+    path("product/",views.Product,name="product"),
     
 ]
