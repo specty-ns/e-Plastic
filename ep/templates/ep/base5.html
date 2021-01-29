@@ -171,9 +171,12 @@
 													</a>
 													<a href="{% url 'product' %}">
 														<i class="fa fa-sign-out"></i>
-														Product
-												</a>
-												
+														Add Product
+													</a>
+													<a href="{% url 'allpproducts' pk=request.session.id %}">
+														<i class="fa fa-suitcase"></i>
+														Products
+													</a>
 											</div>
 
 										</div>
@@ -277,7 +280,7 @@
 									</ul>
 								</li>
 								<li>
-									<a href="admin_products.html">
+									<a href="">
 										<i class="fa fa-suitcase"></i>
 										Products
 									</a>

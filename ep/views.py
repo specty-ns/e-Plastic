@@ -288,8 +288,6 @@ def AddPProduct(request,pk):
         udata = Master.objects.get(id=pk)
         if udata.role=="PlasticCollector":
             pc = PlasticC.objects.get(master_id=udata)
-
-
             pro_name = request.POST['pname']
             pro_date = request.POST['pdate']
             pro_price = request.POST['pprice']
@@ -301,3 +299,36 @@ def AddPProduct(request,pk):
             return render(request,"ep/addpproduct.html",{'msg':message})
     except Exception as ae:
         print("Add Product--------->",ae)
+
+def GetAllPProduct(request,pk):
+    udata = Master.objects.get(id=pk)
+    if udata.role=="PlasticCollector":
+        pc = PlasticC.objects.get(master_id=udata)
+        allpproduct= PlasticProduct.objects.all().filter(plasticc_id=pc)
+        return render(request,"ep/allpproducts.html",{'key9':allpproduct})
+
+
+
+def PPUpdateButton(request,pk):
+    try:
+        pp = PlasticProduct.objects.get(id=pk)
+        print("IDt--------->",id)
+        return render(request,"ep/pproduct_update.html",{"key10":pp})
+    except Exception as r:
+        print("Button Product--------->",r)
+
+
+def UpdateProduct(request,pk):
+    try:
+        pro = PlasticProduct.objects.get(pk=pk)
+        pro.pproduct_name = request.POST['pname']
+        pro.pproduct_date = request.POST['pdate']
+        pro.pproduct_price = request.POST['pprice']
+        pro.pproduct_image = request.FILES['pimage']
+        pro.pproduct_quantity = request.POST['pqty']
+        pro.save()
+        pp = request.session['id']
+        url = f"/allpproducts/{pp}"
+        return redirect(url)
+    except Exception as i:
+        print("Image Product--------->",i)
