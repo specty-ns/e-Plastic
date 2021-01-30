@@ -5,8 +5,10 @@ from random import *
 # Create your views here.
 def IndexPage(request):
     return render(request,"ep/index.html")
-def AdminIndexPage(request):
-    return render(request,"ep/admin_index.html")
+def CompanyIndexPage(request):
+    return render(request,"ep/company_index.html")
+def CollectorIndexPage(request):
+    return render(request,"ep/plasticCollector_index.html")
 def Index2Page(request):
     return render(request,"ep/index-2.html")
 def CustomerSignUp(request):
@@ -148,7 +150,7 @@ def LoginUser(request):
                     request.session['Ogen']=comp.owner_gender
                     request.session['Ocon']=comp.owner_contact
                     request.session['Oemail']=comp.owner_email
-                    return render(request,"ep/admin_index.html")
+                    return render(request,"ep/company_index.html")
                 else:
                     message= "Role or Email or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
@@ -225,7 +227,7 @@ def UpdateData(request,pk):
         cust.fname = request.POST['fname']
         cust.lname = request.POST['lname']
         cust.gender = request.POST['gender']
-        udata.email = request.POST['email']
+        udata.email = request.POST['email'] 
         cust.contact = request.POST['contact']
         cust.address = request.POST['address']
         cust.state = request.POST['state']
@@ -308,7 +310,6 @@ def GetAllPProduct(request,pk):
         return render(request,"ep/allpproducts.html",{'key9':allpproduct})
 
 
-
 def PPUpdateButton(request,pk):
     try:
         pp = PlasticProduct.objects.get(id=pk)
@@ -342,3 +343,30 @@ def DeleteProduct(request,pk):
         return redirect(url)
     except Exception as ok:
         print("------------>delete error",ok)
+
+def RPAllProduct(request):
+ 
+    all_pro = PlasticProduct.objects.all()  
+    return render(request,"ep/rp_allproducts.html",{'key11':all_pro})
+
+def RPButtonClick(request,pk):
+        pc = PlasticProduct.objects.get(pk=pk)
+        cdata = Company.objects.all()
+        pdata = PlasticC.objects.all()
+        return render(request,"ep/requestpproduct.html",{'key12':pc},{'key13':cdata},{'key14':pdata})
+
+def RPButton(request,pk):
+    try:
+        udata = Master.objects.get(pk=pk)
+        if udata.role=="RecyclingCompany":
+            rpc = PlasticC.objects.get(master_id=udata)
+            rc = Company.objects.get(master_id=udata)
+            rpp = PlasticProduct.objects.get(master_id=udata)
+            request_date = request.POST['rdate']
+            request_quantity = request.POST['rqty']
+            newRequest=RequestButton.objects.create(comp_id=rc,plasticc_id=rpc,pproduct_id=rpp,request_date=request_date,request_quantity=request_quantity)
+            message= "Request Sent Successfully"
+            return render(request,"ep/requestpproduct.html",{'msg':message})
+    except Exception as r:
+        print("Button Product--------->",r)
+

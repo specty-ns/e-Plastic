@@ -129,7 +129,7 @@
 				<div class="side_header_logo ds ms">
 					<a href="">
 						<span class="logo_text playfair margin_0">
-							<a href="{% url 'adminindex' %}">E-Plastic</a>
+							<a href="{% url 'companyindex' %}">E-Plastic</a>
 						</span>
 					</a>
 				</div>
@@ -145,7 +145,7 @@
 									<a href="#">
 										<div class="media">
 											<div class="media-left media-middle">
-												<img src="" ></img>
+												<img src="{{MEDIA_URL}}{{key5.comp_image.url}}" height="75%" width="75%" ></img>
 											</div>
 											<div class="media-body media-middle">
 												<h4>{{request.session.Cname}}</h4>
@@ -167,7 +167,7 @@
 														<i class="fa fa-sign-out"></i>
 														Log Out
 												</a>
-												<a href="{% url 'allpproducts' %}">
+												<a href="{% url 'rpallpro' %}">
 													<i class="fa fa-suitcase"></i>
 													Products
 												</a>

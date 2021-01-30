@@ -67,4 +67,9 @@ class PlasticProduct(models.Model):
     pproduct_image = models.ImageField(upload_to="pproductimg/")
     pproduct_quantity = models.BigIntegerField(default=0)
 
-
+class RequestButton(models.Model):
+    comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)
+    plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
+    pproduct_id=models.ForeignKey(PlasticProduct,on_delete=models.CASCADE)
+    request_date = models.DateTimeField()
+    request_quantity = models.BigIntegerField(default=0)
