@@ -28,5 +28,6 @@ urlpatterns = [
     path("allpproducts/<int:pk>",views.GetAllPProduct,name="allpproducts"),
     path("ppbutton/<int:pk>",views.PPUpdateButton,name="ppbutton"),
     path("ppupdate/<int:pk>",views.UpdateProduct,name="ppupdate"),
+    path("deleteproduct/<int:pk>",views.DeleteProduct,name="deleteproduct"),
     
 ]

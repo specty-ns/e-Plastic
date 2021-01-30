@@ -332,3 +332,13 @@ def UpdateProduct(request,pk):
         return redirect(url)
     except Exception as i:
         print("Image Product--------->",i)
+
+def DeleteProduct(request,pk):
+    try:
+        ddata = PlasticProduct.objects.get(pk=pk)
+        ddata.delete()
+        pp = request.session['id']
+        url = f"/allpproducts/{pp}"
+        return redirect(url)
+    except Exception as ok:
+        print("------------>delete error",ok)

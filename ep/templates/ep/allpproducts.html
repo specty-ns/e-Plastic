@@ -144,7 +144,9 @@
                                               <a href="{% url 'ppbutton' pk=i.id %}"><button type="submit"  class="theme_button wide_button">Update</button></a>
                                             </td>
                                             <td>
-                                                <a href="" class="theme_button color2">Delete</a>
+												<input type="hidden" name="id" value="i.id">
+												<a href="{% url 'deleteproduct' pk=i.id %}" class="theme_button color2">Delete</a>
+
                                             </td>
                                         </tr>
                                         {% endfor %}
