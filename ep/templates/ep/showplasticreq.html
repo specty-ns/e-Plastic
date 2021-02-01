@@ -147,7 +147,7 @@
                                             <td>
 												<input type="hidden" name="" id="" value="">
                                                 <button type="submit"  class="theme_button wide_button">Accept</button>
-                                                <button type="submit"  class="theme_button wide_button">Reject</button>
+												<a href="{% url 'rejectpro' pk=i.id %}" class="theme_button color2">Reject</a>
                                             </td>
                                         </tr>
 										{% endfor %}    

@@ -380,3 +380,12 @@ def ShowPReq(request):
         return render(request,"ep/showplasticreq.html",{'key13':all_preq})
     except Exception as s:
         print("Show ----------------------------->",s)
+
+def RejectProduct(request,pk):
+    try:
+        rdata = RequestButton.objects.get(pk=pk)
+        rdata.delete()
+        return HttpResponseRedirect(reverse('showpreq'))
+    except Exception as rr:
+        print("------------>delete error",rr)
+
