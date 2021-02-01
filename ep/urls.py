@@ -32,6 +32,7 @@ urlpatterns = [
     path("deleteproduct/<int:pk>",views.DeleteProduct,name="deleteproduct"),
     path("rpallpro/",views.RPAllProduct,name="rpallpro"),
     path("rpclick/<int:pk>",views.RPButtonClick,name="rpclick"),
-    path("rprequest/<int:pk>",views.RPButton,name="rprequest")
+    path("rprequest/<int:pk>",views.RPButton,name="rprequest"),
+    path("showpreq/",views.ShowPReq,name="showpreq")
 
-]
+]   

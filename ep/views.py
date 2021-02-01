@@ -345,28 +345,38 @@ def DeleteProduct(request,pk):
         print("------------>delete error",ok)
 
 def RPAllProduct(request):
- 
-    all_pro = PlasticProduct.objects.all()  
+    all_pro = PlasticProduct.objects.all() 
     return render(request,"ep/rp_allproducts.html",{'key11':all_pro})
 
 def RPButtonClick(request,pk):
+    try:
         pc = PlasticProduct.objects.get(pk=pk)
-        cdata = Company.objects.all()
-        pdata = PlasticC.objects.all()
-        return render(request,"ep/requestpproduct.html",{'key12':pc},{'key13':cdata},{'key14':pdata})
+        return render(request,"ep/requestpproduct.html",{'key12':pc})
+    except Exception as k:
+        print("------------>Click error",k)
+
 
 def RPButton(request,pk):
     try:
-        udata = Master.objects.get(pk=pk)
-        if udata.role=="RecyclingCompany":
-            rpc = PlasticC.objects.get(master_id=udata)
-            rc = Company.objects.get(master_id=udata)
-            rpp = PlasticProduct.objects.get(master_id=udata)
-            request_date = request.POST['rdate']
-            request_quantity = request.POST['rqty']
-            newRequest=RequestButton.objects.create(comp_id=rc,plasticc_id=rpc,pproduct_id=rpp,request_date=request_date,request_quantity=request_quantity)
+        udata = Master.objects.get(id=pk)
+        if udata.role == "RecyclingCompany":
+            rcdata = Company.objects.get(master_id=udata)
+            pc_id = request.POST['pc_id']
+            pla_id = PlasticC.objects.get(id=pc_id)
+            print("Plastic ID>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",pla_id)
+            pc_date = request.POST['rdate']
+            pc_qty = request.POST['rqty']
+            pid = request.POST['pid']
+            pro_id = PlasticProduct.objects.get(id=pid)
+            newRequest=RequestButton.objects.create(comp_id=rcdata,plasticc_id=pla_id,pproduct_id=pro_id,request_date=pc_date,request_quantity=pc_qty)
             message= "Request Sent Successfully"
-            return render(request,"ep/requestpproduct.html",{'msg':message})
-    except Exception as r:
-        print("Button Product--------->",r)
+            return HttpResponseRedirect(reverse('rpallpro'),{'msg':message})
+    except Exception as e11:
+        print("Req Button ----------------------------->",e11)
 
+def ShowPReq(request):
+    try:
+        all_preq = RequestButton.objects.all() 
+        return render(request,"ep/showplasticreq.html",{'key13':all_preq})
+    except Exception as s:
+        print("Show ----------------------------->",s)
