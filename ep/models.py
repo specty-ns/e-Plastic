@@ -67,6 +67,14 @@ class PlasticProduct(models.Model):
     pproduct_image = models.ImageField(upload_to="pproductimg/")
     pproduct_quantity = models.BigIntegerField(default=0)
 
+class RecycleProduct(models.Model):
+    company_id=models.ForeignKey(Company,on_delete=models.CASCADE)
+    rproduct_name = models.CharField(max_length=100)
+    rproduct_date = models.DateTimeField()
+    rproduct_price = models.BigIntegerField(default=0)
+    rproduct_image = models.ImageField(upload_to="rproductimg/")
+    rproduct_quantity = models.BigIntegerField(default=0)
+
 class RequestButton(models.Model):
     comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)
     plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)

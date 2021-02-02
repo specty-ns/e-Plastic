@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
 	<link rel="stylesheet" href="{% static 'css/main.css' %}" class="color-switcher-link">
 	<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" class="color-switcher-link' %}">
-	<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+	<script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
 
 	<!--[if lt IE 9]>
 		<script src="js/vendor/html5shiv.min.js"></script>
@@ -145,7 +145,6 @@
 									<a href="#">
 										<div class="media">
 											<div class="media-left media-middle">
-												<img src="{{MEDIA_URL}}{{key5.comp_image.url}}" height="75%" width="75%" ></img>
 											</div>
 											<div class="media-body media-middle">
 												<h4>{{request.session.Cname}}</h4>
@@ -167,9 +166,13 @@
 														<i class="fa fa-sign-out"></i>
 														Log Out
 												</a>
+												<a href="{% url 'rproduct' %}">
+													<i class="fa fa-suitcase"></i>
+													Add Recycled Product
+												</a>
 												<a href="{% url 'rpallpro' %}">
 													<i class="fa fa-suitcase"></i>
-													Products
+													Plastic Products
 												</a>
 												
 											</div>
@@ -275,19 +278,25 @@
 									</ul>
 								</li>
 								<li>
-									<a href="admin_products.html">
+									<a href="">
 										<i class="fa fa-suitcase"></i>
 										Products
 									</a>
 									<ul>
 										<li>
-											<a href="admin_products.html">
-							Products
+											<a href="{% url 'rpallpro' %}">
+												
+												Plastic Products
+											</a>
+							
 						</a>
 										</li>
 										<li>
-											<a href="">
-							Single Product
+											<a href="{% url 'allrproducts' pk=request.session.id %}">
+												Recycled Products
+												
+											</a>
+																			
 						</a>
 										</li>
 
@@ -709,27 +718,27 @@
 
 
 <!-- template init -->
-<script src="js/compressed.js"></script>
-<script src="js/main.js"></script>
+<script src="{% static 'js/compressed.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 <!-- dashboard libs -->
 
 <!-- events calendar -->
-<script src="js/admin/moment.min.js"></script>
-<script src="js/admin/fullcalendar.min.js"></script>
+<script src="{% static 'js/admin/moment.min.js' %}"></script>
+<script src="{% static 'js/admin/fullcalendar.min.js' %}"></script>
 <!-- range picker -->
-<script src="js/admin/daterangepicker.js"></script>
+<script src="{% static 'js/admin/daterangepicker.js' %}"></script>
 
 <!-- charts -->
-<script src="js/admin/Chart.bundle.min.js"></script>
+<script src="{% static 'js/admin/Chart.bundle.min.js' %}"></script>
 <!-- vector map -->
-<script src="js/admin/jquery-jvectormap-2.0.3.min.js"></script>
-<script src="js/admin/jquery-jvectormap-world-mill.js"></script>
+<script src="{% static 'js/admin/jquery-jvectormap-2.0.3.min.js' %}"></script>
+<script src="{% static 'js/admin/jquery-jvectormap-world-mill.js' %}"></script>
 <!-- small charts -->
-<script src="js/admin/jquery.sparkline.min.js"></script>
+<script src="{% static 'js/admin/jquery.sparkline.min.js' %}"></script>
 
 <!-- dashboard init -->
-<script src="js/admin.js"></script>
+<script src="{% static 'js/admin.js' %}"></script>
 
 </body>
 

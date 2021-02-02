@@ -8,7 +8,7 @@
 								<li>
 									<a href="#">Dashboard</a>
 								</li>
-								<li class="active">Product</li>
+								<li class="active">Request Plastic</li>
 							</ol>
 						</div>
 						<!-- .col-* -->
@@ -29,16 +29,7 @@
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
 
-					<div class="row">
-						<div class="col-sm-12">
-							<h3>Single product
-								<small class="pull-right">
-									<a href="admin_comments.html">
-										<i class="fa fa-comments"></i> product discussion</a>
-								</small>
-							</h3>
-						</div>
-					</div>
+					
 					<!-- .row -->
 					<form class="form-horizontal" action="{% url 'rprequest' pk=request.session.id  %}" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
@@ -52,7 +43,7 @@
 								<div class="with_border with_padding">
                                     
 									<h4>
-										Product text
+										Request Plastic
 										
 									</h4>
 									<hr>

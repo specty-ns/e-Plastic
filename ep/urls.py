@@ -25,7 +25,7 @@ urlpatterns = [
     path("plasticCollectorupdatebutton/<int:pk>",views.PlasticCollectorUpdateButtonClick,name="plasticCollectorupdatebutton"),
     path("plasticCollectorupdate/<int:pk>",views.PlasticCollectorUpdateData,name="plasticCollectorupdate"),
     path("addpproduct/<int:pk>",views.AddPProduct,name="addpproduct"),
-    path("product/",views.Product,name="product"),
+    path("pproduct/",views.PProduct,name="pproduct"),
     path("allpproducts/<int:pk>",views.GetAllPProduct,name="allpproducts"),
     path("ppbutton/<int:pk>",views.PPUpdateButton,name="ppbutton"),
     path("ppupdate/<int:pk>",views.UpdateProduct,name="ppupdate"),
@@ -35,6 +35,10 @@ urlpatterns = [
     path("rprequest/<int:pk>",views.RPButton,name="rprequest"),
     path("showpreq/",views.ShowPReq,name="showpreq"),
     path("rejectpro/<int:pk>",views.RejectProduct,name="rejectpro"),
-    
+    path("rproduct/",views.RProduct,name="rproduct"),
+    path("addrproduct/<int:pk>",views.AddRProduct,name="addrproduct"),
+    path("allrproducts/<int:pk>",views.GetAllRProduct,name="allrproducts"),
+    path("showpro/",views.ShopProduct,name="showpro"),
+
 
 ]   

@@ -25,8 +25,10 @@ def CompanyProfile(request):
     return render(request,"ep/company_profile.html")
 def PlasticCollectorProfile(request):
     return render(request,"ep/plasticCollector_profile.html")
-def Product(request):
+def PProduct(request):
     return render(request,"ep/addpproduct.html")
+def RProduct(request):
+    return render(request,"ep/addrproduct.html")
 
 def Register(request):
     try:
@@ -300,7 +302,7 @@ def AddPProduct(request,pk):
             message= "Product Added Successfully"
             return render(request,"ep/addpproduct.html",{'msg':message})
     except Exception as ae:
-        print("Add Product--------->",ae)
+        print("Add P Product--------->",ae)
 
 def GetAllPProduct(request,pk):
     udata = Master.objects.get(id=pk)
@@ -389,3 +391,32 @@ def RejectProduct(request,pk):
     except Exception as rr:
         print("------------>delete error",rr)
 
+def AddRProduct(request,pk):
+    try:
+        udata = Master.objects.get(id=pk)
+        if udata.role=="RecyclingCompany":
+            rc = Company.objects.get(master_id=udata)
+            rpro_name = request.POST['rpname']
+            rpro_date = request.POST['rpdate']
+            rpro_price = request.POST['rpprice']
+            rpro_image = request.FILES['rpimage']
+            rpro_quantity = request.POST['rpqty']
+            newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_date=rpro_date,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
+            message= "Product Added Successfully"
+            return render(request,"ep/addrproduct.html",{'msg':message})   
+    except Exception as asp:
+        print("------------>Add R Product",asp)
+
+def GetAllRProduct(request,pk):
+    udata = Master.objects.get(id=pk)
+    if udata.role=="RecyclingCompany":
+        pc = Company.objects.get(master_id=udata)
+        allpproduct= RecycleProduct.objects.all().filter(company_id=pc)
+        return render(request,"ep/allrproducts.html",{'key14':allpproduct})
+
+def ShopProduct(request):
+    try:
+        all_preq = RecycleProduct.objects.all() 
+        return render(request,"ep/shop-right.html",{'key15':all_preq})
+    except Exception as saa:
+        print("Show ----------------------------->",saa)

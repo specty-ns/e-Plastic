@@ -20,6 +20,7 @@
 					</div>
 				</div>
 			</section>
+{% if key15 %}
 
 			<section class="ls section_padding_top_100 section_padding_bottom_100 columns_padding_25">
 				<div class="container">
@@ -55,136 +56,29 @@
 
 								<ul id="products" class="products list-unstyled">
 									<li class="product type-product">
+										{% for i in key15 %}
 										<div class="vertical-item">
 											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/01.png" alt="" />
+												<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
 											</div>
 											<div class="item-content">
 												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Salami biltong beef swine</a>
+													<a href="shop-product-right.html">{{i.rproduct_name}}</a>
 												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
+												<p class="price"> 
 										<ins>
-											<span class="amount">$10.00</span>
+											<span class="amount">{{i.rproduct_price}}</span>
+										</ins>
+										<ins>
+											<span>{{i.company_id.comp_name}}</span>
 										</ins>
 									</p>
 												<a href="#" class="theme_button color1">Add to cart</a>
 											</div>
 										</div>
+										{% endfor %}
 									</li>
-
-									<li class="product type-product">
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/02.png" alt="" />
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Fatback filet mignon burgdoggen</a>
-												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
-										<ins>
-											<span class="amount">$10.00</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
-										</div>
-									</li>
-
-									<li class="product type-product">
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/03.png" alt="" />
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Chuck tail pig sirloin filet</a>
-												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
-										<ins>
-											<span class="amount">$10.00</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
-										</div>
-									</li>
-
-									<li class="product type-product">
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/04.png" alt="" />
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Andouille ground round</a>
-												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
-										<ins>
-											<span class="amount">$10.00</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
-										</div>
-									</li>
-
-									<li class="product type-product">
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/05.png" alt="" />
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Venison meatloaf tail turkey</a>
-												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
-										<ins>
-											<span class="amount">$10.00</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
-										</div>
-									</li>
-
-									<li class="product type-product">
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="images/shop/06.png" alt="" />
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">Short ribs short loin capicola</a>
-												</h4>
-												<p class="price">
-										<del>
-											<span class="amount">$12.00</span>
-										</del> 
-										<ins>
-											<span class="amount">$10.00</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
-										</div>
-									</li>
+{% endif %}
 
 								</ul>
 
@@ -221,4 +115,4 @@
 					</div>
 				</div>
 			</section>
-{% endblock }
+{% endblock %}
