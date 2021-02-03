@@ -136,11 +136,11 @@
 												<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
                                             </td>
                                             <td>
-                                              <a href=""><button type="submit"  class="theme_button wide_button">Update</button></a>
+                                              <a href="{% url 'rpbutton' pk=i.id %}"><button type="submit"  class="theme_button color2">Update</button></a>
                                             </td>
                                             <td>
 												<input type="hidden" name="id" value="i.id">
-												<a href="" class="theme_button color2">Delete</a>
+												<a href="{% url 'deleterproduct' pk=i.id %}" class="theme_button wide_button">Delete</a>
 
                                             </td>
                                         </tr>

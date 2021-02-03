@@ -420,3 +420,36 @@ def ShopProduct(request):
         return render(request,"ep/shop-right.html",{'key15':all_preq})
     except Exception as saa:
         print("Show ----------------------------->",saa)
+
+def DeleteRProduct(request,pk):
+    try:
+        rdata = RecycleProduct.objects.get(pk=pk)
+        rdata.delete()
+        rp = request.session['id']
+        url = f"/allrproducts/{rp}"
+        return redirect(url)
+    except Exception as okes:
+        print("------------>delete error",okes)
+
+def RPUpdateButton(request,pk):
+    try:
+        rp = RecycleProduct.objects.get(id=pk)
+        print("IDt--------->",id)
+        return render(request,"ep/rproduct_update.html",{"key16":rp})
+    except Exception as rsa:
+        print("Button Product--------->",rsa)
+
+def UpdateRProduct(request,pk):
+    try:
+        pro = RecycleProduct.objects.get(pk=pk)
+        pro.rproduct_name = request.POST['pname']
+        pro.rproduct_date = request.POST['pdate']
+        pro.rproduct_price = request.POST['pprice']
+        pro.rproduct_image = request.FILES['pimage']
+        pro.rproduct_quantity = request.POST['pqty']
+        pro.save()
+        pp = request.session['id']
+        url = f"/allrproducts/{pp}"
+        return redirect(url)
+    except Exception as i:
+        print("Image Product--------->",i)

@@ -39,6 +39,9 @@ urlpatterns = [
     path("addrproduct/<int:pk>",views.AddRProduct,name="addrproduct"),
     path("allrproducts/<int:pk>",views.GetAllRProduct,name="allrproducts"),
     path("showpro/",views.ShopProduct,name="showpro"),
+    path("deleterproduct/<int:pk>",views.DeleteRProduct,name="deleterproduct"),
+    path("rpbutton/<int:pk>",views.RPUpdateButton,name="rpbutton"),
+    path("rpupdate/<int:pk>",views.UpdateRProduct,name="rpupdate"),
 
 
 ]   
