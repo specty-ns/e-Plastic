@@ -74,6 +74,7 @@ class RecycleProduct(models.Model):
     rproduct_price = models.BigIntegerField(default=0)
     rproduct_image = models.ImageField(upload_to="rproductimg/")
     rproduct_quantity = models.BigIntegerField(default=0)
+    rproduct_desc = models.CharField(max_length=500)
 
 class RequestButton(models.Model):
     comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)

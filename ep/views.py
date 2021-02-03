@@ -453,3 +453,7 @@ def UpdateRProduct(request,pk):
         return redirect(url)
     except Exception as i:
         print("Image Product--------->",i)
+    
+def ShowPro(request,pk):
+    pro_id = RecycleProduct.objects.get(pk=pk)
+    return render(request,"ep/shop-product-right.html",{'key17':pro_id})

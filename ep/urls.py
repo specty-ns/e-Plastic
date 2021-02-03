@@ -42,6 +42,7 @@ urlpatterns = [
     path("deleterproduct/<int:pk>",views.DeleteRProduct,name="deleterproduct"),
     path("rpbutton/<int:pk>",views.RPUpdateButton,name="rpbutton"),
     path("rpupdate/<int:pk>",views.UpdateRProduct,name="rpupdate"),
+    path("prodesc/<int:pk>",views.ShowPro,name="prodesc"),
 
 
 ]   

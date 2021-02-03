@@ -53,39 +53,31 @@
 
 
 							<div class="columns-3">
-
-								<ul id="products" class="products list-unstyled">
-									<li class="product type-product">
-										{% for i in key15 %}
-										<div class="vertical-item">
-											<div class="item-media with_background bottommargin_30">
-												<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
-											</div>
-											<div class="item-content">
-												<h4 class="poppins bottommargin_10">
-													<a href="shop-product-right.html">{{i.rproduct_name}}</a>
-												</h4>
-												<p class="price"> 
-										<ins>
-											<span class="amount">{{i.rproduct_price}}</span>
-										</ins>
-										<ins>
-											<span>{{i.company_id.comp_name}}</span>
-										</ins>
-									</p>
-												<a href="#" class="theme_button color1">Add to cart</a>
-											</div>
+								{% for i in key15 %}
+								<li class="product type-product">	
+									<div class="vertical-item">
+										<div class="item-media with_background bottommargin_30">
+											<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
 										</div>
-										{% endfor %}
-									</li>
-{% endif %}
-
-								</ul>
-
-							</div>
+										<div class="item-content">
+											<h4 class="poppins bottommargin_10">
+												<a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
+											</h4>
+								<p class="price"> 
+									<ins>
+										₹<span class="amount">{{i.rproduct_price}}</span>
+									</ins>
+									{{i.company_id.comp_name}}
+								</p>
+											<a href="#" class="theme_button color1">Add to cart</a>
+										</div>
+									</div>	
+								</li>
+							{% endfor %}
+						</div>
+							
 							<!-- eof .columns-* -->
-
-
+{% endif %}
 							<div class="row">
 								<div class="col-sm-12 text-center">
 									<ul class="pagination highlightlinks">

@@ -20,7 +20,7 @@
 					</div>
 				</div>
 			</section>
-
+{% if key17 %}
 			<section class="ls section_padding_top_100 section_padding_bottom_75 columns_padding_25">
 				<div class="container">
 					<div class="row">
@@ -37,13 +37,14 @@
 
 											<span class="newproduct">New</span>
 
-											<span class="onsale">Sale!</span>
+						
 
-											<a href="../../../wpsolar/wp-content/uploads/2013/06/poster_2_up.html" itemprop="image" class="woocommerce-main-image zoom" data-rel="prettyPhoto[product-gallery]">
-												<img src="images/shop/01.png" class="attachment-shop_single wp-post-image" alt="" title="">
+											<a href="" itemprop="image" class="woocommerce-main-image zoom" data-rel="prettyPhoto[product-gallery]">
+												<img src="{{MEDIA_URL}}{{ key17.rproduct_image.url }}" class="attachment-shop_single wp-post-image" alt="{{post.title}}" title="">
+
 											</a>
 										</div>
-										<!--eof .images -->
+										<!--eof .images -->		
 										<div class="thumbnails-wrap text-center">
 											<div id="product-thumbnails" class="owl-carousel thumbnails product-thumbnails" data-loop="true" data-center="true" data-margin="10" data-nav="false" data-dots="true" data-items="3" data-responsive-lg="3" data-responsive-md="3" data-responsive-sm="2"
 											    data-responsive-xs="2">
@@ -100,7 +101,7 @@
 											<span class="posted_in">
 												<span class="grey">Categories:</span>
 												<span class="categories-links small-text">
-													<a rel="category" href="shop-right.html">Product Cat</a>
+													<a rel="category" href="{% url 'showpro' %}">Product Cat</a>
 												</span>
 											</span>
 										</div>
@@ -108,17 +109,15 @@
 										<div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
 
 											<div itemprop="description">
-												<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+												<p>{{key17.rproduct_desc}}.</p>
 											</div>
 
 											<ul class="list1 no-bullets">
 												<li>
 													<p class="price">
-										<del>
-											<span class="amount">$339.00</span>
-										</del> 
+														
 										<ins>
-											<span class="amount">$299.00</span>
+											₹<span class="amount">{{key17.rproduct_price}}</span>
 										</ins>
 									</p>
 
@@ -312,39 +311,18 @@
 
 											<tr>
 												<th class="grey">Product title:</th>
-												<td>Product Name</td>
+												<td>{{key17.rproduct_name}}</td>
 											</tr>
 
 											<tr>
 												<th class="grey">Item SKU:</th>
-												<td>5552281538</td>
+												<td>{{key17.id}}</td>
 											</tr>
 
 											<tr>
-												<th class="grey">Brand:</th>
-												<td><a href="#">Brand Name</a></td>
+												<th class="grey">Recycling Company:</th>
+												<td><a href="#">{{key17.company_id.comp_name}}</a></td>
 											</tr>
-
-											<tr>
-												<th class="grey">Style:</th>
-												<td>SuperStyle</td>
-											</tr>
-
-											<tr>
-												<th class="grey">Size:</th>
-												<td>Middle</td>
-											</tr>
-
-											<tr>
-												<th class="grey">Color:</th>
-												<td>Black</td>
-											</tr>
-
-											<tr>
-												<th class="grey">Targeted Group:</th>
-												<td>All</td>
-											</tr>
-
 										</table>
 
 									</div>
@@ -890,4 +868,5 @@
 					</div>
 				</div>
 			</section>
+{% endif %}
 {% endblock %}
