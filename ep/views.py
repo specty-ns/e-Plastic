@@ -29,6 +29,8 @@ def PProduct(request):
     return render(request,"ep/addpproduct.html")
 def RProduct(request):
     return render(request,"ep/addrproduct.html")
+def AdminLogin(request):
+    return  render(request,"ep/admin/login.html")
 
 def Register(request):
     try:
@@ -457,3 +459,17 @@ def UpdateRProduct(request,pk):
 def ShowPro(request,pk):
     pro_id = RecycleProduct.objects.get(pk=pk)
     return render(request,"ep/shop-product-right.html",{'key17':pro_id})
+def ALogin(request):
+    try:
+        username = request.POST['username']
+        password= request.POST['password']
+        if username == "admin" and password == "admin":
+            request.session['Username']=username
+            request.session['Password']=password
+            return render(request,"ep/admin/aindex.html")
+        else:
+            message = "Invalid Username or Password"
+            return render(request,"ep/admin/login.html",{'msg':message})
+    except Exception as ll:
+        print("Admin Login-------------------------------.",ll)
+

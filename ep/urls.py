@@ -43,6 +43,6 @@ urlpatterns = [
     path("rpbutton/<int:pk>",views.RPUpdateButton,name="rpbutton"),
     path("rpupdate/<int:pk>",views.UpdateRProduct,name="rpupdate"),
     path("prodesc/<int:pk>",views.ShowPro,name="prodesc"),
-
-
+    path("alogin/",views.AdminLogin,name="alogin"),
+    path("adminlogin/",views.ALogin,name="adminlogin"),
 ]   
