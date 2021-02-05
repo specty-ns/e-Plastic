@@ -11,7 +11,7 @@ class Master(models.Model):
     is_created = models.DateTimeField(auto_now_add=True)
     is_updated = models.DateTimeField(auto_now_add=True)
 
-
+    
 class Customer(models.Model):
     master_id=models.ForeignKey(Master,on_delete=models.CASCADE)
     fname = models.CharField(max_length=50)

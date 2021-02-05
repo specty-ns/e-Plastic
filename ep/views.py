@@ -466,10 +466,11 @@ def ALogin(request):
         if username == "admin" and password == "admin":
             request.session['Username']=username
             request.session['Password']=password
-            return render(request,"ep/admin/aindex.html")
+            all_preq = Master.objects.all() 
+            return render(request,"ep/admin/aindex.html",{'key18':all_preq})
         else:
             message = "Invalid Username or Password"
             return render(request,"ep/admin/login.html",{'msg':message})
     except Exception as ll:
         print("Admin Login-------------------------------.",ll)
-
+        
