@@ -45,5 +45,9 @@ urlpatterns = [
     path("prodesc/<int:pk>",views.ShowPro,name="prodesc"),
     path("alogin/",views.AdminLogin,name="alogin"),
     path("adminlogin/",views.ALogin,name="adminlogin"),
+    path("adminbutton/<int:pk>",views.AButton,name="adminbutton"),
+    path("dashboard/",views.Dashboard,name="dashboard"),
+    path("showadmin/",views.SAdmin,name="showadmin"),
+    path("adminupdate/<int:pk>",views.AUpdate,name="adminupdate")
     
 ]   

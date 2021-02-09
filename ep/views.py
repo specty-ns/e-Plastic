@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponseRedirect,reverse,redirect
 from .models import *
 from random import *
+import datetime
 
 # Create your views here.
 def IndexPage(request):
@@ -30,7 +31,10 @@ def PProduct(request):
 def RProduct(request):
     return render(request,"ep/addrproduct.html")
 def AdminLogin(request):
-    return  render(request,"ep/admin/login.html")
+    return render(request,"ep/admin/login.html")
+def Dashboard(request):
+    return render(request,"ep/admin/aindex.html")
+
 
 def Register(request):
     try:
@@ -466,11 +470,31 @@ def ALogin(request):
         if username == "admin" and password == "admin":
             request.session['Username']=username
             request.session['Password']=password
-            all_preq = Master.objects.all() 
-            return render(request,"ep/admin/aindex.html",{'key18':all_preq})
+             
+            return render(request,"ep/admin/aindex.html")
         else:
             message = "Invalid Username or Password"
             return render(request,"ep/admin/login.html",{'msg':message})
     except Exception as ll:
         print("Admin Login-------------------------------.",ll)
-        
+def SAdmin(request):
+    all_preq = Master.objects.all() 
+    return render(request,"ep/admin/tables.html",{'key18':all_preq})
+           
+def AButton(request,pk):
+    try:
+        ab = Master.objects.get(id=pk)
+        print("IDt--------->",id)
+        return render(request,"ep/admin/aupdate.html",{"key19":ab})
+    except Exception as rsa:
+        print("Button Product--------->",rsa)
+def AUpdate(request,pk):
+    try:
+        udata = Master.objects.get(id=pk)
+        udata.is_verified = request.POST['verification'] 
+        udata.is_updated = datetime.datetime.now()  
+        udata.save()
+        url = f"/showadmin/"
+        return redirect(url)
+    except Exception as au:
+        print("Verify nai tha tu------------------->",au)
