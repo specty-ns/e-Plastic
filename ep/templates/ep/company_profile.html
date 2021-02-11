@@ -8,7 +8,7 @@
 								<li>
 									<a href="#">Dashboard</a>
 								</li>
-								<li class="active">Edit Profile</li>
+								<li class="active">Profile</li>
 							</ol>
 						</div>
 						<!-- .col-* -->
@@ -25,188 +25,282 @@
 				</div>
 				<!-- .container -->
 			</section>
-{% if key5 %}
+
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
-			<form action="{% url 'companydata' pk=request.session.id %}" method="post" enctype="multipart/form-data">
-				{% csrf_token %}
 				<div class="container-fluid">
 
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-sm-12">
-							<h3>Edit User
-								<small>profile</small>
-							</h3>
+							<h4>{{key5.comp_name}}</h4>
+								<small>{{request.session.Role}}</small>
+							
 						</div>
-					</div>
+					</div> -->
 					<!-- .row -->
-
-
 					<div class="row">
-						<div class="col-xs-12">
+						<div class="col-md-9">
 
-							<form class="form-horizontal">
-								<div class="row flex-row">
-									<div class="col-md-6">
 
-										<div class="with_border with_padding">
+							
+							<!-- .row -->
 
-											<h4>Company Information</h4>
+							<div class="row">
 
-											<hr>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Company Name:</label>
-												<div class="col-lg-9">
-													{{key5.comp_name}}
+								<!-- User Info -->
+								<div class="col-xs-12 col-md-6">
+									<div class="with_border with_padding">
+										<h4>
+											Company Information
+										</h4>
+
+										<ul class="list1 no-bullets">
+											
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-success round fontsize_16">
+															<i class="fa fa-users"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Company:
+														</strong>
+														{{key5.comp_name}}
+													</div>
 												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Contact Number:</label>
-												<div class="col-lg-9">
-													{{key5.comp_contact}}
+											</li>
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-info round fontsize_16">
+															<i class="fa fa-briefcase"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Role:
+														</strong>
+														{{request.session.Role}}
+													</div>
 												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Company Address:</label>
-												<div class="col-lg-9">
-													{{key5.comp_address}}
+											</li>
+											
+											</li>
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-info fontsize_16">
+															<i class="fa fa-calendar"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Member since:
+														</strong>
+														{{key5.master_id.is_created}}
+													</div>
 												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">E-mail address:</label>
-												<div class="col-lg-9">
-													{{request.session.email}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Company Website:</label>
-												<div class="col-lg-9">
-													{{key5.comp_website}}
-												</div>
-											</div>
-										</div>
-										<!-- .with_border -->
+											</li>
+											
+										</ul>
 
 									</div>
-									<!-- .col-* -->
-
-									<div class="col-md-6">
-										<div class="with_border with_padding">
-
-											<h4>Owner Information</h4>
-											<hr>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">First Name:</label>
-												<div class="col-lg-9">
-													{{key5.owner_fname}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Last Name:</label>
-												<div class="col-lg-9">
-													{{key5.owner_lname}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Gender:</label>
-												<div class="col-lg-9">
-													{{key5.owner_gender}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Contact number:</label>
-												<div class="col-lg-9">
-													{{key5.owner_contact}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">E-mail address:</label>
-												<div class="col-lg-9">
-													{{key5.owner_email}}
-												</div>
-											</div>
-										</div>
-										<!-- .with_border -->
-									</div>
-									<!-- .col-* -->
-
+									<!-- .with_border -->
 								</div>
-								<!-- .row -->
+								<!-- col-* -->
 
-								<div class="row flex-row">
-									<div class="col-md-6">
-										<div class="with_border with_padding">
+								<!-- User Statistics -->
+								<div class="col-xs-12 col-md-6">
+									<div class="with_border with_padding">
+										<h4>
+											Owner Information
+										</h4>
 
-											<h4>Security</h4>
-
-											<hr>
-
-											<div class="row form-group">
-	
-													
-												
-											</div>
-
-
-										</div>
-										
-
+										<ul class="list1 no-bullets">
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-warning round fontsize_16">
+															<i class="fa fa-globe"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Location:
+														</strong>
+														India
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-success round fontsize_16">
+															<i class="fa fa-user"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Owner:
+														</strong>
+														{{key5.owner_fname}} {{key5.owner_lname}}
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="media small-teaser">
+													<div class="media-left media-middle">
+														<div class="teaser_icon label-info fontsize_16">
+															<i class="fa fa-leaf"></i>
+														</div>
+													</div>
+													<div class="media-body media-middle">
+														<strong class="grey">
+															Gender:
+														</strong>
+														{{key5.owner_gender}}
+													</div>
+												</div>
+											</li>
+										</ul>
 									</div>
-									<!-- .col-* -->
-									<div class="col-md-6">
-										<div class="with_border with_padding">
-
-											<h4>Social Networks</h4>
-
-											<hr>
-
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">FaceBook:</label>
-												<div class="col-lg-9">
-													{{key5.comp_fb}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Instagram:</label>
-												<div class="col-lg-9">
-													{{key5.comp_insta}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">Twitter:</label>
-												<div class="col-lg-9">
-													{{key5.comp_twitter}}
-												</div>
-											</div>
-											<div class="row form-group">
-												<label class="col-lg-3 control-label">LinkedIn:</label>
-												<div class="col-lg-9">
-													{{key5.comp_linkedin}}	
-												</div>
-											</div>
-
-										</div>
-										<!-- .with_border -->
-									</div>
-									<!-- .col-* -->
+									<!-- .with_border -->
 								</div>
-								<!-- .row -->
-								<!-- .row -->
-							</form>
+								<!-- col-* -->
+							</div>
+							<!-- .row -->
 						</div>
-						<!-- .col-* main column -->
+						<!-- .col-* left column -->
+						<div class="col-xs-12 col-md-3">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="panel-group bottommargin_0" id="contact-info-accordion">
 
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="icon-tab" data-toggle="collapse" data-parent="#contact-info-accordion" href="#user-info-collapse1">
+														<i class="highlight fontsize_16 fa fa-phone"></i>
+														Work Phone
+													</a>
+												</h4>
+											</div>
+											<div id="user-info-collapse1" class="panel-collapse collapse in">
+												<div class="panel-body">
+													<p>
+											<strong>{{key5.comp_contact}}</strong> (07:00-17:00 EST Mon-Fri)
+										</p>
+												</div>
+											</div>
+										</div>
+										<!-- .panel -->
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="icon-tab collapsed" data-toggle="collapse" data-parent="#contact-info-accordion" href="#user-info-collapse2">
+														<i class="highlight fontsize_16 fa fa-link"></i>
+														WebSite
+													</a>
+												</h4>
+											</div>
+											<div id="user-info-collapse2" class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>
+											<a href="http://127.0.0.1:8000/"><strong>{{key5.comp_website}}</strong></a>
+										</p>
+												</div>
+											</div>
+										</div>
+										<!-- .panel -->
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="icon-tab collapsed" data-toggle="collapse" data-parent="#contact-info-accordion" href="#user-info-collapse3">
+														<i class="highlight fontsize_16 fa fa-envelope"></i>
+														E-mail address
+													</a>
+												</h4>
+											</div>
+											<div id="user-info-collapse3" class="panel-collapse collapse">
+												<div class="panel-body">
+
+													<p class="greylinks">
+											<a href="mailto:your@mail.com">{{request.session.email}}</a>
+										</p>
+												</div>
+											</div>
+										</div>
+										<!-- .panel -->
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="icon-tab collapsed" data-toggle="collapse" data-parent="#contact-info-accordion" href="#user-info-collapse4">
+														<i class="highlight fontsize_16 fa fa-map-marker"></i>
+														Address
+													</a>
+												</h4>
+											</div>
+											<div id="user-info-collapse4" class="panel-collapse collapse">
+												<div class="panel-body">
+
+													<p>
+											{{key5.comp_address}}
+										</p>
+
+												</div>
+											</div>
+										</div>
+										<!-- .panel -->
+
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="icon-tab collapsed" data-toggle="collapse" data-parent="#contact-info-accordion" href="#user-info-collapse5">
+														<i class="highlight fontsize_16 fa fa-users"></i>
+														Social Networks
+													</a>
+												</h4>
+											</div>
+											<div id="user-info-collapse5" class="panel-collapse collapse">
+												<div class="panel-body">
+
+													<p>
+											<a href="#" class="social-icon soc-facebook"></a>
+											<a href="#" class="social-icon soc-twitter"></a>
+											<a href="#" class="social-icon soc-google"></a>
+											<a href="#" class="social-icon soc-linkedin"></a>
+										</p>
+
+												</div>
+											</div>
+										</div>
+										<!-- .panel -->
+
+									</div>
+									<!-- .panel-group -->
+								</div>
+								<!-- .col-* -->
+								
+								<!-- .col -->
+							</div>
+							<!-- .row -->
+						</div>
+						<!-- .col-* right column -->
 					</div>
 					<!-- .row main columns -->
 				</div>
 				<!-- .container -->
-			</form>
 			</section>
-{% endif %}
+
 			<section class="page_copyright ds darkblue_bg_color">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-sm-6">
-							<p class="grey">&copy; Copyrights 2017</p>
+							<p class="grey">&copy; Copyrights 2021</p>
 						</div>
 						<div class="col-sm-6 text-sm-right">
 							<p class="grey">Last account activity <i class="fa fa-clock-o"></i> 52 mins ago</p>

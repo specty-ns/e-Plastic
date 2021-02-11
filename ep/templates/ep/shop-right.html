@@ -30,13 +30,18 @@
 
 							<div class="shop-sorting">
 
-								<form class="form-inline content-justify vertical-center content-margins">
-
+								<form action="{% url 'addtocart' pk=request.session.id %}" method="post" class="form-inline content-justify vertical-center content-margins">
+									{% csrf_token %}
+									{% if msg %}
+											
+										<strong><p style="color: green;">{{msg}}</p></strong>
+			
+									{% endif %}
 									<div class="fontsize_20">
 										1-9 of 50 results
 									</div>
-
-
+									
+									
 									<div class="form-group select-group">
 										<select aria-required="true" id="date" name="date" class="choice empty form-control">
 											<option value="" disabled selected data-default>Default Sorting</option>
@@ -67,9 +72,14 @@
 									<ins>
 										₹<span class="amount">{{i.rproduct_price}}</span>
 									</ins>
-									{{i.company_id.comp_name}}
+									{{i.company_id.comp_name}} 
+									<input type="hidden" name="pid" value="{{i.id}}">
+									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
+									<input type="hidden" name="atcqty" value="{{i.rproduct_quantity}}">
+									
+
 								</p>
-											<a href="#" class="theme_button color1">Add to cart</a>
+											<button class="theme_button color1">Add To Cart</button>
 										</div>
 									</div>	
 								</li>

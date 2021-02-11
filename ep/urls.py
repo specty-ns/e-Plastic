@@ -48,6 +48,6 @@ urlpatterns = [
     path("adminbutton/<int:pk>",views.AButton,name="adminbutton"),
     path("dashboard/",views.Dashboard,name="dashboard"),
     path("showadmin/",views.SAdmin,name="showadmin"),
-    path("adminupdate/<int:pk>",views.AUpdate,name="adminupdate")
-    
+    path("adminupdate/<int:pk>",views.AUpdate,name="adminupdate"),
+    path("addtocart/<int:pk>",views.AddCart,name="addtocart"),   
 ]   

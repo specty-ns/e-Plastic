@@ -145,61 +145,31 @@
 									<a href="#">
 										<div class="media">
 											<div class="media-left media-middle">
+												<img src="{{MEDIA_URL}}{{ key5.comp_image.url }}" alt="{{post.title}}">
 											</div>
 											<div class="media-body media-middle">
-												<h4>{{request.session.Cname}}</h4>
-												{{request.session.Role}}
-												{{request.session.id}}
-												
-												<a href="{% url 'companydata' pk=request.session.id %}">
-													<i class="fa fa-user"></i>
-													Profile
-												</a>
-												
-												<a href="{% url 'cupdate' pk=request.session.id %}">
-														<i class="fa fa-edit"></i>
-														Edit Profile
-												</a>
-												
-												
-												<a href="{% url 'adminin' %}">
-														<i class="fa fa-sign-out"></i>
-														Log Out
-												</a>
-												<a href="{% url 'rproduct' %}">
-													<i class="fa fa-suitcase"></i>
-													Add Recycled Product
-												</a>
-												<a href="{% url 'rpallpro' %}">
-													<i class="fa fa-suitcase"></i>
-													Plastic Products
-												</a>
-												
+												<h4>{{request.session.Cname}}</h4>	
+												<small>Recycling Compa</small>										
 											</div>
-
 										</div>
 									</a>
 									<ul>
 										<li>
-											<a href="">
+											<a href="{% url 'companydata' pk=request.session.id %}">
 												<i class="fa fa-user"></i>
 												Profile
 											</a>
 										</li>
 										<li>
-											<a href="admin_profile_edit.html">
+											<a href="{% url 'cupdate' pk=request.session.id %}">
 												<i class="fa fa-edit"></i>
 												Edit Profile
 											</a>
 										</li>
+										
+										
 										<li>
-											<a href="admin_inbox.html">
-												<i class="fa fa-envelope-o"></i>
-												Inbox
-											</a>
-										</li>
-										<li>
-											<a href="admin_signin.html">
+											<a href="{% url 'adminin' %}">
 												<i class="fa fa-sign-out"></i>
 												Log Out
 											</a>
@@ -298,6 +268,11 @@
 											</a>
 																			
 						</a>
+										</li>
+										<li>
+											<a href="{% url 'rproduct' %}">
+												Add Products
+											</a>
 										</li>
 
 									</ul>

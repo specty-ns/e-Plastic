@@ -402,7 +402,7 @@ def AddRProduct(request,pk):
         udata = Master.objects.get(id=pk)
         if udata.role=="RecyclingCompany":
             rc = Company.objects.get(master_id=udata)
-            rpro_name = request.POST['rpname']
+            rpro_name = request.POST['rpname']  
             rpro_date = request.POST['rpdate']
             rpro_price = request.POST['rpprice']
             rpro_image = request.FILES['rpimage']
@@ -498,3 +498,19 @@ def AUpdate(request,pk):
         return redirect(url)
     except Exception as au:
         print("Verify nai tha tu------------------->",au)
+
+def AddCart(request,pk):
+    try:
+        atcdata = Master.objects.get(id=pk)
+        if atcdata.role=="customer":
+            atc = Customer.objects.get(master_id=atcdata)
+            pro_id = request.POST['pid']
+            atc_price = request.POST['atcprice']
+            atc_date = datetime.date.today()
+            atc_quantity = request.POST['atcqty']
+            showRProduct=AddToCart.objects.create(rp_id=pro_id,cust_id=atc,cart_price=atc_price,cart_quantity=atc_quantity,cart_date=atc_date)
+            message= "Added to cart Successfully"
+            return render(request,"ep/shop-right.html",{'msg':message})
+            
+    except Exception as ac:
+        print("Add to cart nai thatu--------------->",ac)
