@@ -30,16 +30,14 @@
 
 							<div class="shop-sorting">
 
-								<form action="{% url 'addtocart' pk=request.session.id %}" method="post" class="form-inline content-justify vertical-center content-margins">
-									{% csrf_token %}
+								
+									
 									{% if msg %}
 											
 										<strong><p style="color: green;">{{msg}}</p></strong>
 			
 									{% endif %}
-									<div class="fontsize_20">
-										1-9 of 50 results
-									</div>
+							
 									
 									
 									<div class="form-group select-group">
@@ -52,10 +50,10 @@
 										<i class="fa fa-angle-down theme_button" aria-hidden="true"></i>
 									</div>
 
-								</form>
+								
 
 							</div>
-
+							<a href="{% url 'showthecart' pk=request.session.id %}" class="theme_button color1">Show Cart</a>
 
 							<div class="columns-3">
 								{% for i in key15 %}
@@ -73,16 +71,17 @@
 										₹<span class="amount">{{i.rproduct_price}}</span>
 									</ins>
 									{{i.company_id.comp_name}} 
-									<input type="hidden" name="pid" value="{{i.id}}">
-									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
-									<input type="hidden" name="atcqty" value="{{i.rproduct_quantity}}">
 									
-
+									<form action="{% url 'addtocart' pk=request.session.id %}" method="post">
+										{% csrf_token %}
 								</p>
-											<button class="theme_button color1">Add To Cart</button>
+											<button class="theme_button color1" >Add to Cart</button>
+											<input type="hidden" name="pid" value="{{i.id}}">
+									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
 										</div>
 									</div>	
 								</li>
+									</form>
 							{% endfor %}	
 						</div>
 							

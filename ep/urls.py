@@ -49,5 +49,7 @@ urlpatterns = [
     path("dashboard/",views.Dashboard,name="dashboard"),
     path("showadmin/",views.SAdmin,name="showadmin"),
     path("adminupdate/<int:pk>",views.AUpdate,name="adminupdate"),
-    path("addtocart/<int:pk>",views.AddCart,name="addtocart"),   
-]   
+    path("addtocart/<int:pk>",views.AddCart,name="addtocart"), 
+    path("showthecart/<int:pk>",views.ShowCart,name="showthecart"),  
+    path("deletecart/<int:pk>",views.DelCart,name="deletecart"),
+]

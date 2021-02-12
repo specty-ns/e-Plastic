@@ -134,6 +134,9 @@ def LoginUser(request):
                 else:
                     message = "User Email or Password Doesnot match"
                     return render(request,"ep/customer_signin.html",{'msg':message})
+            else:
+                message = "User Email or Password Doesnot match"
+                return render(request,"ep/customer_signin.html",{'msg':message})
 
         elif request.POST['role']=="RecyclingCompany":
             email = request.POST['email']
@@ -504,13 +507,33 @@ def AddCart(request,pk):
         atcdata = Master.objects.get(id=pk)
         if atcdata.role=="customer":
             atc = Customer.objects.get(master_id=atcdata)
+            print("Cust--------------->",atc)
             pro_id = request.POST['pid']
+            rp = RecycleProduct.objects.get(id=pro_id)
+            print("Recycle--------------->",rp)
             atc_price = request.POST['atcprice']
             atc_date = datetime.date.today()
-            atc_quantity = request.POST['atcqty']
-            showRProduct=AddToCart.objects.create(rp_id=pro_id,cust_id=atc,cart_price=atc_price,cart_quantity=atc_quantity,cart_date=atc_date)
-            message= "Added to cart Successfully"
-            return render(request,"ep/shop-right.html",{'msg':message})
+            newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date)
+            ppp = request.session['id']
+            url = f"/showthecart/{ppp}"
+            return redirect(url)
             
-    except Exception as ac:
-        print("Add to cart nai thatu--------------->",ac)
+    except Exception as aaaa:
+        print("Add to cart nai thatu--------------->",aaaa)
+
+def ShowCart(request,pk):
+    try:
+        cdata = Master.objects.get(id=pk)
+        if cdata.role=="customer":
+            cust = Customer.objects.get(master_id=cdata)
+            show = AddToCart.objects.all().filter(cust_id=cust)
+            return render(request,"ep/customercart.html",{"key20":show})
+    except Exception as skc:
+        print("nai avtu---------------",skc)
+
+def DelCart(request,pk):
+    ddata = AddToCart.objects.get(pk=pk)
+    ddata.delete()
+    p = request.session['id']
+    url = f"/showthecart/{p}"
+    return redirect(url)

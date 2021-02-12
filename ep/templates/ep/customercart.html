@@ -12,7 +12,7 @@
 						</a>
 								</li>
 								<li>
-									<a href="#">Shop</a>
+									<a href="{% url 'showpro' %}">Shop</a>
 								</li>
 								<li class="active">Cart</li>
 							</ol>
@@ -20,23 +20,25 @@
 					</div>
 				</div>
 			</section>
+{% if key20 %}
 			<section class="ls section_padding_top_100 section_padding_bottom_75 columns_padding_25">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-7 col-md-8 col-lg-9 col-sm-push-5 col-md-push-4 col-lg-push-3">
-
+							
 							<div class="table-responsive">
 								<table class="table shop_table cart cart-table">
 									<thead>
 										<tr>
-											<td class="product-info">Product</td>
-											<td class="product-price-td">Price</td>
-											<td class="product-quantity">Quantity</td>
-											<td class="product-subtotal">Subtotal</td>
-											<td class="product-remove">&nbsp;</td>
+											<th class="product-info">Product</th>
+											<th class="product-price-td">Price</th>
+											<th class="product-quantity">Quantity</th>
+											<th class="product-subtotal">Subtotal</th>
+											<th class="product-remove">&nbsp;</th>
 										</tr>
 									</thead>
 									<tbody>
+										{% for i in key20 %}
 										<tr class="cart_item">
 											<td class="product-info">
 												<div class="media">
@@ -47,7 +49,7 @@
 													</div>
 													<div class="media-body">
 														<h4 class="media-heading">
-															<a href="shop-product-right.html">At vero eos et accusam</a>
+															<a href="shop-product-right.html">{{i.rp_id.rproduct_name}}</a>
 														</h4>
 														<span class="grey">Color:</span> Black
 														<br>
@@ -56,8 +58,8 @@
 												</div>
 											</td>
 											<td class="product-price">
-												<span class="currencies">$</span>
-												<span class="amount">199.00</span>
+												<span class="currencies">₹</span>
+												<span class="amount">{{i.rp_id.rproduct_price}}</span>
 											</td>
 											<td class="product-quantity">
 												<div class="quantity">
@@ -71,53 +73,16 @@
 												<span class="amount">199.00</span>
 											</td>
 											<td class="product-remove">
-												<a href="#" class="remove fontsize_20" title="Remove this item">
+												<a href="{% url 'deletecart' pk=i.id %}" title="Remove this item">
 													<i class="fa fa-trash-o"></i>
 												</a>
 											</td>
 										</tr>
-
-										<tr class="cart_item">
-											<td class="product-info">
-												<div class="media">
-													<div class="media-left">
-														<a href="shop-product-right.html">
-															<img class="media-object cart-product-image" src="images/shop/02.png" alt="">
-														</a>
-													</div>
-													<div class="media-body">
-														<h4 class="media-heading">
-															<a href="shop-product-right.html">Justo duo dolores et ea rebum</a>
-														</h4>
-														<span class="grey">Size:</span> XL
-													</div>
-												</div>
-											</td>
-											<td class="product-price">
-												<span class="currencies">$</span>
-												<span class="amount">100.00</span>
-											</td>
-											<td class="product-quantity">
-												<div class="quantity">
-													<input type="button" value="-" class="minus">
-													<input type="number" step="1" min="0" name="product_quantity" value="1" title="Qty" class="form-control">
-													<input type="button" value="+" class="plus">
-												</div>
-											</td>
-											<td class="product-subtotal">
-												<span class="currencies">$</span>
-												<span class="amount">100.00</span>
-											</td>
-											<td class="product-remove">
-												<a href="#" class="remove fontsize_20" title="Remove this item">
-													<i class="fa fa-trash-o"></i>
-												</a>
-											</td>
-										</tr>
+										{% endfor %}
 									</tbody>
 								</table>
 							</div>
-
+							
 							<div class="cart-buttons">
 								<a class="theme_button" href="#">Countinue Shopping</a>
 
@@ -500,4 +465,5 @@
 					</div>
 				</div>
 			</section>
+{% endif %}
 {% endblock %}
