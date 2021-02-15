@@ -64,13 +64,12 @@
 											<td class="product-quantity">
 												
 												<div class="quantity">
-													<form action="{% url 'updatecart' pk=i.rp_id.id %}" method="post" class="product_qty_update">
-														{% csrf_token %}
-														{{i.cart_quantity}}													
-												
-												</div>
-											</form>
-											
+													{{i.cart_quantity}}	
+													<a href="">
+														<i class="fa fa-edit"></i>
+													</a>
+
+												</div>									
 											</td>
 											<td class="product-subtotal">
 												<span class="currencies">₹</span>
@@ -92,7 +91,8 @@
 
 								<!-- <input type="submit" class="theme_button color1" name="update_cart" value="Update Cart"> -->
 								<button  class="theme_button color1">Update Cart</button>
-							
+								
+
 								<button type="submit" class="theme_button color2">Proceed to Checkout</button>
 							</div>
 
