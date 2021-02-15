@@ -511,9 +511,11 @@ def AddCart(request,pk):
             pro_id = request.POST['pid']
             rp = RecycleProduct.objects.get(id=pro_id)
             print("Recycle--------------->",rp)
-            atc_price = request.POST['atcprice']
+            atc_price = int(request.POST['atcprice'])
+            atc_qty = int(request.POST['product_quantity'])
+            atc_subtotal = atc_price * atc_qty
             atc_date = datetime.date.today()
-            newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date)
+            newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal)
             ppp = request.session['id']
             url = f"/showthecart/{ppp}"
             return redirect(url)
@@ -537,3 +539,16 @@ def DelCart(request,pk):
     p = request.session['id']
     url = f"/showthecart/{p}"
     return redirect(url)
+
+def UpdateCart(request,pk):
+    udata = Master.objects.get(id=request.session['id'])
+    if udata.role == "customer":
+        cdata = Customer.objects.get(master_id=udata)
+        product = RecycleProduct.objects.get(pk=pk)
+        adata = AddToCart.objects.get(cust_id=cdata, rp_id=product)
+        adata.cart_quantity = int(request.POST['product_quantity'])
+        adata.cart_subtotal = adata.cart_quantity * adata.cart_price
+        adata.save()
+        tt = request.session['id']
+        url = f"/showthecart/{tt}"
+        return redirect(url)

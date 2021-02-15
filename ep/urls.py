@@ -52,4 +52,5 @@ urlpatterns = [
     path("addtocart/<int:pk>",views.AddCart,name="addtocart"), 
     path("showthecart/<int:pk>",views.ShowCart,name="showthecart"),  
     path("deletecart/<int:pk>",views.DelCart,name="deletecart"),
+    path("updatecart/<int:pk>",views.UpdateCart,name="updatecart")
 ]

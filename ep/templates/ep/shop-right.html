@@ -75,10 +75,11 @@
 									<form action="{% url 'addtocart' pk=request.session.id %}" method="post">
 										{% csrf_token %}
 								</p>
-											<button class="theme_button color1" >Add to Cart</button>
-											<input type="hidden" name="pid" value="{{i.id}}">
+									<input type="number" class="product-quantity" name="product_quantity">
 									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
-										</div>
+									<input type="hidden" name="pid" value="{{i.id}}">
+									
+									<button class="theme_button color1" >Add to Cart</button>
 									</div>	
 								</li>
 									</form>
