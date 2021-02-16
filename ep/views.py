@@ -36,6 +36,7 @@ def Dashboard(request):
     return render(request,"ep/admin/aindex.html")
 
 
+
 def Register(request):
     try:
         if request.POST['role']=="customer":
@@ -242,6 +243,8 @@ def UpdateData(request,pk):
         cust.contact = request.POST['contact']
         cust.address = request.POST['address']
         cust.state = request.POST['state']
+        cust.city = request.POST['city']
+        cust.postalcode = request.POST['postcode']
         udata.save()
         cust.save()
         url = f'/profiledata/{pk}'
@@ -513,7 +516,7 @@ def AddCart(request,pk):
             print("Recycle--------------->",rp)
             atc_price = int(request.POST['atcprice'])
             atc_qty = int(request.POST['product_quantity'])
-            atc_subtotal = atc_price * atc_qty
+            atc_subtotal = int(atc_price * atc_qty)
             atc_date = datetime.date.today()
             newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal)
             ppp = request.session['id']
@@ -526,10 +529,14 @@ def AddCart(request,pk):
 def ShowCart(request,pk):
     try:
         cdata = Master.objects.get(id=pk)
+        total = 0
         if cdata.role=="customer":
             cust = Customer.objects.get(master_id=cdata)
             show = AddToCart.objects.all().filter(cust_id=cust)
-            return render(request,"ep/customercart.html",{"key20":show})
+            for t in show:
+                total += t.cart_subtotal
+            print(total)
+            return render(request,"ep/customercart.html",{"key20":show, "total": total})
     except Exception as skc:
         print("nai avtu---------------",skc)
 
@@ -552,3 +559,22 @@ def UpdateCart(request,pk):
         tt = request.session['id']
         url = f"/showthecart/{tt}"
         return redirect(url)
+
+def CartUpdate(request,pk):
+    udata = Master.objects.get(id=request.session['id'])
+    if udata.role == "customer":
+        cdata = Customer.objects.get(master_id=udata)
+        product = RecycleProduct.objects.get(pk=pk)
+        adata = AddToCart.objects.get(cust_id=cdata, rp_id=product)
+        return render(request,"ep/customercart_update.html",{"key21":adata})
+
+def CartCheckout(request,pk):
+    udata = Master.objects.get(id=request.session['id'])
+    total = 0
+    if udata.role == "customer":
+        cdata = Customer.objects.get(master_id=udata)
+        product = RecycleProduct.objects.get(pk=pk)
+        cartdata = AddToCart.objects.all().filter(cust_id=cdata)
+        for t in cartdata:
+                total += t.cart_subtotal
+        return render(request,"ep/customer_cartcheckout.html",{"key22":cartdata,"total":total,"key23":cdata})

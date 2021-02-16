@@ -75,7 +75,8 @@
 									<form action="{% url 'addtocart' pk=request.session.id %}" method="post">
 										{% csrf_token %}
 								</p>
-									<input type="number" max="{{i.rproduct_quantity}}"class="product-quantity" name="product_quantity">
+								Enter Quantity
+									<input type="number" min="1" max="{{i.rproduct_quantity}}"class="product-quantity"  name="product_quantity">
 									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
 									<input type="hidden" name="pid" value="{{i.id}}">
 									

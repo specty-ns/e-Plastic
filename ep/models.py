@@ -20,6 +20,8 @@ class Customer(models.Model):
     address = models.CharField(max_length=500)
     gender = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
+    city = models.CharField(max_length=50,default="")
+    postalcode = models.BigIntegerField(default=0)
     image = models.ImageField(upload_to="customerimg/")
 
 
@@ -89,5 +91,9 @@ class AddToCart(models.Model):
     cart_price=models.BigIntegerField(default=0)
     cart_quantity=models.BigIntegerField(default=1)
     cart_date=models.DateTimeField()
-    cart_total=models.BigIntegerField(default=0)
     cart_subtotal=models.BigIntegerField(default=0)
+
+class Checkout(models.Model):
+    cart_id=models.ForeignKey(AddToCart,on_delete=models.CASCADE)
+    order_total=models.BigIntegerField(default=0)
+    

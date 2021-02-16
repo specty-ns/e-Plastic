@@ -38,6 +38,8 @@
 										</tr>
 									</thead>
 									<tbody>
+										{{key20.cust_id.fname}}
+
 										{% for i in key20 %}
 										<tr class="cart_item">
 											<td class="product-info">
@@ -65,7 +67,7 @@
 												
 												<div class="quantity">
 													{{i.cart_quantity}}	
-													<a href="">
+													<a href="{% url 'cartupdate' pk=i.rp_id.id %}">
 														<i class="fa fa-edit"></i>
 													</a>
 
@@ -87,13 +89,8 @@
 							</div>
 							
 							<div class="cart-buttons">
-								<a class="theme_button" href="#">Countinue Shopping</a>
-
-								<!-- <input type="submit" class="theme_button color1" name="update_cart" value="Update Cart"> -->
-								<button  class="theme_button color1">Update Cart</button>
-								
-
-								<button type="submit" class="theme_button color2">Proceed to Checkout</button>
+								<a class="theme_button" href="#">Countinue Shopping</a>				
+								<a href="{% url 'checkout' pk=request.session.id %}" class="theme_button color2">Proceed to Checkout</a>
 							</div>
 
 							<div class="cart-collaterals">
@@ -102,10 +99,10 @@
 									<table class="table">
 										<tbody>
 											<tr class="cart-subtotal">
-												<td>Cart Subtotal</td>
+												<td>Cart Total</td>
 												<td>
 													<span class="currencies">₹</span>
-													<span class="amount"></span>
+													<span class="amount">{{total}}</span>
 												</td>
 											</tr>
 											<tr class="shipping">
@@ -119,7 +116,7 @@
 												<td>
 													<strong class="grey">
 														<span class="currencies">₹</span>
-														<span class="amount">299.00</span>
+														<span class="amount">{{total}}</span>
 													</strong>
 												</td>
 											</tr>
