@@ -117,7 +117,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- eof .modal -->
+	<!-- eof .modal --> 
 
 	<!-- wrappers for visual page editor and boxed version of template -->
 	<div id="canvas">
@@ -145,55 +145,23 @@
 									<a href="#">
 										<div class="media">
 											<div class="media-left media-middle">
-												<img src="" ></img>
-												<img src="" ></img>
+												<img src="{{MEDIA_URL}}{{key8.pc_image.url}}"></img>
 											</div>
 											<div class="media-body media-middle">
 												<h4>{{request.session.Pcname}}</h4>
-												{{request.session.Role}}
-												{{request.session.id}}
-												
-												<a href="{% url 'plasticCollectordata' pk=request.session.id %}">
-													<i class="fa fa-user"></i>
-													Profile
-												</a>
-												
-												
-													<a href="{% url 'plasticCollectorupdatebutton' pk=request.session.id %}">
-														<i class="fa fa-edit"></i>
-														Edit Profile
-													</a>
-												
-												
-													<a href="{% url 'adminin' %}">
-														<i class="fa fa-sign-out"></i>
-														Log Out
-													</a>
-													<a href="{% url 'pproduct' %}">
-														<i class="fa fa-sign-out"></i>
-														Add Product
-													</a>
-													<a href="{% url 'allpproducts' pk=request.session.id %}">
-														<i class="fa fa-suitcase"></i>
-														Products
-													</a>
-													<a href="{% url 'showpreq' %}">
-														<i class="fa fa-suitcase"></i>
-														Show Requests
-													</a>
+												<small>Plastic Collector</small>										
 											</div>
-
 										</div>
 									</a>
 									<ul>
 										<li>
-											<a href="">
+											<a href="{% url 'plasticCollectordata' pk=request.session.id %}">
 												<i class="fa fa-user"></i>
 												Profile
 											</a>
 										</li>
 										<li>
-											<a href="admin_profile_edit.html">
+											<a href="{% url 'plasticCollectorupdatebutton' pk=request.session.id %}">
 												<i class="fa fa-edit"></i>
 												Edit Profile
 											</a>
@@ -205,11 +173,12 @@
 											</a>
 										</li>
 										<li>
-											<a href="admin_signin.html">
+											<a href="{% url 'adminin' %}">
 												<i class="fa fa-sign-out"></i>
 												Log Out
 											</a>
 										</li>
+										
 									</ul>
 								</li>
 							</ul>
@@ -289,15 +258,21 @@
 										Products
 									</a>
 									<ul>
-										<li>
-											<a href="admin_products.html">
-							Products
-						</a>
 										</li>
 										<li>
-											<a href="admin_product.html">
-							Single Product
-						</a>
+											<a href="{% url 'pproduct' %}">
+												Add Product
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'allpproducts' pk=request.session.id %}">
+												Products
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'showpreq' %}">
+												Show Requests
+											</a>
 										</li>
 
 									</ul>

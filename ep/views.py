@@ -2,6 +2,10 @@ from django.shortcuts import render,HttpResponseRedirect,reverse,redirect
 from .models import *
 from random import *
 import datetime
+from django.conf import settings
+from .paytm import generate_checksum, verify_checksum
+
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def IndexPage(request):
@@ -578,3 +582,61 @@ def CartCheckout(request,pk):
         for t in cartdata:
                 total += t.cart_subtotal
         return render(request,"ep/customer_cartcheckout.html",{"key22":cartdata,"total":total,"key23":cdata})
+
+@csrf_exempt
+def callback(request):
+    if request.method == 'POST':
+        received_data = dict(request.POST)
+        paytm_params = {}
+        paytm_checksum = received_data['CHECKSUMHASH'][0]
+        for key, value in received_data.items():
+            if key == 'CHECKSUMHASH':
+                paytm_checksum = value[0]
+            else:
+                paytm_params[key] = str(value[0])
+        # Verify checksum
+        is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
+        if is_valid_checksum:
+            received_data['message'] = "Checksum Matched"
+        else:
+            received_data['message'] = "Checksum Mismatched"
+            return render(request, 'ep/callback.html', context=received_data)
+        return render(request, 'ep/callback.html', context=received_data)
+
+
+def initiate_payment(request):
+    try:
+        cdata = Master.objects.get(email=request.session['email'])
+        amount = int(request.POST['total'])
+        print("-------------------------------------------",amount)
+        # user = authenticate(request, username=username, password=password)
+    except:
+        return render(request, 'ep/customer_cartcheckout.html')
+
+    transaction = Transaction.objects.create(made_by=cdata, amount=amount)
+    transaction.save()
+    merchant_key = settings.PAYTM_SECRET_KEY
+
+    params = (
+        ('MID', settings.PAYTM_MERCHANT_ID),
+        ('ORDER_ID', str(transaction.order_id)),
+        ('CUST_ID', str(transaction.made_by.email)),
+        ('TXN_AMOUNT', str(transaction.amount)),
+        ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
+        ('WEBSITE', settings.PAYTM_WEBSITE),
+        # ('EMAIL', request.user.email),
+        # ('MOBILE_N0', '9911223388'),
+        ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
+        ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+        # ('PAYMENT_MODE_ONLY', 'NO'),
+    )
+
+    paytm_params = dict(params)
+    checksum = generate_checksum(paytm_params, merchant_key)
+
+    transaction.checksum = checksum
+    transaction.save()
+
+    paytm_params['CHECKSUMHASH'] = checksum
+    print('SENT: ', checksum)
+    return render(request, 'ep/redirect.html', context=paytm_params)

@@ -226,49 +226,14 @@
 									</tfoot>
     
 								</table>
+								<form action="{% url 'pay' %}" method="post">
+									{% csrf_token %}
+									<input type="hidden" name="total" value="{{total}}">
+									<button>checkout</button>
+								</form>
 
-								<div id="payment" class="shop-checkout-payment">
-									<h3 class="widget-title">Payment</h3>
-									<ul class="list1 no-bullets payment_methods methods">
-										<li class="payment_method_bacs">
-											<div class="radio">
-												<label for="payment_method_bacs">
-													<input id="payment_method_bacs" type="radio" name="payment_method" value="bacs" checked="checked">
-													<span class="grey">Direct Bank Transfer</span>
-												</label>
-											</div>
 
-											<div class="payment_box payment_method_bacs">
-												<p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-											</div>
-										</li>
-										<li class="payment_method_cheque">
-
-											<div class="radio">
-												<label for="payment_method_cheque">
-													<input id="payment_method_cheque" type="radio" name="payment_method" value="cheque">
-													<span class="grey">Cheque Payment</span>
-												</label>
-											</div>
-
-										</li>
-										<li class="payment_method_paypal">
-
-											<div class="radio">
-												<label for="payment_method_paypal">
-													<input id="payment_method_paypal" type="radio" name="payment_method" value="paypal">
-													<span class="grey">PayPal</span>
-
-												</label>
-											</div>
-
-										</li>
-									</ul>
-
-									<div class="place-order">
-										<input type="submit" class="theme_button color1" name="checkout_place_order" id="place_order" value="Place order">
-									</div>
-								</div>
+					
 							</div>
 
 						</aside>

@@ -55,4 +55,6 @@ urlpatterns = [
     path("updatecart/<int:pk>",views.UpdateCart,name="updatecart"),
     path("cartupdate/<int:pk>",views.CartUpdate,name="cartupdate"),
     path("checkout/<int:pk>",views.CartCheckout,name="checkout"),
+    path('pay/', views.initiate_payment, name='pay'),
+    path('callback/',views.callback, name='callback'),
 ]
