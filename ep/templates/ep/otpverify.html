@@ -135,14 +135,14 @@
 							<div class="with_border with_padding">
 
 								<h4 class="text-center">
-									Customer Sign In 
+									OTP Verification
 								</h4>
 								{% if msg %}
 								
-								<strong><p style="color: red;">{{msg}}</p></strong>
+								<strong><p style="color: green;">{{msg}}</p></strong>
 
 								{% endif %}
-								<form action="{% url 'login' %}" method="post">
+								<form action="{% url 'otpverify' %}" method="post">
 									{% csrf_token %}
 									<input type="hidden" name="role" id="" value="customer">
 								<hr class="bottommargin_30">
@@ -161,21 +161,13 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group has-placeholder">
-													<label for="login-password">Password</label>
+													<label for="login-password">Enter Otp</label>
 													<i class="grey fa fa-pencil-square-o"></i>
-													<input type="password" class="form-control" id="login-password" placeholder="Password" name="password">
+													<input type="password" class="form-control" id="login-password" placeholder="Enter OTP" name="eotp">
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="checkbox">
-													<input type="checkbox" id="remember_me_checkbox">
-													<label for="remember_me_checkbox">Remember Me
-													</label>
-												</div>
-											</div>
-										</div>
+										
 										<button type="submit"  class="theme_button block_button color1">Log In</button>
 									</form>
 								</div>
@@ -204,7 +196,7 @@
 							<!-- .with_border -->
 
 							<p class="divider_20 text-center">
-					Not registered? <a href="{% url 'signup' %}">Create an account</a>.<br>
+					Not received? <a href="{% url 'signup' %}">Create an account</a>.<br>
 					or go <a href="{% url 'index' %}">Home</a>
 				</p>
 
@@ -299,28 +291,28 @@
 	</a>
 
 
-<!-- template init -->
-<script src="{% static 'js/compressed.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
+	<!-- template init -->
+	<script src="{% static 'js/compressed.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
 
-<!-- dashboard libs -->
+	<!-- dashboard libs -->
 
-<!-- events calendar -->
-<script src="{% static 'js/admin/moment.min.js' %}"></script>
-<script src="js/admin/fullcalendar.min.js"></script>
-<!-- range picker -->
-<script src="{% static 'js/admin/daterangepicker.js' %}"></script>
+	<!-- events calendar -->
+	<script src="{% static 'js/admin/moment.min.js' %}"></script>
+	<script src="js/admin/fullcalendar.min.js"></script>
+	<!-- range picker -->
+	<script src="{% static 'js/admin/daterangepicker.js' %}"></script>
 
-<!-- charts -->
-<script src="{% static 'js/admin/Chart.bundle.min.js' %}"></script>
-<!-- vector map -->
-<script src="{% static 'js/admin/jquery-jvectormap-2.0.3.min.js' %}"></script>
-<script src="{% static 'js/admin/jquery-jvectormap-world-mill.js' %}"></script>
-<!-- small charts -->
-<script src="{% static 'js/admin/jquery.sparkline.min.js' %}"></script>
+	<!-- charts -->
+	<script src="{% static 'js/admin/Chart.bundle.min.js' %}"></script>
+	<!-- vector map -->
+	<script src="{% static 'js/admin/jquery-jvectormap-2.0.3.min.js' %}"></script>
+	<script src="{% static 'js/admin/jquery-jvectormap-world-mill.js' %}"></script>
+	<!-- small charts -->
+	<script src="{% static 'js/admin/jquery.sparkline.min.js' %}"></script>
 
-<!-- dashboard init -->
-<script src="{% static 'js/admin.js' %}"></script>
+	<!-- dashboard init -->
+	<script src="{% static 'js/admin.js' %}"></script>
 </form>
 </body>
 

@@ -57,4 +57,6 @@ urlpatterns = [
     path("checkout/<int:pk>",views.CartCheckout,name="checkout"),
     path('pay/', views.initiate_payment, name='pay'),
     path('callback/',views.callback, name='callback'),
+    path('otp/',views.OTP,name='otp'),
+    path('otpverify/',views.VerifyOtp,name="otpverify"),
 ]

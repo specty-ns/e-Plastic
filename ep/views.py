@@ -4,7 +4,7 @@ from random import *
 import datetime
 from django.conf import settings
 from .paytm import generate_checksum, verify_checksum
-
+from .utils import *
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -39,7 +39,8 @@ def AdminLogin(request):
 def Dashboard(request):
     return render(request,"ep/admin/aindex.html")
 
-
+def OTP(request):
+    return render(request,"ep/otpverify.html")
 
 def Register(request):
     try:
@@ -62,12 +63,13 @@ def Register(request):
                     otp = randint(10000,99999)
                     newMaster=Master.objects.create(email=email,password=password,otp=otp,role=role)
                     newCust=Customer.objects.create(master_id=newMaster,fname=fname,lname=lname,contact=contact,address=address)
-                
-                    return render(request,"ep/customer_signin.html")
-
+                    email_subject = "Customer Verification"
+                    sendmail(email_subject,'mail_template',email,{'name':fname,'otp':otp})
+                    return render(request,"ep/otpverify.html")
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/customer_signup.html",{'msg':message})
+           
         
         if request.POST['role']=="RecyclingCompany":
             role = request.POST['role']
@@ -87,8 +89,9 @@ def Register(request):
                     otp = randint(10000,99999)
                     newMaster=Master.objects.create(email=email,password=password,otp=otp,role=role)
                     newComp=Company.objects.create(master_id=newMaster,comp_name=name,comp_address=address,comp_contact=contact)
-                    
-                    return render(request,"ep/admin_signin.html")
+                    email_subject = "Recycling Company Verification"
+                    sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
+                    return render(request,"ep/otpverify.html")
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/admin_signup.html",{'msg':message})
@@ -110,13 +113,34 @@ def Register(request):
                     otp = randint(10000,99999)
                     newMaster=Master.objects.create(email=email,password=password,otp=otp,role=role)
                     newPlastic=PlasticC.objects.create(master_id=newMaster,pc_name=name,pc_address=address,pc_contact=contact)
-                    return render(request,"ep/admin_signin.html")
+                    email_subject = "Plastic Collector Verification"
+                    sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
+                    return render(request,"ep/otpverify.html")      
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/admin_signup.html",{'msg':message})
     except Exception as e1:
         print("RegistrationException---------------------->",e1)
 
+def VerifyOtp(request):
+    print("------------1--------------")
+    try:
+        email=request.POST['email']
+        eotp=int(request.POST['eotp'])
+        print("Eotp--------------->",eotp)
+        user = Master.objects.get(email=email)
+        if user.otp==eotp and user.role =="customer":
+            message = "otp verified successfully"
+            return render(request,"ep/customer_signin.html",{'msg':message})
+        elif user.otp==eotp and user.role=="RecyclingCompany":
+            message = "otp verified successfully"
+            return render(request,"ep/admin_signin.html",{'msg':message})
+        elif user.otp==eotp and user.role=="PlasticCollector":
+            message = "otp verified successfully"
+            return render(request,"ep/admin_signin.html",{'msg':message})
+    except Exception as e:
+        print("OTP Verify Exception-------------->",e)
+        
 def LoginUser(request):
     try:
         if request.POST['role']=="customer":
