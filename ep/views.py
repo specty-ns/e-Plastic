@@ -57,7 +57,7 @@ def Register(request):
             user=Master.objects.filter(email=email)
             if user:
                 message = "User already exist! "
-                return render(request,"ep/index.html",{'msg':message})
+                return render(request,"ep/customer_signup.html",{'msg':message})
             else:
                 if password==cpassword:
                     otp = randint(10000,99999)
@@ -131,13 +131,16 @@ def VerifyOtp(request):
         user = Master.objects.get(email=email)
         if user.otp==eotp and user.role =="customer":
             message = "otp verified successfully"
-            return render(request,"ep/customer_signin.html",{'msg':message})
+            return render(request,"ep/customer_signin.html",{'msg2':message})
         elif user.otp==eotp and user.role=="RecyclingCompany":
             message = "otp verified successfully"
-            return render(request,"ep/admin_signin.html",{'msg':message})
+            return render(request,"ep/admin_signin.html",{'msg2':message})
         elif user.otp==eotp and user.role=="PlasticCollector":
             message = "otp verified successfully"
-            return render(request,"ep/admin_signin.html",{'msg':message})
+            return render(request,"ep/admin_signin.html",{'msg2':message})
+        else:
+            message = "Enter Correct OTP or Email!"
+            return render(request,"ep/otpverify.html",{'msg3':message})
     except Exception as e:
         print("OTP Verify Exception-------------->",e)
         
@@ -397,20 +400,26 @@ def RPButtonClick(request,pk):
     except Exception as k:
         print("------------>Click error",k)
 
-
 def RPButton(request,pk):
     try:
         udata = Master.objects.get(id=pk)
         if udata.role == "RecyclingCompany":
             rcdata = Company.objects.get(master_id=udata)
+            email = rcdata.master_id.email
+            rcname = rcdata.comp_name
             pc_id = request.POST['pc_id']
             pla_id = PlasticC.objects.get(id=pc_id)
-            print("Plastic ID>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",pla_id)
+            pc_email = pla_id.master_id.email
+            pcname= pla_id.pc_name
             pc_date = request.POST['rdate']
             pc_qty = request.POST['rqty']
             pid = request.POST['pid']
             pro_id = PlasticProduct.objects.get(id=pid)
+            plasticname= pro_id.pproduct_name
             newRequest=RequestButton.objects.create(comp_id=rcdata,plasticc_id=pla_id,pproduct_id=pro_id,request_date=pc_date,request_quantity=pc_qty)
+            email_subject = "Plastic Request"
+            sendreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
+            showreq(email_subject,'mail_template',pc_email,{'rcname':rcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
             message= "Request Sent Successfully"
             return HttpResponseRedirect(reverse('rpallpro'),{'msg':message})
     except Exception as e11:

@@ -132,6 +132,11 @@
 								<h4 class="text-center">
 									Admin Sign In 
 								</h4>
+								{% if msg2 %}
+								
+								<strong><p style="color: green;">{{msg2}}</p></strong>
+
+								{% endif %}
 								{% if msg %}
 								
 								<strong><p style="color: red;">{{msg}}</p></strong>

@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
-
-
 class Master(models.Model):
     role = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
