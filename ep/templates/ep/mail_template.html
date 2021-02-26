@@ -26,5 +26,11 @@
    <p>Requested Quantity :{{showrequest.requestqty}}</p>
    <p>Date of Request :{{showrequest.requestdate}}</p>
 {% endif %}
+{% if acceptreq %}
+   <p>Plastic Collecter: {{acceptreq.pcname}},</p> 
+   <p>Requested Plastic : {{acceptreq.productname}}</p>
+   <p>Requested Quantity :{{acceptreq.requestqty}}</p>
+   <p>Date of Request :{{acceptreq.requestdate}}</p>
+{% endif %}
 </body>
 </html>

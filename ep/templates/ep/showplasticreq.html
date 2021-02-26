@@ -107,7 +107,7 @@
 
 									{% endif %}
 									<table class="table table-striped table-bordered">
-                                     
+										{{i.comp_id.master_id.Email}}
 										<tr>
 											<th>Recycling Company ID</th>
                                             <th>Plastic ID</th>
@@ -142,17 +142,21 @@
                                             </td>
 											
                                 </form>
-                                <form action="" method="post">
+                                <form action="{% url 'requestaccept' pk=i.id %}" method="post">
                                     {% csrf_token %}
                                             <td>
-												<input type="hidden" name="" id="" value="">
+												<input type="hidden" name="rcid" value="{{i.comp_id.id}}">
+
                                                 <button type="submit"  class="theme_button wide_button">Accept</button>
+								</form>
 												<a href="{% url 'rejectpro' pk=i.id %}" class="theme_button color2">Reject</a>
-                                            </td>
+
+											</td>
                                         </tr>
+								
 										{% endfor %}    
                                     </table>
-                                </form>
+                                
                                 
 								</div>
 								<!-- .table-responsive -->

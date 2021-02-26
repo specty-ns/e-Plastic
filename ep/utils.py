@@ -25,3 +25,11 @@ def showreq(subject,template,to,context):
     plain_message = strip_tags(html_message)
     from_email = 'e.plastic.aans@gmail.com'
     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+def acceptreq(subject,template,to,context):
+    subject = 'Plastic Request Accepted'
+    template_str = 'ep/'+ template+'.html'
+    html_message = render_to_string(template_str, {'acceptreq': context})
+    plain_message = strip_tags(html_message)
+    from_email = 'e.plastic.aans@gmail.com'
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)

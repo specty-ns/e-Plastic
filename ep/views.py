@@ -427,11 +427,36 @@ def RPButton(request,pk):
 
 def ShowPReq(request):
     try:
-        all_preq = RequestButton.objects.all() 
+        pc_id = request.session['id'] 
+        print("iddddd>>>>>>>>>>>>>>>.",pc_id)  
+        plastic_id =PlasticC.objects.get(master_id=pc_id)
+        all_preq = RequestButton.objects.all().filter(plasticc_id=plastic_id)
         return render(request,"ep/showplasticreq.html",{'key13':all_preq})
     except Exception as s:
         print("Show ----------------------------->",s)
 
+def reqaccept(request,pk):
+    try:
+        user= request.POST['rcid']
+        rc_data = Company.objects.get(id=user)
+        email =rc_data.master_id.email
+        print("Emaiaiisaisdi>>>>>",email)
+        pc_id = request.session['id']
+        plastic_id = PlasticC.objects.get(master_id=pc_id)
+        pcname = plastic_id.pc_name
+        all_preq = RequestButton.objects.get(pk=pk)
+        pc_qty = all_preq.request_quantity
+        print("qtyyyyyy",pc_qty)
+        plasticname= all_preq.pproduct_id.pproduct_name
+        print("Product name",plasticname)
+        pc_date = all_preq.request_date
+        email_subject = "Plastic Request Accepted"
+        acceptreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
+        message="Request Accepted"
+        return render(request,"ep/showplasticreq.html",{'key13':all_preq,'msg':message})
+    except Exception as reee:
+        print("Acc ----------------------------->",reee)
+        
 def RejectProduct(request,pk):
     try:
         rdata = RequestButton.objects.get(pk=pk)
@@ -673,3 +698,22 @@ def initiate_payment(request):
     paytm_params['CHECKSUMHASH'] = checksum
     print('SENT: ', checksum)
     return render(request, 'ep/redirect.html', context=paytm_params)
+
+def Logout(request):
+    del request.session['email']
+    del request.session['id']
+    del request.session['Role']
+    del request.session['Pcname']
+    del request.session['Pcadd']
+    del request.session['Pccon']
+    del request.session['Pcfb']
+    del request.session['Pcins']
+    del request.session['Pclin']
+    del request.session['Pctwit']
+    del request.session['Pcweb']
+    del request.session['Ofname']
+    del request.session['Olname']
+    del request.session['Ogen']
+    del request.session['Ocon']
+    del request.session['Oemail']
+    return render(request,"ep/admin_signin.html")

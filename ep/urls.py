@@ -38,7 +38,7 @@ urlpatterns = [
     path("rproduct/",views.RProduct,name="rproduct"),
     path("addrproduct/<int:pk>",views.AddRProduct,name="addrproduct"),
     path("allrproducts/<int:pk>",views.GetAllRProduct,name="allrproducts"),
-    path("showpro/",views.ShopProduct,name="showpro"),
+    path("showpro/<int:pk>",views.ShopProduct,name="showpro"),
     path("deleterproduct/<int:pk>",views.DeleteRProduct,name="deleterproduct"),
     path("rpbutton/<int:pk>",views.RPUpdateButton,name="rpbutton"),
     path("rpupdate/<int:pk>",views.UpdateRProduct,name="rpupdate"),
@@ -59,4 +59,6 @@ urlpatterns = [
     path('callback/',views.callback, name='callback'),
     path('otp/',views.OTP,name='otp'),
     path('otpverify/',views.VerifyOtp,name="otpverify"),
+    path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
+    path("logout/",views.Logout,name="logout"),
 ]
