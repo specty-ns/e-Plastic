@@ -416,7 +416,7 @@ def RPButton(request,pk):
             pid = request.POST['pid']
             pro_id = PlasticProduct.objects.get(id=pid)
             plasticname= pro_id.pproduct_name
-            newRequest=RequestButton.objects.create(comp_id=rcdata,plasticc_id=pla_id,pproduct_id=pro_id,request_date=pc_date,request_quantity=pc_qty)
+            newRequest=PlasticRequest.objects.create(comp_id=rcdata,plasticc_id=pla_id,pproduct_id=pro_id,request_date=pc_date,request_quantity=pc_qty)
             email_subject = "Plastic Request"
             sendreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
             showreq(email_subject,'mail_template',pc_email,{'rcname':rcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
@@ -427,39 +427,53 @@ def RPButton(request,pk):
 
 def ShowPReq(request):
     try:
-        pc_id = request.session['id'] 
-        print("iddddd>>>>>>>>>>>>>>>.",pc_id)  
-        plastic_id =PlasticC.objects.get(master_id=pc_id)
-        all_preq = RequestButton.objects.all().filter(plasticc_id=plastic_id)
-        return render(request,"ep/showplasticreq.html",{'key13':all_preq})
+        udata = Master.objects.get(id=request.session['id'])
+        if udata.role=="PlasticCollector":
+            pc = PlasticC.objects.get(master_id=udata)
+            allpproduct = PlasticRequest.objects.all().filter(plasticc_id=pc)
+            for i in allpproduct:
+                print("Status ------------>",i.status, len(allpproduct))
+            
+            
+            #if allpproduct.status == "pending":
+            #    pending = PlasticRequest.objects.all().filter(status="pending")
+            #elif allpproduct.status == "accept":
+            #    accept = PlasticRequest.objects.all().filter(status="accept")
+            #elif allpproduct.status == "reject":
+            #    reject = PlasticRequest.objects.all().filter(status="reject")
+        return render(request,"ep/showplasticreq.html",{'key13':allpproduct})
     except Exception as s:
         print("Show ----------------------------->",s)
+        return render(request,"ep/showplasticreq.html")
+
 
 def reqaccept(request,pk):
     try:
-        user= request.POST['rcid']
-        rc_data = Company.objects.get(id=user)
-        email =rc_data.master_id.email
-        print("Emaiaiisaisdi>>>>>",email)
-        pc_id = request.session['id']
-        plastic_id = PlasticC.objects.get(master_id=pc_id)
-        pcname = plastic_id.pc_name
-        all_preq = RequestButton.objects.get(pk=pk)
-        pc_qty = all_preq.request_quantity
-        print("qtyyyyyy",pc_qty)
-        plasticname= all_preq.pproduct_id.pproduct_name
-        print("Product name",plasticname)
-        pc_date = all_preq.request_date
+        pc_id = request.session['id'] 
+        print("iddddd>>>>>>>>>>>>>>>.",pc_id)  
+        plastic_id =PlasticC.objects.get(master_id=pc_id)
+        all_preq = PlasticRequest.objects.all().filter(plasticc_id=plastic_id)
+        email = request.POST['email']
+        print("emaillll",email)
         email_subject = "Plastic Request Accepted"
-        acceptreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
+        acceptreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':reqqty,'productname':pproductname,'requestdate':reqdate})
         message="Request Accepted"
-        return render(request,"ep/showplasticreq.html",{'key13':all_preq,'msg':message})
+        return HttpResponseRedirect(reverse('showreq'))
+        all_preq.delete()
     except Exception as reee:
         print("Acc ----------------------------->",reee)
         
+def RequestAccept(request):
+    try:
+        plac_id = request.session['id'] 
+        pc_id = PlasticC.objects.get(master_id=plac_id)
+        all_accept = AcceptRequest.objects.all().filter(plasticcollector_id=pc_id)
+        return render(request,"ep/showacceptedrequest.html",{'key24':all_accept})
+    except Exception as ppppp:
+        print("-------------------->aa jjooo",ppppp)
 def RejectProduct(request,pk):
     try:
-        rdata = RequestButton.objects.get(pk=pk)
+        rdata = PlasticRequest.objects.get(pk=pk)
         rdata.delete()
         return HttpResponseRedirect(reverse('showpreq'))
     except Exception as rr:

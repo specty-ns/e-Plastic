@@ -33,6 +33,7 @@ urlpatterns = [
     path("rpallpro/",views.RPAllProduct,name="rpallpro"),
     path("rpclick/<int:pk>",views.RPButtonClick,name="rpclick"),
     path("rprequest/<int:pk>",views.RPButton,name="rprequest"),
+    path('requestaccepted/',views.RequestAccept,name="requestaccepted"),
     path("showpreq/",views.ShowPReq,name="showpreq"),
     path("rejectpro/<int:pk>",views.RejectProduct,name="rejectpro"),
     path("rproduct/",views.RProduct,name="rproduct"),

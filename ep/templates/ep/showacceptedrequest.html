@@ -26,13 +26,13 @@
 				</div>
 				<!-- .container -->
 			</section>
-{% if key13 %}
+{% if key24 %}
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
 
 					<div class="row">
 						<div class="col-md-12">
-							<h3>Requested Plastic</h3>
+							<h3>Accepted Plastic Request</h3>
 						</div>
 						<!-- .col-* -->
 					</div>
@@ -98,57 +98,49 @@
 								<!-- .row -->
 
 								<div class="table-responsive">
-									<a  class="theme_button wide_button color2" href="{% url 'requestaccepted' %}">All Accepted</a>
-  
-                                
-									<table class="table table-striped table-bordered text-center">
-										{{i.comp_id.master_id.Email}}
+                                    
+                                <form action="" method="post">
+									{% csrf_token %}
+									{% if msg %}
+								
+									<strong><p style="color: green;">{{msg}}</p></strong>
+
+									{% endif %}
+									<table class="table table-striped table-bordered">
 										<tr>
-											<th>Recycling Company ID</th>
-                                            <th>Plastic ID</th>
-                                            <th>Product ID</th>
-                                            <th>Request ID</th>
-											<th>Request Date</th>
-                                            <th>Request Quantity</th>
-                                            <th>Status</th>
+											<th>Recycling Company Name</th>
+											<th>Product ID</th>
+                                            <th>Product Name</th>
+                                            <th>Product Quantity</th>
+											<th>Requested Date</th>
+											<th>Accepted Date</th>
                                         </tr>
 										<tr class="item-editable">
-                                            {% for i in key13 %}
-                                        
+                                            {% for i in key24 %}
+                                
                                             <td>
-												{{i.comp_id.comp_name}} ({{i.comp_id.id}})
+												{{i.company_name}} 
                                             </td>
 											<td>
-												{{i.plasticc_id.id}}
+												{{i.request_id.pproduct_id.id}}
+											</td>
+											<td>
+												{{i.product_name}}
                                             </td>
                                             <td>
-                                                {{i.pproduct_id.id}}
+                                                {{i.product_quantity}}
                                             </td>
-											<td class="media-middle">
-												<strong>
-													{{i.id}}
-												</strong>
-											</td>
 											<td class="media-middle">
 												<time datetime="2017-02-08T20:25:23+00:00" class="entry-date">{{i.request_date}}</time>
 											</td>
 											<td class="media-middle">
-												{{i.request_quantity}}
-                                            </td>
-                                            <td>
-												{% if i.status != 'pending' %}
-												<span style="text-transform: capitalize;">{{i.status}}ed</span>
-												{% else %}
-												<input type="hidden" name="email" value="{{i.comp_id.master_id.email}}">
-												<a href="{% url 'requestaccept' pk=i.id %}" class="theme_button color2">Accept</a>
-												<a href="{% url 'rejectpro' pk=i.id %}" class="theme_button">Reject</a>
-												{% endif %}
-											</td>
+												<time datetime="2017-02-08T20:25:23+00:00" class="entry-date">{{i.accept_date}}</time>
+											
                                         </tr>
 								
 										{% endfor %}    
                                     </table>
-                                
+                                </form>
                                 
 								</div>
 								<!-- .table-responsive -->

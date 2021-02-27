@@ -78,12 +78,13 @@ class RecycleProduct(models.Model):
     rproduct_quantity = models.BigIntegerField(default=0)
     rproduct_desc = models.CharField(max_length=500)
 
-class RequestButton(models.Model):
+class PlasticRequest(models.Model):
     comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)
     plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
     pproduct_id=models.ForeignKey(PlasticProduct,on_delete=models.CASCADE)
     request_date = models.DateTimeField()
     request_quantity = models.BigIntegerField(default=0)
+    status = models.CharField(max_length=20,default="pending")
 
 class AddToCart(models.Model):
     rp_id=models.ForeignKey(RecycleProduct,on_delete=models.CASCADE)
