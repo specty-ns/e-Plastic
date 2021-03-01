@@ -63,16 +63,18 @@
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.rp_id.rproduct_price}}</span>
 											</td>
+											<form action="{% url 'updatecart' pk=i.id %}" method="post">
+												{% csrf_token %}
 											<td class="product-quantity">
-												
 												<div class="quantity">
-													{{i.cart_quantity}}	
-													<a href="{% url 'cartupdate' pk=i.rp_id.id %}">
-														<i class="fa fa-edit"></i>
-													</a>
-
-												</div>									
+													<input type="button" value="-"  name="product_quantity" class="minus">
+													<input type="number" class="product_qty_update" step="1" min="1" max="{{i.rp_id.rproduct_quantity}}" onchange="form.submit()" name="product_quantity" value="{{i.cart_quantity}}" title="Quantity">
+													<input type="button" value="+" name="product_quantity" class="plus">
+												</form>
+												</div>
+												<small class="grey">In stock: {{i.rp_id.rproduct_quantity}}</small>
 											</td>
+											
 											<td class="product-subtotal">
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.cart_subtotal}}</span>
@@ -89,10 +91,10 @@
 							</div>
 							
 							<div class="cart-buttons">
-								<a class="theme_button" href="#">Countinue Shopping</a>				
+								<a class="theme_button" href="#">Countinue Shopping</a>		
+								
 								<a href="{% url 'checkout' pk=request.session.id %}" class="theme_button color2">Proceed to Checkout</a>
 							</div>
-
 							<div class="cart-collaterals">
 								<div class="cart_totals">
 									<h4>Cart Totals</h4>
@@ -472,9 +474,8 @@
 {% block scripts %}
 <script>
 		var update_qty = function() {
-			//alert('hello')
+			alert('hello')
 			
-			$('.product_qty_update').submit();
 		}
 </script>
 {% endblock %}

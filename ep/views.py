@@ -644,17 +644,13 @@ def DelCart(request,pk):
     return redirect(url)
 
 def UpdateCart(request,pk):
-    udata = Master.objects.get(id=request.session['id'])
-    if udata.role == "customer":
-        cdata = Customer.objects.get(master_id=udata)
-        product = RecycleProduct.objects.get(pk=pk)
-        adata = AddToCart.objects.get(cust_id=cdata, rp_id=product)
-        adata.cart_quantity = int(request.POST['product_quantity'])
-        adata.cart_subtotal = adata.cart_quantity * adata.cart_price
-        adata.save()
-        tt = request.session['id']
-        url = f"/showthecart/{tt}"
-        return redirect(url)
+    adata = AddToCart.objects.get(pk=pk)
+    adata.cart_quantity = int(request.POST['product_quantity'])
+    adata.cart_subtotal = adata.cart_quantity * adata.cart_price
+    adata.save()
+    tt = request.session['id']
+    url = f"/showthecart/{tt}"
+    return redirect(url)
 
 def CartUpdate(request,pk):
     udata = Master.objects.get(id=request.session['id'])
