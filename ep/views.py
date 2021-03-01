@@ -92,6 +92,7 @@ def Register(request):
                     email_subject = "Recycling Company Verification"
                     sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
                     return render(request,"ep/otpverify.html")
+                    
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/admin_signup.html",{'msg':message})
@@ -115,7 +116,8 @@ def Register(request):
                     newPlastic=PlasticC.objects.create(master_id=newMaster,pc_name=name,pc_address=address,pc_contact=contact)
                     email_subject = "Plastic Collector Verification"
                     sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
-                    return render(request,"ep/otpverify.html")      
+                    mail = email
+                    return render(request,"ep/otpverify.html",{'email':mail})    
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/admin_signup.html",{'msg':message})
@@ -433,14 +435,6 @@ def ShowPReq(request):
             allpproduct = PlasticRequest.objects.all().filter(plasticc_id=pc)
             for i in allpproduct:
                 print("Status ------------>",i.status, len(allpproduct))
-            
-            
-            #if allpproduct.status == "pending":
-            #    pending = PlasticRequest.objects.all().filter(status="pending")
-            #elif allpproduct.status == "accept":
-            #    accept = PlasticRequest.objects.all().filter(status="accept")
-            #elif allpproduct.status == "reject":
-            #    reject = PlasticRequest.objects.all().filter(status="reject")
         return render(request,"ep/showplasticreq.html",{'key13':allpproduct})
     except Exception as s:
         print("Show ----------------------------->",s)
@@ -452,32 +446,58 @@ def reqaccept(request,pk):
         pc_id = request.session['id'] 
         print("iddddd>>>>>>>>>>>>>>>.",pc_id)  
         plastic_id =PlasticC.objects.get(master_id=pc_id)
-        all_preq = PlasticRequest.objects.all().filter(plasticc_id=plastic_id)
+        pcname = plastic_id.pc_name
+        all_preq = PlasticRequest.objects.get(pk=pk,plasticc_id=plastic_id)
+        reqqty = all_preq.request_quantity
+        pproductname = all_preq.pproduct_id.pproduct_name
+        reqdate = all_preq.request_date
         email = request.POST['email']
         print("emaillll",email)
         email_subject = "Plastic Request Accepted"
         acceptreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':reqqty,'productname':pproductname,'requestdate':reqdate})
+        all_preq.status = request.POST['acceptreq']
+        all_preq.save()
         message="Request Accepted"
-        return HttpResponseRedirect(reverse('showreq'))
-        all_preq.delete()
+        return HttpResponseRedirect(reverse('showpreq'))
     except Exception as reee:
         print("Acc ----------------------------->",reee)
         
-def RequestAccept(request):
-    try:
-        plac_id = request.session['id'] 
-        pc_id = PlasticC.objects.get(master_id=plac_id)
-        all_accept = AcceptRequest.objects.all().filter(plasticcollector_id=pc_id)
-        return render(request,"ep/showacceptedrequest.html",{'key24':all_accept})
-    except Exception as ppppp:
-        print("-------------------->aa jjooo",ppppp)
 def RejectProduct(request,pk):
     try:
-        rdata = PlasticRequest.objects.get(pk=pk)
-        rdata.delete()
+        pc_id = request.session['id'] 
+        print("iddddd>>>>>>>>>>>>>>>.",pc_id)  
+        plastic_id =PlasticC.objects.get(master_id=pc_id)
+        pcname = plastic_id.pc_name
+        all_preq = PlasticRequest.objects.get(pk=pk,plasticc_id=plastic_id)
+        reqqty = all_preq.request_quantity
+        pproductname = all_preq.pproduct_id.pproduct_name
+        reqdate = all_preq.request_date
+        email = request.POST['email']
+        print("emaillll",email)
+        email_subject = "Plastic Request Accepted"
+        rejectreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':reqqty,'productname':pproductname,'requestdate':reqdate})
+        all_preq.status = request.POST['rejectreq']
+        all_preq.save()
         return HttpResponseRedirect(reverse('showpreq'))
     except Exception as rr:
         print("------------>delete error",rr)
+
+def SortPlasticRequest(request):
+    udata = Master.objects.get(id=request.session['id'])
+    pc = PlasticC.objects.get(master_id=udata)
+    if request.method == 'POST':
+        print(request.POST)
+        filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=request.POST['status'])
+        return render(request, "ep/showplasticreq.html", {"key24": filtered_data, 'filter': request.POST['status']})
+    else:
+        return render(request, "ep/showplasticreq.html")
+
+def SortPlasticRequest_n(request,flt):
+    udata = Master.objects.get(id=request.session['id'])
+    pc = PlasticC.objects.get(master_id=udata)
+    filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=flt)
+    return render(request, "ep/showplasticreq.html", {"key24": filtered_data, 'filter': flt})
+
 
 def AddRProduct(request,pk):
     try:
@@ -542,8 +562,8 @@ def UpdateRProduct(request,pk):
     except Exception as i:
         print("Image Product--------->",i)
     
-def ShowPro(request,pk):
-    pro_id = RecycleProduct.objects.get(pk=pk)
+def ShowPro(request):
+    pro_id = RecycleProduct.objects.all()
     return render(request,"ep/shop-product-right.html",{'key17':pro_id})
 def ALogin(request):
     try:
