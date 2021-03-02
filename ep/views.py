@@ -615,6 +615,8 @@ def AddCart(request,pk):
             atc_subtotal = int(atc_price * atc_qty)
             atc_date = datetime.date.today()
             newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal)
+            rp.rproduct_quantity = rp.rproduct_quantity-atc_qty
+            rp.save()
             ppp = request.session['id']
             url = f"/showthecart/{ppp}"
             return redirect(url)
@@ -636,6 +638,19 @@ def ShowCart(request,pk):
     except Exception as skc:
         print("nai avtu---------------",skc)
 
+def loadCart(request,pk):
+    try:
+        cdata = Master.objects.get(id=pk)
+        total = 0
+        cust = Customer.objects.get(master_id=cdata)
+        show = AddToCart.objects.all().filter(cust_id=cust)
+        for t in show:
+            total += t.cart_subtotal
+        print(total)
+        return {"key20": show, "total": total}
+    except Exception as err:
+        print(err)
+
 def DelCart(request,pk):
     ddata = AddToCart.objects.get(pk=pk)
     ddata.delete()
@@ -644,13 +659,28 @@ def DelCart(request,pk):
     return redirect(url)
 
 def UpdateCart(request,pk):
+    rcp =  RecycleProduct.objects.get(id=request.POST['rcp'])
+    print("RCPPPPPPP",rcp)
     adata = AddToCart.objects.get(pk=pk)
-    adata.cart_quantity = int(request.POST['product_quantity'])
-    adata.cart_subtotal = adata.cart_quantity * adata.cart_price
-    adata.save()
-    tt = request.session['id']
-    url = f"/showthecart/{tt}"
-    return redirect(url)
+    quant = int(request.POST['product_quantity'])
+    if quant > adata.rp_id.rproduct_quantity:
+        #print('Your requirement not fullfilled because of low stock of this item.')
+        message = "Quantity Excedded "
+        cart = loadCart(request, request.session['id'])
+        cart.update({'msg':message})
+        print(cart)
+        return render(request,"ep/customercart.html", cart)
+    else:
+        adata.cart_quantity = quant
+        rcp.rproduct_quantity = rcp.rproduct_quantity-quant
+        adata.cart_subtotal = adata.cart_quantity * adata.cart_price
+        adata.save()
+        rcp.save()
+        tt = request.session['id']
+        url = f"/showthecart/{tt}"
+        return redirect(url)
+
+
 
 def CartUpdate(request,pk):
     udata = Master.objects.get(id=request.session['id'])

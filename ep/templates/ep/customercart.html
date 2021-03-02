@@ -25,7 +25,9 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-7 col-md-8 col-lg-9 col-sm-push-5 col-md-push-4 col-lg-push-3">
-							
+							{% if msg %}
+							<strong><p style="color: red;">{{msg}}</p></strong>
+							{% endif %}
 							<div class="table-responsive">
 								<table class="table shop_table cart cart-table">
 									<thead>
@@ -70,6 +72,7 @@
 													<input type="button" value="-"  name="product_quantity" class="minus">
 													<input type="number" class="product_qty_update" step="1" min="1" max="{{i.rp_id.rproduct_quantity}}" onchange="form.submit()" name="product_quantity" value="{{i.cart_quantity}}" title="Quantity">
 													<input type="button" value="+" name="product_quantity" class="plus">
+													<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
 												</form>
 												</div>
 												<small class="grey">In stock: {{i.rp_id.rproduct_quantity}}</small>
