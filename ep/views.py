@@ -615,7 +615,7 @@ def AddCart(request,pk):
             atc_subtotal = int(atc_price * atc_qty)
             atc_date = datetime.date.today()
             newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal)
-            rp.rproduct_quantity = rp.rproduct_quantity-atc_qty
+            rp.rproduct_quantity-=atc_qty
             rp.save()
             ppp = request.session['id']
             url = f"/showthecart/{ppp}"
@@ -633,7 +633,7 @@ def ShowCart(request,pk):
             show = AddToCart.objects.all().filter(cust_id=cust)
             for t in show:
                 total += t.cart_subtotal
-            print(total)
+            print("Totallll",total)
             return render(request,"ep/customercart.html",{"key20":show, "total": total})
     except Exception as skc:
         print("nai avtu---------------",skc)
@@ -652,14 +652,19 @@ def loadCart(request,pk):
         print(err)
 
 def DelCart(request,pk):
+    r =  RecycleProduct.objects.get(id=request.POST['rcp'])
+    qty = int(request.POST['product_quantity'])
+    print("dellll",qty)
     ddata = AddToCart.objects.get(pk=pk)
+    r.rproduct_quantity+=qty
+    r.save()
     ddata.delete()
     p = request.session['id']
     url = f"/showthecart/{p}"
     return redirect(url)
 
 def UpdateCart(request,pk):
-    rcp =  RecycleProduct.objects.get(id=request.POST['rcp'])
+    rcp =  RecycleProduct.objects.all().filter(id=request.POST['rcp'])
     print("RCPPPPPPP",rcp)
     adata = AddToCart.objects.get(pk=pk)
     quant = int(request.POST['product_quantity'])
@@ -672,23 +677,11 @@ def UpdateCart(request,pk):
         return render(request,"ep/customercart.html", cart)
     else:
         adata.cart_quantity = quant
-        rcp.rproduct_quantity = rcp.rproduct_quantity-quant
-        adata.cart_subtotal = adata.cart_quantity * adata.cart_price
+        adata.cart_subtotal = adata.cart_quantity*adata.cart_price
         adata.save()
-        rcp.save()
-        tt = request.session['id']
-        url = f"/showthecart/{tt}"
+        ppp = request.session['id']
+        url = f"/showthecart/{ppp}"
         return redirect(url)
-
-
-
-def CartUpdate(request,pk):
-    udata = Master.objects.get(id=request.session['id'])
-    if udata.role == "customer":
-        cdata = Customer.objects.get(master_id=udata)
-        product = RecycleProduct.objects.get(pk=pk)
-        adata = AddToCart.objects.get(cust_id=cdata, rp_id=product)
-        return render(request,"ep/customercart_update.html",{"key21":adata})
 
 def CartCheckout(request,pk):
     udata = Master.objects.get(id=request.session['id'])

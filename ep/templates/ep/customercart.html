@@ -40,8 +40,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										{{key20.cust_id.fname}}
-
 										{% for i in key20 %}
 										<tr class="cart_item">
 											<td class="product-info">
@@ -75,18 +73,22 @@
 													<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
 												</form>
 												</div>
-												<small class="grey">In stock: {{i.rp_id.rproduct_quantity}}</small>
+											
+												
 											</td>
 											
 											<td class="product-subtotal">
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.cart_subtotal}}</span>
 											</td>
+											<form action="{% url 'deletecart' pk=i.id %}" method="post">
+												{% csrf_token %}
 											<td class="product-remove">
-												<a href="{% url 'deletecart' pk=i.id %}" title="Remove this item">
-													<i class="fa fa-trash-o"></i>
-												</a>
+												<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
+												<input type="hidden" name="product_quantity" value="{{i.cart_quantity}}">
+												<button class="theme_button"><i  class="fa fa-trash-o" ></i></button>
 											</td>
+										</form>
 										</tr>
 										{% endfor %}
 									</tbody>
