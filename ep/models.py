@@ -21,7 +21,7 @@ class Customer(models.Model):
     gender = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50,default="")
-    postalcode = models.BigIntegerField(default=0)
+    postalcode = models.BigIntegerField()
     image = models.ImageField(upload_to="customerimg/")
 
 
@@ -94,13 +94,13 @@ class AddToCart(models.Model):
     cart_date=models.DateTimeField()
     cart_subtotal=models.BigIntegerField(default=0)
 
-class Checkout(models.Model):
-    cart_id=models.ForeignKey(AddToCart,on_delete=models.CASCADE)
+class Order(models.Model):
+    customer_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
     order_total=models.BigIntegerField(default=0)
-
+    payment_status = models.CharField(max_length=20,default="")
+    
 class Transaction(models.Model):
-    made_by = models.ForeignKey(Master, related_name='transactions', 
-                                on_delete=models.CASCADE)
+    made_by = models.ForeignKey(Master, related_name='transactions',on_delete=models.CASCADE)
     made_on = models.DateTimeField(auto_now_add=True)
     amount = models.BigIntegerField()
     order_id = models.CharField(unique=True, max_length=100, null=True, blank=True)

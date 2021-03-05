@@ -36,7 +36,7 @@
 											<th class="product-price-td">Price</th>
 											<th class="product-quantity">Quantity</th>
 											<th class="product-subtotal">Subtotal</th>
-											<th class="product-remove">&nbsp;</th>
+											<th class="product-remove">Remove Item</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -63,9 +63,10 @@
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.rp_id.rproduct_price}}</span>
 											</td>
-											<form action="{% url 'updatecart' pk=i.id %}" method="post">
-												{% csrf_token %}
+											
 											<td class="product-quantity">
+												<form action="{% url 'updatecart' pk=i.id %}" method="post">
+													{% csrf_token %}
 												<div class="quantity">
 													<input type="button" value="-"  name="product_quantity" class="minus">
 													<input type="number" class="product_qty_update" step="1" min="1" max="{{i.rp_id.rproduct_quantity}}" onchange="form.submit()" name="product_quantity" value="{{i.cart_quantity}}" title="Quantity">
@@ -81,9 +82,10 @@
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.cart_subtotal}}</span>
 											</td>
-											<form action="{% url 'deletecart' pk=i.id %}" method="post">
-												{% csrf_token %}
+											
 											<td class="product-remove">
+												<form action="{% url 'deletecart' pk=i.id %}" method="post">
+													{% csrf_token %}
 												<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
 												<input type="hidden" name="product_quantity" value="{{i.cart_quantity}}">
 												<button class="theme_button"><i  class="fa fa-trash-o" ></i></button>
@@ -96,7 +98,7 @@
 							</div>
 							
 							<div class="cart-buttons">
-								<a class="theme_button" href="#">Countinue Shopping</a>		
+								<a class="theme_button" href="{% url 'showpro' %}">Countinue Shopping</a>		
 								
 								<a href="{% url 'checkout' pk=request.session.id %}" class="theme_button color2">Proceed to Checkout</a>
 							</div>

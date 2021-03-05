@@ -65,7 +65,8 @@ def Register(request):
                     newCust=Customer.objects.create(master_id=newMaster,fname=fname,lname=lname,contact=contact,address=address)
                     email_subject = "Customer Verification"
                     sendmail(email_subject,'mail_template',email,{'name':fname,'otp':otp})
-                    return render(request,"ep/otpverify.html")
+                    mail = email
+                    return render(request,"ep/otpverify.html",{'email':mail})
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/customer_signup.html",{'msg':message})
@@ -91,7 +92,8 @@ def Register(request):
                     newComp=Company.objects.create(master_id=newMaster,comp_name=name,comp_address=address,comp_contact=contact)
                     email_subject = "Recycling Company Verification"
                     sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
-                    return render(request,"ep/otpverify.html")
+                    mail = email
+                    return render(request,"ep/otpverify.html",{'email':mail})
                     
                 else:
                     message= "Password doesn't match!"
@@ -664,31 +666,39 @@ def DelCart(request,pk):
     return redirect(url)
 
 def UpdateCart(request,pk):
-    rcp =  RecycleProduct.objects.all().filter(id=request.POST['rcp'])
+    rcp =  RecycleProduct.objects.get(id=request.POST['rcp'])
     print("RCPPPPPPP",rcp)
     adata = AddToCart.objects.get(pk=pk)
     quant = int(request.POST['product_quantity'])
-    if quant > adata.rp_id.rproduct_quantity:
-        #print('Your requirement not fullfilled because of low stock of this item.')
-        message = "Quantity Excedded "
-        cart = loadCart(request, request.session['id'])
-        cart.update({'msg':message})
-        print(cart)
-        return render(request,"ep/customercart.html", cart)
-    else:
+    if quant > adata.cart_quantity:
+        update = quant-adata.cart_quantity
+        rcp.rproduct_quantity-=update 
+        rcp.save()
         adata.cart_quantity = quant
-        adata.cart_subtotal = adata.cart_quantity*adata.cart_price
         adata.save()
         ppp = request.session['id']
         url = f"/showthecart/{ppp}"
         return redirect(url)
+    # if quant > adata.rp_id.rproduct_quantity:
+    #     #print('Your requirement not fullfilled because of low stock of this item.')
+    #     message = "Quantity Excedded "
+    #     cart = loadCart(request, request.session['id'])
+    #     cart.update({'msg':message})
+    #     print(cart)
+    #     return render(request,"ep/customercart.html", cart)
+    # else:
+    #     adata.cart_quantity = quant
+    #     adata.cart_subtotal = adata.cart_quantity*adata.cart_price
+    #     adata.save()
+    #     ppp = request.session['id']
+    #     url = f"/showthecart/{ppp}"
+    #     return redirect(url)
 
 def CartCheckout(request,pk):
     udata = Master.objects.get(id=request.session['id'])
     total = 0
     if udata.role == "customer":
         cdata = Customer.objects.get(master_id=udata)
-        product = RecycleProduct.objects.get(pk=pk)
         cartdata = AddToCart.objects.all().filter(cust_id=cdata)
         for t in cartdata:
                 total += t.cart_subtotal
@@ -700,6 +710,8 @@ def callback(request):
         received_data = dict(request.POST)
         paytm_params = {}
         paytm_checksum = received_data['CHECKSUMHASH'][0]
+        checkout = Order.objects.get(id=10)
+        
         for key, value in received_data.items():
             if key == 'CHECKSUMHASH':
                 paytm_checksum = value[0]
@@ -709,8 +721,12 @@ def callback(request):
         is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
         if is_valid_checksum:
             received_data['message'] = "Checksum Matched"
+            checkout.payment_status = 'ok'
+            checkout.save()
         else:
             received_data['message'] = "Checksum Mismatched"
+            checkout.payment_status = 'not ok'
+            checkout.save()
             return render(request, 'ep/callback.html', context=received_data)
         return render(request, 'ep/callback.html', context=received_data)
 
@@ -723,9 +739,15 @@ def initiate_payment(request):
         # user = authenticate(request, username=username, password=password)
     except:
         return render(request, 'ep/customer_cartcheckout.html')
-
+    
     transaction = Transaction.objects.create(made_by=cdata, amount=amount)
+    
     transaction.save()
+    cid = request.POST['cid']
+    cust_id  =Customer.objects.get(id=cid)
+    print("CCCCCCCCCCID",cid)
+    # pstatus = request.POST['paystatus']
+    
     merchant_key = settings.PAYTM_SECRET_KEY
 
     params = (
@@ -742,14 +764,18 @@ def initiate_payment(request):
         # ('PAYMENT_MODE_ONLY', 'NO'),
     )
 
+
     paytm_params = dict(params)
     checksum = generate_checksum(paytm_params, merchant_key)
+
+    
 
     transaction.checksum = checksum
     transaction.save()
 
+    
     paytm_params['CHECKSUMHASH'] = checksum
-    print('SENT: ', checksum)
+    #print('SENT: ', paytm_params['RESPCODE'])
     return render(request, 'ep/redirect.html', context=paytm_params)
 
 def Logout(request):

@@ -228,6 +228,9 @@
 								</table>
 								<form action="{% url 'pay' %}" method="post">
 									{% csrf_token %}
+									{% for j in key22 %}
+									<input type="text" name="cid" value="{{j.cust_id.id}}">
+									{% endfor %}
 									<input type="hidden" name="total" value="{{total}}">
 									<button class="theme_button color1">checkout</button>
 								</form>
