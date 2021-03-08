@@ -153,28 +153,6 @@
 											</div>
 										</div>
 									</a>
-									<ul>
-										<li>
-											<a href="{% url 'companydata' pk=request.session.id %}">
-												<i class="fa fa-user"></i>
-												Profile
-											</a>
-										</li>
-										<li>
-											<a href="{% url 'cupdate' pk=request.session.id %}">
-												<i class="fa fa-edit"></i>
-												Edit Profile
-											</a>
-										</li>
-										
-										
-										<li>
-											<a href="{% url 'adminin' %}">
-												<i class="fa fa-sign-out"></i>
-												Log Out
-											</a>
-										</li>
-									</ul>
 								</li>
 							</ul>
 
@@ -202,28 +180,26 @@
 									</a>
 									<ul>
 										<li>
-											<a href="admin_profile.html">
-							Profile
-						</a>
+											<a href="{% url 'companydata' pk=request.session.id %}">
+												<i class="fa fa-user"></i>
+												Profile
+											</a>
 										</li>
 										<li>
-											<a href="admin_profile_edit.html">
-							Edit Profile
-						</a>
+											<a href="{% url 'cupdate' pk=request.session.id %}">
+												<i class="fa fa-edit"></i>
+												Edit Profile
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'logout' %}">
+												<i class="fa fa-sign-out"></i>
+												Log Out
+											</a>
 										</li>
 										<li>
 											<a href="admin_inbox.html">
 							Inbox
-						</a>
-										</li>
-										<li>
-											<a href="admin_signin.html">
-							Sign In
-						</a>
-										</li>
-										<li>
-											<a href="admin_signup.html">
-							Sign Up
 						</a>
 										</li>
 									</ul>
