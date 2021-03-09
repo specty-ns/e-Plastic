@@ -263,7 +263,7 @@ def CompanyProfileData(request,pk):
             comp = Company.objects.get(master_id=udata)
             return render(request,"ep/company_profile.html",{'key5':comp})
     else:
-        return redirect('signin')
+        return redirect('adminin')
 def CompanyUpdateClick(request,pk):
     if "email" in request.session and "password" in request.session:
         udata = Master.objects.get(id=pk)
@@ -273,6 +273,14 @@ def CompanyUpdateClick(request,pk):
     else:
         return redirect('adminin')
 
+def ReqPlastic(request):
+    if "email" in request.session and "password" in request.session:
+        udata = Master.objects.get(id=request.session['id'])
+        comp = Company.objects.get(id=udata)
+        request = PlasticRequest.objects.all().filter(comp_id=comp)
+        return render(request,"ep/company_reqplastic",{'requested_plastic':request})
+    else:
+        return redirect('adminin')
 def PlasticCollectorProfileData(request,pk):
     if "email" in request.session and "password" in request.session:
 
@@ -462,6 +470,19 @@ def RPButtonClick(request,pk):
     else:
         return redirect('adminin')
 
+def CompanyCheckOut(request):
+    if "email" in request.session and "password" in request.session:
+        udata = Master.objects.get(id=request.session['id'])
+        total = 0
+        if udata.role == "RecyclingCompany":
+            cdata = Company.objects.get(master_id=udata)
+            cartdata = PlasticRequest.objects.all().filter(comp_id=cdata,pproduct_id=request.POST['pro_id'])
+            for t in cartdata:
+                total = t.request_quantity*t.pproduct_id.pproduct_price
+            return render(request,"ep/company_checkout.html",{"key26":cartdata,"total":total,"key27":cdata})
+    else:
+        return redirect('signin')
+
 def RPButton(request,pk):
     if "email" in request.session and "password" in request.session:
 
@@ -544,7 +565,7 @@ def RejectProduct(request,pk):
             reqdate = all_preq.request_date
             email = request.POST['email']
             print("emaillll",email)
-            email_subject = "Plastic Request Accepted"
+            email_subject = "Plastic Request Rejected"
             rejectreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':reqqty,'productname':pproductname,'requestdate':reqdate})
             all_preq.status = request.POST['rejectreq']
             all_preq.save()
@@ -553,27 +574,30 @@ def RejectProduct(request,pk):
             print("------------>delete error",rr)
     else:
         return redirect('adminin')
-
 def SortPlasticRequest(request):
     if "email" in request.session and "password" in request.session:
         udata = Master.objects.get(id=request.session['id'])
-        pc = PlasticC.objects.get(master_id=udata)
-        if request.method == 'POST':
-            print(request.POST)
-            filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=request.POST['status'])
-            return render(request, "ep/showplasticreq.html", {"key24": filtered_data, 'filter': request.POST['status']})
-        else:
-            return render(request, "ep/showplasticreq.html")
-    else:
-        return redirect('adminin')
-
-def SortPlasticRequest_n(request,flt):
-    if "email" in request.session and "password" in request.session:
-
-        udata = Master.objects.get(id=request.session['id'])
-        pc = PlasticC.objects.get(master_id=udata)
-        filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=flt)
-        return render(request, "ep/showplasticreq.html", {"key24": filtered_data, 'filter': flt})
+        if udata.role == "PlasticCollector":
+            if request.POST['status'] == "All":
+                pc = PlasticC.objects.get(master_id=udata)
+                filtered_data = PlasticRequest.objects.all().filter(plasticc_id=pc)
+                return render(request, "ep/showplasticreq.html", {"key24": filtered_data,"filter":request.POST['status']})
+            else:
+                pc = PlasticC.objects.get(master_id=udata)
+                filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=request.POST['status'])
+                return render(request, "ep/showplasticreq.html", {"key24": filtered_data,"filter":request.POST['status']})
+        if udata.role == "RecyclingCompany":
+            if request.POST['status'] == "SendRequest":
+                all_pro = PlasticProduct.objects.all() 
+                return render(request,"ep/rp_allproducts.html",{'key11':all_pro,"filter":request.POST['status']})
+            if request.POST['status'] == "All":
+                comp = Company.objects.get(master_id=udata)
+                data = PlasticRequest.objects.all().filter(comp_id=comp)
+                return render(request, "ep/rp_allproducts.html", {"key25": data,"filter":request.POST['status']})
+            else:
+                comp = Company.objects.get(master_id=udata)
+                data = PlasticRequest.objects.filter(comp_id=comp,status=request.POST['status'])
+                return render(request, "ep/rp_allproducts.html", {"key25":data,"filter":request.POST['status']})
     else:
         return redirect('adminin')
 def AddRProduct(request,pk):

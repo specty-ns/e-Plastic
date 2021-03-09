@@ -231,7 +231,6 @@
 									<ul>
 										<li>
 											<a href="{% url 'rpallpro' %}">
-												
 												Plastic Products
 											</a>
 							
@@ -663,6 +662,7 @@
 
 
 {% endblock %}
+
 <a class="side-button side-contact-button" data-target="#admin_contact_modal" href="#admin_contact_modal" data-toggle="modal" role="button">
     <i class="fa fa-envelope"></i>
 </a>
@@ -690,7 +690,8 @@
 
 <!-- dashboard init -->
 <script src="{% static 'js/admin.js' %}"></script>
-
+{% block script %}
+{% endblock %}
 </body>
 
 

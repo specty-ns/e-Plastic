@@ -48,9 +48,10 @@
 											<span>
 												<label class="grey" for="orderby">Sort By:</label>
 												<select class="form-control orderby" onchange="form.submit()" name="status" id="orderby"  style="height: 50px;">
-													<option value="pending">pending</option>
-													<option value="reject">rejected</option>
-													<option value="accept">accepted</option>
+													<option value="All" >All</option>
+													<option value="Pending">pending</option>
+													<option value="Rejected">Rejected</option>
+													<option value="Accepted">Accepted</option>
 												</select>
 											</span>
 										</form>
@@ -90,19 +91,19 @@
 													</td>
 													<td>
 														{% if i.status != 'pending' %}
-														<span style="text-transform: capitalize;">{{i.status}}ed</span>
+														<span style="text-transform: capitalize;">{{i.status}}</span>
 														{% else %}
 														<form action="{% url 'requestaccept' pk=i.id %}" method="post">
 															{% csrf_token %}
 														<button class="theme_button color2">Accept</button>
 														<input type="hidden" name="email" value="{{i.comp_id.master_id.email}}">
-														<input type="hidden" name="acceptreq" value="accept">
+														<input type="hidden" name="acceptreq" value="Accepted">
 														</form>
 														<form action="{% url 'rejectpro' pk=i.id %}" method="post">
 															{% csrf_token %}
 														<button class="theme_button">Reject</button>
 														<input type="hidden" name="email" value="{{i.comp_id.master_id.email}}">
-														<input type="hidden" name="rejectreq" value="reject">
+														<input type="hidden" name="rejectreq" value="Rejected">
 														</form>
 														
 														{% endif %}
@@ -164,13 +165,13 @@
 													{% csrf_token %}
 												<button class="theme_button color2">Accept</button>
 												<input type="hidden" name="email" value="{{i.comp_id.master_id.email}}">
-												<input type="hidden" name="acceptreq" value="accept">
+												<input type="hidden" name="acceptreq" value="Accepted">
 												</form>
 												<form action="{% url 'rejectpro' pk=i.id %}" method="post">
 													{% csrf_token %}
 												<button class="theme_button">Reject</button>
 												<input type="hidden" name="email" value="{{i.comp_id.master_id.email}}">
-												<input type="hidden" name="rejectreq" value="reject">
+												<input type="hidden" name="rejectreq" value="Rejected">
 												</form>
 												
 												{% endif %}

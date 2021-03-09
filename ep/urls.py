@@ -43,6 +43,7 @@ urlpatterns = [
     path("rpbutton/<int:pk>",views.RPUpdateButton,name="rpbutton"),
     path("rpupdate/<int:pk>",views.UpdateRProduct,name="rpupdate"),
     path("prodesc/<int:pk>",views.ShowPro,name="prodesc"),
+    path("compcheckout/",views.CompanyCheckOut,name="compcheckout"),
     path("alogin/",views.AdminLogin,name="alogin"),
     path("adminlogin/",views.ALogin,name="adminlogin"),
     path("adminbutton/<int:pk>",views.AButton,name="adminbutton"),
@@ -61,5 +62,4 @@ urlpatterns = [
     path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
     path("logout/",views.Logout,name="logout"),
     path("sortplasticreq/",views.SortPlasticRequest,name="sortplasticreq"),
-    path("sortplasticreq_n/<str:flt>/",views.SortPlasticRequest_n,name="sortplasticreq_n"),
 ]
