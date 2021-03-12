@@ -181,10 +181,15 @@
 										<tr class="cart_item">
 											<td class="product-name">
 												{{i.pproduct_id.pproduct_name}}
-												<span class="product-quantity">× {{i.request_quantity}}</span>
+												<span class="product-quantity">× {{i.request_quantity}}</span><br> 
+											<p class="price">
+												₹<span class="amount">{{i.pproduct_id.pproduct_price}}</span>
+
+												
+											</p>
 											</td>
 											<td class="product-total">
-												<span class="amount grey">{{i.cart_subtotal}}</span>
+												<span class="amount grey">{{total}}</span>
 											</td>
 										</tr>
                                         {% endfor %}
@@ -219,9 +224,9 @@
 								<form action="{% url 'pay' %}" method="post">
 									{% csrf_token %}
 									{% for j in key26 %}
-									<input type="text" name="cid" value="{{j.cust_id.id}}">
+									<input type="hidden" name="comp" value="{{j.comp_id.id}}">
 									{% endfor %}
-									<input type="hidden" name="total" value="{{total}}">
+									<input type="hidden" name="total" value="{{total}}"><br>
 									<button class="theme_button color1">checkout</button>
 								</form>
 

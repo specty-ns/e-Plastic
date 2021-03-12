@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.contrib.auth import get_user_model
 
 class Master(models.Model):
@@ -21,7 +22,7 @@ class Customer(models.Model):
     gender = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50,default="")
-    postalcode = models.BigIntegerField()
+    postalcode = models.BigIntegerField(null=True)
     image = models.ImageField(upload_to="customerimg/")
 
 
@@ -113,3 +114,10 @@ class Transaction(models.Model):
         if self.order_id is None and self.made_on and self.id:
             self.order_id = self.made_on.strftime('PAY2ME%Y%m%dODR') + str(self.id)
         return super().save(*args, **kwargs)
+
+class ScheduleOrder(models.Model):
+    cust_id = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    cust_name = models.CharField(max_length=50)
+    cust_number = models.BigIntegerField()
+    sc_date_time = models.DateTimeField()
+    sc_comment = models.CharField(max_length=200)

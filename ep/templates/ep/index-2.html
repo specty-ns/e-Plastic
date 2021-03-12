@@ -218,8 +218,11 @@
 							</h2>
 							<p class="small-text">For old equipment</p>
 
-							<form class="contact-form row columns_margin_bottom_20" method="post" action="http://webdesign-finder.com/html/gogreen/">
-
+							<form method="post" action="{% url 'scheduleorder' %}">
+								{% csrf_token %}
+								{% if msg %}
+									<h5 style="color: green;">{{msg}}</h5>
+								{% endif %}
 
 								<div class="col-md-4">
 									<div class="form-group">
@@ -227,7 +230,7 @@
 											<span class="required">*</span>
 										</label>
 										<i class="fa fa-user highlight2" aria-hidden="true"></i>
-										<input type="text" aria-required="true" size="30" value="" name="name" id="pickup-name" class="form-control" placeholder="Full Name">
+										<input type="text" aria-required="true" size="30" value="" name="pickup_name" id="pickup-name" class="form-control" placeholder="Full Name">
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -236,27 +239,7 @@
 											<span class="required">*</span>
 										</label>
 										<i class="fa fa-phone highlight2" aria-hidden="true"></i>
-										<input type="text" aria-required="true" size="30" value="" name="phone" id="pickup-phone" class="form-control" placeholder="Phone Number">
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group select-group">
-										<label for="pickup-date">Date
-											<span class="required">*</span>
-										</label>
-										<i class="fa fa-calendar highlight2" aria-hidden="true"></i>
-										<select aria-required="true" id="pickup-date" name="date" class="choice empty form-control">
-											<option value="" disabled selected data-default>Date</option>
-											<option value="1306">13.06</option>
-											<option value="1406">14.06</option>
-											<option value="1506">15.06</option>
-											<option value="1606">16.06</option>
-											<option value="1706">17.06</option>
-											<option value="1806">18.06</option>
-											<option value="1906">19.06</option>
-											<option value="2006">20.06</option>
-										</select>
-										<i class="fa fa-angle-down theme_button" aria-hidden="true"></i>
+										<input type="number" aria-required="true" size="30" value="" name="pickup_number" id="pickup-phone" class="form-control" placeholder="Phone Number">
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -264,21 +247,7 @@
 										<label for="pickup-time">Time
 											<span class="required">*</span>
 										</label>
-										<i class="fa fa-clock-o highlight2" aria-hidden="true"></i>
-										<select aria-required="true" id="pickup-time" name="time" class="choice empty form-control">
-											<option value="" disabled selected data-default>Time</option>
-											<option value="08am">8:00 AM</option>
-											<option value="09am">9:00 AM</option>
-											<option value="10am">10:00 AM</option>
-											<option value="11am">11:00 AM</option>
-											<option value="12am">12:00 PM</option>
-											<option value="13pm">13:00 PM</option>
-											<option value="14pm">14:00 PM</option>
-											<option value="15pm">15:00 PM</option>
-											<option value="16pm">16:00 PM</option>
-											<option value="17pm">17:00 PM</option>
-										</select>
-										<i class="fa fa-angle-down theme_button" aria-hidden="true"></i>
+										<input type="datetime-local" aria-required="true" id="pickup-time" name="pickup_date_time">
 									</div>
 								</div>
 								<div class="col-sm-12">
@@ -286,14 +255,14 @@
 									<div class="form-group">
 										<label for="pickup-message">Message</label>
 										<i class="fa fa-comment-o highlight2" aria-hidden="true"></i>
-										<textarea aria-required="true" rows="3" cols="45" name="message" id="pickup-message" class="form-control" placeholder="Message"></textarea>
+										<textarea aria-required="true" rows="3" cols="45" name="pickup_comment" id="pickup-message" class="form-control" placeholder="Message"></textarea>
 									</div>
 								</div>
 
 								<div class="col-sm-12">
 
 									<div class="contact-form-submit topmargin_20">
-										<button type="submit" id="pickup-_submit" name="contact_submit" class="theme_button color1">Order pickup</button>
+										<button type="submit" class="theme_button color1">Order pickup</button>
 									</div>
 								</div>
 

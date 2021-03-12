@@ -856,6 +856,24 @@ def CartCheckout(request,pk):
     else:
         return redirect('signin')
 
+def Schedule(request):
+    if "email" in request.session and "password" in request.session:
+        udata = Master.objects.get(id=request.session['id'])
+        if udata.role == "customer":
+            cdata = Customer.objects.get(master_id=udata)
+            cname = request.POST['pickup_name']
+            cnumber = request.POST['pickup_number']
+            stime = request.POST['pickup_date_time']
+            scomment = request.POST['pickup_comment']
+            pickupschedule = ScheduleOrder.objects.create(cust_id=cdata,cust_name=cname,cust_number=cnumber,sc_date_time=sdate,sc_comment=scomment)
+            message = "pickup done"
+            return render(request,"ep/index-2.html",{'msg':message})
+            
+
+    else:
+        return redirect('signin')
+   
+
 @csrf_exempt
 def callback(request):
     if "email" in request.session and "password" in request.session:
@@ -886,55 +904,99 @@ def callback(request):
         return redirect('signin')
 
 def initiate_payment(request):
-    if "email" in request.session and "password" in request.session:
+    udata = Master.objects.get(id=request.session['id'])
+    if udata.role == "customer":
+        if "email" in request.session and "password" in request.session:
 
-        try:
-            cdata = Master.objects.get(email=request.session['email'])
-            amount = int(request.POST['total'])
-            print("-------------------------------------------",amount)
-            # user = authenticate(request, username=username, password=password)
-        except:
-            return render(request, 'ep/customer_cartcheckout.html')
-        
-        transaction = Transaction.objects.create(made_by=cdata, amount=amount)
-        
-        transaction.save()
-        cid = request.POST['cid']
-        cust_id  =Customer.objects.get(id=cid)
-        print("CCCCCCCCCCID",cid)
-        # pstatus = request.POST['paystatus']
-        
-        merchant_key = settings.PAYTM_SECRET_KEY
+            try:
+                cdata = Master.objects.get(email=request.session['email'])
+                amount = int(request.POST['total'])
+                print("-------------------------------------------",amount)
+                # user = authenticate(request, username=username, password=password)
+            except:
+                return render(request, 'ep/customer_cartcheckout.html')
+            
+            transaction = Transaction.objects.create(made_by=cdata, amount=amount)
+            
+            transaction.save()
+            cid = request.POST['cid']
+            cust_id  =Customer.objects.get(id=cid)
+            print("CCCCCCCCCCID",cid)
+            # pstatus = request.POST['paystatus']
 
-        params = (
-            ('MID', settings.PAYTM_MERCHANT_ID),
-            ('ORDER_ID', str(transaction.order_id)),
-            ('CUST_ID', str(transaction.made_by.email)),
-            ('TXN_AMOUNT', str(transaction.amount)),
-            ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
-            ('WEBSITE', settings.PAYTM_WEBSITE),
-            # ('EMAIL', request.user.email),
-            # ('MOBILE_N0', '9911223388'),
-            ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
-            ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
-            # ('PAYMENT_MODE_ONLY', 'NO'),
-        )
+            merchant_key = settings.PAYTM_SECRET_KEY
+
+            params = (
+                ('MID', settings.PAYTM_MERCHANT_ID),
+                ('ORDER_ID', str(transaction.order_id)),
+                ('CUST_ID', str(transaction.made_by.email)),
+                ('TXN_AMOUNT', str(transaction.amount)),
+                ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
+                ('WEBSITE', settings.PAYTM_WEBSITE),
+                # ('EMAIL', request.user.email),
+                # ('MOBILE_N0', '9911223388'),
+                ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
+                ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+                # ('PAYMENT_MODE_ONLY', 'NO'),
+            )
+
+            paytm_params = dict(params)
+            checksum = generate_checksum(paytm_params, merchant_key)
+
+            transaction.checksum = checksum
+            transaction.save()
+
+            paytm_params['CHECKSUMHASH'] = checksum
+            #print('SENT: ', paytm_params['RESPCODE'])
+            return render(request, 'ep/redirect.html', context=paytm_params)
+        else:
+            return redirect('signin')
+    elif udata.role == "RecyclingCompany":
+        if "email" in request.session and "password" in request.session:
+
+            try:
+                cdata = Master.objects.get(email=request.session['email'])
+                amount = int(request.POST['total'])
+                print("-------------------------------------------",amount)
+                # user = authenticate(request, username=username, password=password)
+            except:
+                return render(request, 'ep/customer_cartcheckout.html')
+            
+            transaction = Transaction.objects.create(made_by=cdata, amount=amount)
+            
+            transaction.save()
+            comp = request.POST['comp']
+            comp_id  =Company.objects.get(id=comp)
+            # pstatus = request.POST['paystatus']
+            
+            merchant_key = settings.PAYTM_SECRET_KEY
+
+            params = (
+                ('MID', settings.PAYTM_MERCHANT_ID),
+                ('ORDER_ID', str(transaction.order_id)),
+                ('CUST_ID', str(transaction.made_by.email)),
+                ('TXN_AMOUNT', str(transaction.amount)),
+                ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
+                ('WEBSITE', settings.PAYTM_WEBSITE),
+                # ('EMAIL', request.user.email),
+                # ('MOBILE_N0', '9911223388'),
+                ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
+                ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+                # ('PAYMENT_MODE_ONLY', 'NO'),
+            )
+            paytm_params = dict(params)
+            checksum = generate_checksum(paytm_params, merchant_key)
+
+            transaction.checksum = checksum
+            transaction.save()
+       
+            paytm_params['CHECKSUMHASH'] = checksum
+            #print('SENT: ', paytm_params['RESPCODE'])
+            return render(request, 'ep/redirect.html', context=paytm_params)
+        else:
+            return redirect('signin')
 
 
-        paytm_params = dict(params)
-        checksum = generate_checksum(paytm_params, merchant_key)
-
-        
-
-        transaction.checksum = checksum
-        transaction.save()
-
-        
-        paytm_params['CHECKSUMHASH'] = checksum
-        #print('SENT: ', paytm_params['RESPCODE'])
-        return render(request, 'ep/redirect.html', context=paytm_params)
-    else:
-        return redirect('signin')
 def Logout(request):
     if request.session['Role'] == "customer":
         del request.session['email'] 

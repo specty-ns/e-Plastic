@@ -62,4 +62,5 @@ urlpatterns = [
     path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
     path("logout/",views.Logout,name="logout"),
     path("sortplasticreq/",views.SortPlasticRequest,name="sortplasticreq"),
+    path("scheduleorder/",views.Schedule,name="scheduleorder"),
 ]

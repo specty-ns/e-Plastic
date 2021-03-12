@@ -35,10 +35,8 @@
 							<h3>{{key3.fname}}
 								{{key3.lname}}
 								<small>
-									{{request.session.Role}}
+									<a href="{% url 'updatebutton' pk=request.session.id %}"><i class="fa fa-edit"></i> </a>
 								</small>
-								
-								
 							</h3>
 
 						</div>
@@ -107,44 +105,12 @@
 														<strong class="grey">
 															Address:
 														</strong>
-														{{key3.address}}
+														{{key3.address}}, {{key3.city}}, {{key3.state}}, {{key3.postalcode}}
 													
 													</div>	
 												</div>
 											</li>
-											<li>
-												<div class="media small-teaser">
-													<div class="media-left media-middle">
-														<div class="teaser_icon label-warning round fontsize_16">
-															<i class="fa fa-globe"></i>
-														</div>
-													</div>
-													
-													<div class="media-body media-middle">
-														
-														<strong class="grey">
-															City:
-														</strong>
-														{{key3.city}}
-													
-													</div>	
-												</div>
-											</li>
-											<li>
-												<div class="media small-teaser">
-													<div class="media-left media-middle">
-														<div class="teaser_icon label-success round fontsize_16">
-															<i class="fa fa-flag"></i>
-														</div>
-													</div>
-													<div class="media-body media-middle">
-														<strong class="grey">
-															State:
-														</strong>
-														{{key3.state}}
-													</div>
-												</div>
-											</li>
+						
 											<li>
 												<div class="media small-teaser">
 													<div class="media-left media-middle">
@@ -162,9 +128,6 @@
 											</li>
 											
 										</ul>
-										<a href="{% url 'updatebutton' pk=request.session.id %}"><button type="submit" class="theme_button block_button color1"> Update</button></a>
-										<a href=""><button type="submit" class="theme_button block_button color1"> Delete</button></a>
-
 									</div>
 									<!-- .with_border -->
 									
