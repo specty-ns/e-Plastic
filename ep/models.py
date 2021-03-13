@@ -34,7 +34,7 @@ class Company(models.Model):
     comp_image = models.ImageField(upload_to="companyimg/")
     comp_city = models.CharField(max_length=30,default="")
     comp_state = models.CharField(max_length=50,default="")
-    comp_postalcode = models.BigIntegerField()
+    comp_postalcode = models.BigIntegerField(null=True)
     comp_fb = models.CharField(max_length=1000)
     comp_insta = models.CharField(max_length=1000)
     comp_linkedin = models.CharField(max_length=1000)
@@ -121,3 +121,4 @@ class ScheduleOrder(models.Model):
     cust_number = models.BigIntegerField()
     sc_date_time = models.DateTimeField()
     sc_comment = models.CharField(max_length=200)
+    pickup_status = models.CharField(max_length=50, default="pending")

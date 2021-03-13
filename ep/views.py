@@ -862,18 +862,42 @@ def Schedule(request):
         if udata.role == "customer":
             cdata = Customer.objects.get(master_id=udata)
             cname = request.POST['pickup_name']
+            email = cdata.master_id.email
             cnumber = request.POST['pickup_number']
             stime = request.POST['pickup_date_time']
             scomment = request.POST['pickup_comment']
-            pickupschedule = ScheduleOrder.objects.create(cust_id=cdata,cust_name=cname,cust_number=cnumber,sc_date_time=sdate,sc_comment=scomment)
-            message = "pickup done"
+            pickupschedule = ScheduleOrder.objects.create(cust_id=cdata,cust_name=cname,cust_number=cnumber,sc_date_time=stime,sc_comment=scomment)
+            email_subject = "Plastic Pickup Request Sent"
+            PickupSent(email_subject,'mail_template',email,{'fullname':cname,'contact':cnumber,'pickup_datetime':stime,'pickup_details':scomment})
+            message = "Pickup Done"
             return render(request,"ep/index-2.html",{'msg':message})
             
-
     else:
         return redirect('signin')
-   
-
+def ShowPickUp(request):     
+    if "email" in request.session and "password" in request.session:
+        pick = ScheduleOrder.objects.all()
+        return render(request,"ep/showpickupreq.html",{'pickup':pick})
+    else:   
+        return redirect('adminin')
+def PickUpStatus(request,pk):
+    if "email" in request.session and "password" in request.session:
+        master = Master.objects.get(id=request.session['id'])
+        pick = ScheduleOrder.objects.get(id=pk)
+        plastic_id = PlasticC.objects.get(master_id=master)
+        if request.POST['status'] == "Accepted":
+            pick.pickup_status = request.POST['status']
+            pick.save()
+            email_subject = "Plastic Pickup Request Accepted"
+            PickupAccept(email_subject,'mail_template',pick.cust_id.master_id.email,{'pcname':plastic_id.pc_name,'pccontact':plastic_id.pc_contact,'pickup_datetime':pick.sc_date_time,'pickup_details':pick.sc_comment})
+            return HttpResponseRedirect(reverse('pickuprequests'))
+        if request.POST['status'] == "Rejected":
+            pick.pickup_status = request.POST['status']
+            pick.save()
+            # PickupReject(email_subject,'mail_template',pick.cust_id.master_id.email,{'pcname':plastic_id.pc_name,'pccontact':plastic_id.pc_contact,'pickup_datetime':pick.sc_date_time,'pickup_details':pick.sc_comment})
+            return HttpResponseRedirect(reverse('pickuprequests')) 
+    else:   
+        return redirect('adminin')
 @csrf_exempt
 def callback(request):
     if "email" in request.session and "password" in request.session:

@@ -60,6 +60,7 @@
 										</form>
 {% if key25 %}
 											<table class="table table-striped table-bordered text-center w-100">
+
 												<tr>
 													<th>Recycling Company ID</th>
 													<th>Plastic ID</th>
@@ -68,10 +69,12 @@
 													<th>Request Date</th>
 													<th>Request Quantity</th>
 													<th>Status</th>
+													<th>Payment</th>
+
 												</tr>
 												<tr class="item-editable">
 													{% for i in key25 %}
-												
+
 													<td>
 														{{i.comp_id.comp_name}} ({{i.comp_id.id}})
 													</td>

@@ -256,13 +256,23 @@
 												Products
 											</a>
 										</li>
-										<li>
-											<a href="{% url 'showpreq' %}">
-												Show Requests
-											</a>
-										</li>
-
-									</ul>
+								</ul>
+									<li>
+										<a href="">
+											<i class="fa fa-paper-plane"></i>
+											Requests
+										</a>
+										<ul>
+											<li>
+												<a href="{% url 'showpreq' %}">
+													Company Requests
+												</a>
+											</li>
+											<li>
+												<a href="{% url 'pickuprequests' %}">Pick-Up Requests</a>
+											</li>
+										</ul>
+									</li>
 								</li>
 								<li>
 									<a href="admin_orders.html">

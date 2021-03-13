@@ -32,5 +32,17 @@
    <p>Requested Quantity :{{acceptreq.requestqty}}</p>
    <p>Date of Request :{{acceptreq.requestdate}}</p>
 {% endif %}
+{% if pickupsent %}
+   <p>Name: {{pickupsent.fullname}}</p>
+   <p>Phone Number: {{pickupsent.contact}}</p>
+   <p>Pickup Date & Time: {{pickupsent.pickup_datetime}}</p>
+   <p>Pickup Details: {{pickupsent.pickup_details}}</p>
+{% endif %}
+{% if pickupaccept %}
+   <p>Plastic Collector Name: {{pickupaccept.pcname}}</p>
+   <p>Phone Number: {{pickupaccept.pccontact}}</p>
+   <p>Pickup Date & Time: {{pickupsent.pickup_datetime}}</p>
+   <p>Pickup Details: {{pickupsent.pickup_details}}</p>
+{% endif %}
 </body>
 </html>

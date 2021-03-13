@@ -26,10 +26,14 @@
 								<div class="media-body media-middle">
 									<span class="fontsize_20 medium grey">Open Hours</span>
 									<br>
-									<span class="small-text small-spacing">Weekdays 8.00-18.00, Sat: closed</span>
+									<span class="small-text small-spacing">Weekdays 8.00-18.00, Sat: closed</span><br>
 								</div>
 							</div>
+							<div class="media small-teaser teaser inline-block">
+								
+							</div>
 						</div>
+						
 						<div class="col-md-3 col-sm-4 text-center text-sm-right">
 							<a href="#pickup" class="theme_button color2 margin_0">Schedule pickup</a>
 						</div>
@@ -217,52 +221,54 @@
 								Schedule Pickup
 							</h2>
 							<p class="small-text">For old equipment</p>
-
 							<form method="post" action="{% url 'scheduleorder' %}">
 								{% csrf_token %}
 								{% if msg %}
-									<h5 style="color: green;">{{msg}}</h5>
+									<h2 style="color: green;">{{msg}}</h2>
 								{% endif %}
 
-								<div class="col-md-4">
-									<div class="form-group">
-										<label for="pickup-name">Full Name
-											<span class="required">*</span>
-										</label>
-										<i class="fa fa-user highlight2" aria-hidden="true"></i>
-										<input type="text" aria-required="true" size="30" value="" name="pickup_name" id="pickup-name" class="form-control" placeholder="Full Name">
+								<div class="col-md-3">
+									<div class="row_margin_700">
+										<div class="form-group has-placeholder">
+											<label for="pickup-name" >Full Name</label>
+											<i class="fa fa-user highlight2" aria-hidden="true"></i>
+											<input type="text" aria-required="true" size="30" value="" name="pickup_name" id="pickup-name" class="form-control" placeholder="Full Name">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label for="pickup-phone">Phone Number
-											<span class="required">*</span>
-										</label>
+								<div class="col-md-3">
+									<div class="row_margin_700">
+										<div class="form-group has-placeholder">
+											<label for="pickup-phone">Phone Number</label>
 										<i class="fa fa-phone highlight2" aria-hidden="true"></i>
 										<input type="number" aria-required="true" size="30" value="" name="pickup_number" id="pickup-phone" class="form-control" placeholder="Phone Number">
+										</div>
 									</div>
 								</div>
-								<div class="col-md-2">
-									<div class="form-group select-group">
-										<label for="pickup-time">Time
-											<span class="required">*</span>
-										</label>
-										<input type="datetime-local" aria-required="true" id="pickup-time" name="pickup_date_time">
+								<div class="col-md-3">
+									<div class="row_margin_700">
+										<div class="form-group has-placeholder">
+											<label for="pickup-time">Time</label>
+										<i class="fa fa-calendar highlight2" aria-hidden="true"></i>
+										<input type="datetime-local"aria-required="true" class="form-control" id="pickup-time" name="pickup_date_time">
+										</div>
 									</div>
 								</div>
+								
 								<div class="col-sm-12">
-
 									<div class="form-group">
+										<div class="form-group has-placeholder">
 										<label for="pickup-message">Message</label>
 										<i class="fa fa-comment-o highlight2" aria-hidden="true"></i>
 										<textarea aria-required="true" rows="3" cols="45" name="pickup_comment" id="pickup-message" class="form-control" placeholder="Message"></textarea>
+										</div>
 									</div>
 								</div>
 
 								<div class="col-sm-12">
 
 									<div class="contact-form-submit topmargin_20">
-										<button type="submit" class="theme_button color1">Order pickup</button>
+										<a href="#pickup"><button type="submit" class="theme_button color1">Order pickup</button></a>
 									</div>
 								</div>
 

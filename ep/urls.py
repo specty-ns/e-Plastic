@@ -62,5 +62,7 @@ urlpatterns = [
     path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
     path("logout/",views.Logout,name="logout"),
     path("sortplasticreq/",views.SortPlasticRequest,name="sortplasticreq"),
-    path("scheduleorder/",views.Schedule,name="scheduleorder"),
+    path("scheduleorder/pickup",views.Schedule,name="scheduleorder"),
+    path("pickuprequests/",views.ShowPickUp,name="pickuprequests"),
+    path("pickupstatus/<int:pk>",views.PickUpStatus,name="pickupstatus"),
 ]

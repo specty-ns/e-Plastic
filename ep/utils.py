@@ -41,3 +41,27 @@ def rejectreq(subject,template,to,context):
     plain_message = strip_tags(html_message)
     from_email = 'e.plastic.aans@gmail.com'
     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+def PickupSent(subject,template,to,context):
+    subject = 'Plastic Pickup Request Sent'
+    template_str = 'ep/'+ template+'.html'
+    html_message = render_to_string(template_str, {'pickupsent': context})
+    plain_message = strip_tags(html_message)
+    from_email = 'e.plastic.aans@gmail.com'
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+def PickupAccept(subject,template,to,context):
+    subject = 'Plastic Pickup Request Accepted'
+    template_str = 'ep/'+ template+'.html'
+    html_message = render_to_string(template_str, {'pickupaccept': context})
+    plain_message = strip_tags(html_message)
+    from_email = 'e.plastic.aans@gmail.com'
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+# def PickupReject(subject,template,to,context):
+#     subject = 'Plastic Pickup Request Accepted'
+#     template_str = 'ep/'+ template+'.html'
+#     html_message = render_to_string(template_str, {'pickupreject': context})
+#     plain_message = strip_tags(html_message)
+#     from_email = 'e.plastic.aans@gmail.com'
+#     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
