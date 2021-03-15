@@ -72,9 +72,6 @@
 
 		</div>
 	</div>
-	<!-- eof .modal -->
-
-	<!-- wrappers for visual page editor and boxed version of template -->
 	<div id="canvas">
 		<div id="box_wrapper">
 
@@ -201,7 +198,7 @@
 															<a href="shop-product-right.html">Single Product</a>
 														</li>
 														<li>
-															<a href="shop-cart-right.html">Shopping Cart</a>
+															<a href="{% url 'showthecart' pk=request.session.id %}">Shopping Cart</a>
 														</li>
 														<li>
 															<a href="shop-checkout-right.html">Checkout</a>

@@ -867,8 +867,9 @@ def Schedule(request):
             stime = request.POST['pickup_date_time']
             scomment = request.POST['pickup_comment']
             pickupschedule = ScheduleOrder.objects.create(cust_id=cdata,cust_name=cname,cust_number=cnumber,sc_date_time=stime,sc_comment=scomment)
+
             email_subject = "Plastic Pickup Request Sent"
-            PickupSent(email_subject,'mail_template',email,{'fullname':cname,'contact':cnumber,'pickup_datetime':stime,'pickup_details':scomment})
+            PickupSent(email_subject,'mail_template',email,{'fullname':cname,'contact':cnumber,'pickup_datetime':pickupschedule.sc_date_time,'pickup_details':scomment})
             message = "Pickup Done"
             return render(request,"ep/index-2.html",{'msg':message})
             
@@ -892,7 +893,7 @@ def PickUpStatus(request,pk):
             PickupAccept(email_subject,'mail_template',pick.cust_id.master_id.email,{'pcname':plastic_id.pc_name,'pccontact':plastic_id.pc_contact,'pickup_datetime':pick.sc_date_time,'pickup_details':pick.sc_comment})
             return HttpResponseRedirect(reverse('pickuprequests'))
         if request.POST['status'] == "Rejected":
-            pick.pickup_status = request.POST['status']
+            pick.pickup_status = "pending"
             pick.save()
             # PickupReject(email_subject,'mail_template',pick.cust_id.master_id.email,{'pcname':plastic_id.pc_name,'pccontact':plastic_id.pc_contact,'pickup_datetime':pick.sc_date_time,'pickup_details':pick.sc_comment})
             return HttpResponseRedirect(reverse('pickuprequests')) 
