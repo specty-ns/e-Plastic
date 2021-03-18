@@ -122,3 +122,11 @@ class ScheduleOrder(models.Model):
     sc_date_time = models.DateTimeField()
     sc_comment = models.CharField(max_length=200)
     pickup_status = models.CharField(max_length=50, default="pending")
+
+class CustomerData(models.Model):
+    cust_id = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    plastic_id = models.ForeignKey(PlasticC,on_delete=models.CASCADE)
+    total_collection = models.FloatField()
+    wastage = models.FloatField()
+    usage = models.FloatField()
+    collection_date = models.DateField()

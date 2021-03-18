@@ -149,7 +149,8 @@
 											</div>
 											<div class="media-body media-middle">
 												<h4>{{request.session.Pcname}}</h4>
-												<small>Plastic Collector</small>										
+												<small>Plastic Collector</small>	
+												<a href="{% url 'custdata' %}">Data</a>									
 											</div>
 										</div>
 									</a>
@@ -191,12 +192,7 @@
 												Edit Profile
 											</a>
 										</li>
-										<li>
-											<a href="admin_inbox.html">
-												<i class="fa fa-envelope-o"></i>
-												Inbox
-											</a>
-										</li>
+										
 										<li>
 											<a href="{% url 'logout' %}">
 												<i class="fa fa-sign-out"></i>

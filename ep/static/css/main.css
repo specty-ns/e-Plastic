@@ -13863,21 +13863,6 @@ a.color-icon.border-icon:hover {
 	transform: rotate(45deg);
 }
 
-#switcher-colors a.color2 {
-	background-color: #ff8400;
-}
-
-#switcher-colors a.color2:after {
-	background-color: #c95202;
-}
-
-#switcher-colors a.color3 {
-	background-color: #22a9ff;
-}
-
-#switcher-colors a.color3:after {
-	background-color: #004e7f;
-}
 
 #switcher-colors {
 	line-height: 0;
@@ -13904,7 +13889,6 @@ a.color-icon.border-icon:hover {
 	opacity: 1;
 }
 
-#switcher_accent_color,
 #switcher_color_scheme,
 #switcher_layout,
 #switcher_patterns {

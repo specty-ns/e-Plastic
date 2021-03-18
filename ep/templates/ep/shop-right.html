@@ -1,4 +1,5 @@
 {% extends 'ep/base3.html' %}
+{% load static %}
 {% block content %}
 			<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
 				<div class="container">
@@ -21,25 +22,18 @@
 				</div>
 			</section>
 {% if key15 %}
-
 			<section class="ls section_padding_top_100 section_padding_bottom_100 columns_padding_25">
 				<div class="container">
 					<div class="row">
 
 						<div class="col-sm-12">
 
-							<div class="shop-sorting">
-
-								
-									
+							<div class="shop-sorting">									
 									{% if msg %}
 											
 										<strong><p style="color: green;">{{msg}}</p></strong>
-			
+								
 									{% endif %}
-							
-									
-									
 									<div class="form-group select-group">
 										<select aria-required="true" id="date" name="date" class="choice empty form-control">
 											<option value="" disabled selected data-default>Default Sorting</option>
@@ -49,13 +43,40 @@
 										</select>
 										<i class="fa fa-angle-down theme_button" aria-hidden="true"></i>
 									</div>
-
-								
-
 							</div>
-							<a href="" class="theme_button color1">Show Cart</a>
+							<div class="columns-2">
+								{% for i in key15 %}
+								<li class="product type-product">
+									<div class="vertical-item">
+										<div class="item-media with_background bottommargin_30">
+											<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="10%">
+										</div>
+										<div class="item-content">
+											<h4 class="poppins bottommargin_10">
+												<a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
+											</h4>
+											<p class="price">
+									<ins>
+										₹<span class="amount">{{i.rproduct_price}}</span>
+									</ins>
+									{{i.company_id.comp_name}} 
+								</p>
+								<form action="{% url 'addtocart' pk=request.session.id %}" method="post">
+									{% csrf_token %}
+									
+									Enter Quantity
+									<input type="number" min="1" max="{{i.rproduct_quantity}}"class="product-quantity"  name="product_quantity">
+									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
+									<input type="hidden" name="pid" value="{{i.id}}">
+									<button class="theme_button color1" >Add to Cart</button>		
+								</form>			
+								</div>
+									</div>
+								</li>
+							{% endfor %}				
 
-							<div class="columns-3">
+						</div>
+							<!-- <div class="columns-3">
 								{% for i in key15 %}
 								<li class="product type-product">	
 									<div class="vertical-item">
@@ -66,6 +87,7 @@
 											<h4 class="poppins bottommargin_10">
 												<a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
 											</h4>
+										</div>
 								<p class="price"> 
 									<ins>
 										₹<span class="amount">{{i.rproduct_price}}</span>
@@ -84,10 +106,8 @@
 									</div>	
 								</li>
 									</form>
-							{% endfor %}	
-						</div>
-							
-							<!-- eof .columns-* -->
+							</div> -->
+							<!-- {% endfor %}	 -->			
 {% endif %}
 							<div class="row">
 								<div class="col-sm-12 text-center">
@@ -117,5 +137,5 @@
 
 					</div>
 				</div>
-			</section>
+			</section> -->
 {% endblock %}

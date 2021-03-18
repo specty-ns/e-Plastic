@@ -38,6 +38,9 @@ def AdminLogin(request):
     return render(request,"ep/admin/login.html")
 def Dashboard(request):
     return render(request,"ep/admin/aindex.html")
+def CustData(request):
+    return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
+
 
 def OTP(request):
     return render(request,"ep/otpverify.html")
