@@ -146,8 +146,8 @@ def VerifyOtp(request):
             message = "otp verified successfully"
             return render(request,"ep/admin_signin.html",{'msg2':message})
         else:
-            message = "Enter Correct OTP or Email!"
-            return render(request,"ep/otpverify.html",{'msg3':message})
+            message = "Enter Correct OTP "
+            return render(request,"ep/otpverify.html",{'email':email, 'msg3':message})
     except Exception as e:
         print("OTP Verify Exception-------------->",e)
         
@@ -900,6 +900,22 @@ def PickUpStatus(request,pk):
             pick.save()
             # PickupReject(email_subject,'mail_template',pick.cust_id.master_id.email,{'pcname':plastic_id.pc_name,'pccontact':plastic_id.pc_contact,'pickup_datetime':pick.sc_date_time,'pickup_details':pick.sc_comment})
             return HttpResponseRedirect(reverse('pickuprequests')) 
+    else:   
+        return redirect('adminin')
+
+def AddData(request):
+    if "email" in request.session and "password" in request.session:
+        user = Master.objects.get(id=request.session['id'])
+        if user.role == "PlasticCollector":
+            customer_id = Customer.objects.get(id=request.POST['c_id'])
+            plastic_id = PlasticC.objects.get(master_id=user)
+            total_collect = request.POST['totalcollect']
+            use = request.POST['usage']
+            waste = request.POST['wastage']
+            date = request.POST['date_coll']
+            newData = CustomerData.objects.create(cust_id=customer_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date)
+            message = "Data Added!"
+            return render(request,"ep/customer_data.html",{"cust":Customer.objects.all(),"msg":message})
     else:   
         return redirect('adminin')
 @csrf_exempt
