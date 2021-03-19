@@ -920,16 +920,18 @@ def AddData(request):
         return redirect('adminin')
 def CustReport(request,pk):
     if "email" in request.session and "password" in request.session:
-        report=CustomerData.objects.all().filter(cust_id=pk)
+        user= Master.objects.get(id=pk)
+        cust = Customer.objects.get(master_id=user)
+        report=CustomerData.objects.all().filter(cust_id=cust)
         totalcollection = 0
         totalusage = 0
         totalwastage = 0
         for i in report:
             totalcollection += i.total_collection
         for u in report:
-            totalusage+=i.usage
+            totalusage+=u.usage
         for w in report:
-            totalwastage+=i.wastage
+            totalwastage+=w.wastage
         return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage})
     else:   
         return redirect('signin')
