@@ -614,6 +614,7 @@
 												<a href="contact4.html">Contact 4</a>
 											</li>
 										</ul>
+										{% if request.session.Firstname %}
 										<li>
 											<a>{{request.session.Firstname}}</a>
 											<ul>
@@ -625,6 +626,19 @@
 												</li>
 											</ul>
 										</li>
+										{% else %}
+										<li>
+											<a>Account</a>
+											<ul>
+												<li>
+													<a href="{% url 'signin' %}">Signin</a>
+												</li>
+												<li>
+													<a href="{% url 'signup' %}">Signup</a>
+												</li>
+											</ul>
+										</li>
+										{% endif %}
 									</li>
 									<!-- eof contacts -->
 								</ul>

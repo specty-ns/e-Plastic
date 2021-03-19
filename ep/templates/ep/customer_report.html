@@ -1,0 +1,118 @@
+{% extends 'ep/base4.html' %}
+{% block content %}
+			<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							<h2 class="highlight">Progress Bars</h2>
+							<ol class="breadcrumb darklinks">
+								<li>
+									<a href="index.html">
+							Home
+						</a>
+								</li>
+								<li>
+									<a href="#">Shortcodes</a>
+								</li>
+								<li class="active">Progress Bars</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</section>
+{% if report %}
+			<section class="ls section_padding_100">
+				<div class="container">
+					
+					<div class="row">
+						<div class="col-sm-12">
+							<h2 class="divider_40">Progress Counter Teasers:</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-bulb"></i>
+								</div>
+								<h3 class="counter-wrap highlight" data-from="0" data-to="40" data-speed="1800">
+									<span class="counter" data-from="0" data-to="20" data-speed="1500">0</span>
+									<span class="counter-add">+</span>
+								</h3>
+								<p>Projects</p>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-trash "></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{totalcollection}}" data-speed="2100">0</h3>
+								<p>Total Collection </p><span>in KGs</span>
+							</div>
+
+						</div>
+
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-user"></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{t_usage}}" data-speed="1400">0</h3>
+								<p>Total Usage</p><span>in KGs</span>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-like"></i>
+								</div>
+								<h3 class="highlight counter-wrap">
+									<span class="counter" data-from="0" data-to="{{t_waste}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Wastage</p><span>in KGs</span>
+							</div>
+
+						</div>
+					</div>
+                    <div class="row">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Name</th>
+                                    <th>Plastic Collector Name</th>
+                                    <th>Total Collection</th>
+                                    <th>Usage</th>
+                                    <th>Wastage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in report %}
+                                <tr>
+                                
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.cust_id.fname}} {{i.cust_id.lname}}</td>
+                                    <td>{{i.plastic_id.pc_name}}</td>
+                                    <td>{{i.total_collection}} KGs</td>
+                                    <td>{{i.usage}} KGs</td>
+                                    <td>{{i.wastage}} KGs</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+				</div>
+			</section>
+{% endif %}
+{% endblock %}

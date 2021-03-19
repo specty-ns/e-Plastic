@@ -66,5 +66,6 @@ urlpatterns = [
     path("pickuprequests/",views.ShowPickUp,name="pickuprequests"),
     path("pickupstatus/<int:pk>",views.PickUpStatus,name="pickupstatus"),
     path("data",views.CustData,name="custdata"),
-    path("adddata/",views.AddData,name="adddata")
+    path("adddata/",views.AddData,name="adddata"),
+    path("CustomerReports/<int:pk>",views.CustReport,name="custreport")
 ]
