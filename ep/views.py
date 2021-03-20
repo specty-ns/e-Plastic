@@ -9,13 +9,27 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def IndexPage(request):
-    return render(request,"ep/index.html")
+    report_i=CustomerData.objects.all()
+    totalcollection_i = 0
+    totalusage_i = 0
+    totalwastage_i = 0
+    count_i =0
+    for s in enumerate(report_i): 
+        count_i=count_i+1
+    for e in report_i:
+        totalcollection_i += e.total_collection
+    for x in report_i:
+        totalusage_i+=x.usage
+    for y in report_i:
+        totalwastage_i+=y.wastage
+    return render(request,"ep/index.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
     return render(request,"ep/company_index.html")
 def CollectorIndexPage(request):
     return render(request,"ep/plasticCollector_index.html")
 def Index2Page(request):
     return render(request,"ep/index-2.html")
+
 def CustomerSignUp(request):
     return render(request,"ep/customer_signup.html")
 def CustomerSignIn(request):
@@ -170,7 +184,23 @@ def LoginUser(request):
                     request.session['Gender'] = cust.gender
                     request.session['State'] = cust.state
                     request.session['id'] = user.id
-                    return render(request,"ep/index-2.html")
+                    user= Master.objects.get(id=request.session['id'])
+                    cust = Customer.objects.get(master_id=user)
+                    report_s=CustomerData.objects.all().filter(cust_id=cust)
+                    totalcollection_s = 0
+                    totalusage_s = 0
+                    totalwastage_s = 0
+                    count_s =0
+                    for b in enumerate(report_s): 
+                        count_s=count_s+1
+                        print(count_s)
+                    for s in report_s:
+                        totalcollection_s += s.total_collection
+                    for d in report_s:
+                        totalusage_s+=d.usage
+                    for k in report_s:
+                        totalwastage_s+=k.wastage
+                    return render(request,"ep/index-2.html",{"report_s":report_s,"totalcollection_s":totalcollection_s,"count_s":count_s,"t_usage_s":totalusage_s,"t_waste_s":totalwastage_s})
                 else:
                     message = "User Email or Password Doesnot match"
                     return render(request,"ep/customer_signin.html",{'msg':message})

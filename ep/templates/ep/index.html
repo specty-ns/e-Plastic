@@ -164,7 +164,63 @@
 							<img src="{% static 'images/signature.png' %}" alt="" />
 						</div>
 					</div>
-					<div class="row topmargin_40 columns_margin_top_60">
+{% if report_i %}
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-stack" style="color:green;"></i>
+								</div>
+								<h3 class="counter-wrap highlight" data-from="0" data-to="40" data-speed="1800">
+									<span class="counter" data-from="0" data-to="{{count_i}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Reports</p>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-layers" style="color:green;"></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{totalcollection_i}}" data-speed="2100">0</h3>
+								<p>Total Collection </p><span>in KGs</span>
+							</div>
+
+						</div>
+
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="fa fa-recycle " style="color:green;"></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{t_usage_i}}" data-speed="1400">0</h3>
+								<p>Total Usage</p><span>in KGs</span>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-trashcan" style="color:red;"></i>
+								</div>
+								<h3 class="highlight counter-wrap">
+									<span class="counter" data-from="0" data-to="{{t_waste_i}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Wastage</p><span>in KGs</span>
+							</div>
+
+						</div>
+					</div>
+{% endif %}
+					<!-- <div class="row topmargin_40 columns_margin_top_60">
 						<div class="col-md-4">
 							<div class="teaser with_border rounded text-center">
 								<div class="teaser_icon main_bg_color2 round size_small offset_icon">
@@ -205,7 +261,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</section>
 
 			<section id="services" class="ls ms section_padding_100">

@@ -279,9 +279,78 @@
 					</div>
 				</div>
 			</section>
-
+{% if report_s %}
 			<section id="services" class="ls ms section_padding_100">
 				<div class="container">
+					
+					<div class="row">
+						<div class="col-sm-12">
+							<h1 class="divider_40">Plastic &nbsp; Selling &nbsp; Reports&nbsp; :</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-stack" style="color:green;"></i>
+								</div>
+								<h3 class="counter-wrap highlight" data-from="0" data-to="40" data-speed="1800">
+									<span class="counter" data-from="0" data-to="{{count_s}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Reports</p>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-layers" style="color:green;"></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{totalcollection_s}}" data-speed="2100">0</h3>
+								<p>Total Collection </p><span>in KGs</span>
+							</div>
+
+						</div>
+
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="fa fa-recycle " style="color:green;"></i>
+								</div>
+								<h3 class="counter highlight" data-from="0" data-to="{{t_usage_s}}" data-speed="1400">0</h3>
+								<p>Total Usage</p><span>in KGs</span>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6">
+
+							<div class="teaser text-center">
+								<div class="teaser_icon grey size_big">
+									<i class="rt-icon2-trashcan" style="color:red;"></i>
+								</div>
+								<h3 class="highlight counter-wrap">
+									<span class="counter" data-from="0" data-to="{{t_waste_s}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Wastage</p><span>in KGs</span>
+							</div>
+
+						</div>
+						
+					</div>
+					<div class="row topmargin_30">
+						<div class="col-sm-12 text-center">
+							<a href="{% url 'custreport' pk=request.session.id %}" class="theme_button wide_button color1">All Reports</a>
+						</div>
+					</div>
+{% endif %}
+
+				<!-- <div class="container">
 					<div class="row">
 						<div class="col-sm-12 text-center">
 							<h2 class="section_header with_icon">
@@ -345,7 +414,7 @@
 							<a href="services.html" class="theme_button wide_button color1">All services</a>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</section>
 
 			<section class="ls overflow_hidden half_section section_padding_top_100 section_padding_bottom_150 columns_padding_80">
