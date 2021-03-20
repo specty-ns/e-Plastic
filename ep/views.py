@@ -918,6 +918,7 @@ def AddData(request):
             return render(request,"ep/customer_data.html",{"cust":Customer.objects.all(),"msg":message})
     else:   
         return redirect('adminin')
+
 def CustReport(request,pk):
     if "email" in request.session and "password" in request.session:
         user= Master.objects.get(id=pk)
@@ -926,13 +927,17 @@ def CustReport(request,pk):
         totalcollection = 0
         totalusage = 0
         totalwastage = 0
+        count =0
+        for c in enumerate(report): 
+            count=count+1
+            print(count)
         for i in report:
             totalcollection += i.total_collection
         for u in report:
             totalusage+=u.usage
         for w in report:
             totalwastage+=w.wastage
-        return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage})
+        return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"count":count,"t_usage":totalusage,"t_waste":totalwastage})
     else:   
         return redirect('signin')
 @csrf_exempt

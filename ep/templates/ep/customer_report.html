@@ -7,14 +7,12 @@
 							<h2 class="highlight">Progress Bars</h2>
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="index.html">
+									<a href="{% url 'index2' %}">
 							Home
 						</a>
 								</li>
-								<li>
-									<a href="#">Shortcodes</a>
-								</li>
-								<li class="active">Progress Bars</li>
+								
+								<li class="active">Reports</li>
 							</ol>
 						</div>
 					</div>
@@ -26,7 +24,7 @@
 					
 					<div class="row">
 						<div class="col-sm-12">
-							<h2 class="divider_40">Progress Counter Teasers:</h2>
+							<h1 class="divider_40">Plastic &nbsp; Selling &nbsp; Reports&nbsp; :</h1>
 						</div>
 					</div>
 					<div class="row">
@@ -34,13 +32,12 @@
 
 							<div class="teaser text-center">
 								<div class="teaser_icon grey size_big">
-									<i class="rt-icon2-bulb"></i>
+									<i class="rt-icon2-stack" style="color:green;"></i>
 								</div>
 								<h3 class="counter-wrap highlight" data-from="0" data-to="40" data-speed="1800">
-									<span class="counter" data-from="0" data-to="20" data-speed="1500">0</span>
-									<span class="counter-add">+</span>
+									<span class="counter" data-from="0" data-to="{{count}}" data-speed="1500">0</span>
 								</h3>
-								<p>Projects</p>
+								<p>Total Reports</p>
 							</div>
 
 						</div>
@@ -49,7 +46,7 @@
 
 							<div class="teaser text-center">
 								<div class="teaser_icon grey size_big">
-									<i class="rt-icon2-trash "></i>
+									<i class="rt-icon2-layers" style="color:green;"></i>
 								</div>
 								<h3 class="counter highlight" data-from="0" data-to="{{totalcollection}}" data-speed="2100">0</h3>
 								<p>Total Collection </p><span>in KGs</span>
@@ -62,7 +59,7 @@
 
 							<div class="teaser text-center">
 								<div class="teaser_icon grey size_big">
-									<i class="rt-icon2-user"></i>
+									<i class="fa fa-recycle " style="color:green;"></i>
 								</div>
 								<h3 class="counter highlight" data-from="0" data-to="{{t_usage}}" data-speed="1400">0</h3>
 								<p>Total Usage</p><span>in KGs</span>
@@ -74,7 +71,7 @@
 
 							<div class="teaser text-center">
 								<div class="teaser_icon grey size_big">
-									<i class="rt-icon2-like"></i>
+									<i class="rt-icon2-trashcan" style="color:red;"></i>
 								</div>
 								<h3 class="highlight counter-wrap">
 									<span class="counter" data-from="0" data-to="{{t_waste}}" data-speed="1500">0</span>
@@ -84,9 +81,11 @@
 
 						</div>
 					</div>
+				
                     <div class="row">
-                        <table class="table table-striped">
-                            <thead>
+                        
+						<table class="table_template darklinks" id="timetable">
+							<thead>
                                 <tr>
                                     <th>Sr. No.</th>
                                     <th>Name</th>
@@ -109,7 +108,7 @@
                                 </tr>
                                 {% endfor %}
                             </tbody>
-                        </table>
+						</table>
                     </div>
 
 				</div>
