@@ -54,6 +54,8 @@ def Dashboard(request):
     return render(request,"ep/admin/aindex.html")
 def CustData(request):
     return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
+def RCData(request):
+    return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all()})
 
 
 def OTP(request):
@@ -946,28 +948,60 @@ def AddData(request):
             newData = CustomerData.objects.create(cust_id=customer_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date)
             message = "Data Added!"
             return render(request,"ep/customer_data.html",{"cust":Customer.objects.all(),"msg":message})
+            
+        if user.role == "RecyclingCompany":
+            recycling_id = Company.objects.get(master_id=user)
+            plastic_id = PlasticC.objects.get(id=request.POST['rc_id'])
+            total_collect = request.POST['totalcollect']
+            use = request.POST['usage']
+            waste = request.POST['wastage']
+            date = request.POST['date_coll']
+            types = request.POST['types']
+            newData = RecyclingData.objects.create(rc_id=recycling_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date,types=types)
+            message = "Data Added!"
+            return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),"msg":message})
+
     else:   
         return redirect('adminin')
 
 def CustReport(request,pk):
     if "email" in request.session and "password" in request.session:
         user= Master.objects.get(id=pk)
-        cust = Customer.objects.get(master_id=user)
-        report=CustomerData.objects.all().filter(cust_id=cust)
-        totalcollection = 0
-        totalusage = 0
-        totalwastage = 0
-        count =0
-        for c in enumerate(report): 
-            count=count+1
-            print(count)
-        for i in report:
-            totalcollection += i.total_collection
-        for u in report:
-            totalusage+=u.usage
-        for w in report:
-            totalwastage+=w.wastage
-        return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"count":count,"t_usage":totalusage,"t_waste":totalwastage})
+        if user.role == "PlasticCollector":
+            cust = Customer.objects.get(master_id=user)
+            report=CustomerData.objects.all().filter(cust_id=cust)
+            totalcollection = 0
+            totalusage = 0
+            totalwastage = 0
+            count =0
+            for c in enumerate(report): 
+                count=count+1
+                print(count)
+            for i in report:
+                totalcollection += i.total_collection
+            for u in report:
+                totalusage+=u.usage
+            for w in report:
+                totalwastage+=w.wastage
+            return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"count":count,"t_usage":totalusage,"t_waste":totalwastage})
+
+        elif user.role == "RecyclingCompany":
+            report=RecyclingData.objects.all().filter(rc_id=cust)
+            totalcollection_r = 0
+            totalusage_r = 0
+            totalwastage_r = 0
+            count_r =0
+            for c in enumerate(report_r): 
+                count_r=count_r+1
+                print(count_r)
+            for i in report_r:
+                totalcollection_r += i.total_collection
+            for u in report_r:
+                totalusage_r+=u.usage
+            for w in report_r:
+                totalwastage_r+=w.wastage
+            return render(request,"ep/customer_report.html",{"report_r":report_r,"totalcollection_r":totalcollection_r,"count_r":count_r,"t_usage_r":totalusage_r,"t_waste_r":totalwastage_r})
+
     else:   
         return redirect('signin')
 @csrf_exempt

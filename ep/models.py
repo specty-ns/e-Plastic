@@ -130,3 +130,12 @@ class CustomerData(models.Model):
     wastage = models.FloatField()
     usage = models.FloatField()
     collection_date = models.DateField()
+
+class RecyclingData(models.Model):
+    rc_id = models.ForeignKey(Company,on_delete=models.CASCADE)
+    plastic_id = models.ForeignKey(PlasticC,on_delete=models.CASCADE)
+    total_collection = models.FloatField()
+    wastage = models.FloatField()
+    usage = models.FloatField()
+    collection_date = models.DateField()
+    types = models.CharField(max_length=100)

@@ -68,4 +68,5 @@ urlpatterns = [
     path("data",views.CustData,name="custdata"),
     path("adddata/",views.AddData,name="adddata"),
     path("CustomerReports/<int:pk>",views.CustReport,name="custreport"),
+    path("rcdata",views.RCData,name="rcdata"),
 ]
