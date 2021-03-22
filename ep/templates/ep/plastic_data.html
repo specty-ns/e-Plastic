@@ -1,0 +1,113 @@
+{% extends 'ep/base5.html' %}
+{% block content %}
+<section class="ls with_bottom_border">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <ol class="breadcrumb darklinks">
+                    <li>
+                        <a href="{% url 'collectorindex' pk=request.session.id %}">Dashboard</a>
+                    </li>
+                    <li class="active">Reports</li>
+                </ol>
+            </div>
+            <!-- .col-* -->
+            <div class="col-md-6 text-md-right">
+                <span class="dashboard-daterangepicker">
+                    <i class="fa fa-calendar"></i>
+                    <span></span>
+                    <i class="caret"></i>
+                </span>
+            </div>
+            <!-- .col-* -->
+        </div>
+        <!-- .row -->
+    </div>
+    <!-- .container -->
+</section>
+{% if report_r %}
+			<section class="ls section_padding_100">
+				<div class="container">
+					
+					<div class="row">
+						<div class="col-sm-12">
+							<h1 class="divider_40">Plastic &nbsp; Selling &nbsp; Reports&nbsp; :</h1>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="col-lg-3 col-sm-6">
+
+							<div class="teaser warning_bg_color counter-background-teaser text-center">
+								<span class="counter counter-background" data-from="0" data-to="{{count_r}}" data-speed="2100">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{count_r}}" data-speed="2100">0</h3>
+								<p>Total Reports</p>
+							</div>
+
+						</div>
+
+						<div class="col-lg-3 col-sm-6">
+
+							<div class="teaser danger_bg_color counter-background-teaser text-center">
+								<span class="counter counter-background" data-from="0" data-to="{{totalcollection_r}}" data-speed="1500">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{totalcollection_r}}" data-speed="1500">0</h3>
+								<p>Total Collection</p>
+							</div>
+
+						</div>
+
+						<div class="col-lg-3 col-sm-6">
+
+							<div class="teaser success_bg_color counter-background-teaser text-center">
+								<span class="counter counter-background" data-from="0" data-to="{{t_usage_r}}" data-speed="1900">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{t_usage_r}}" data-speed="1900">0</h3>
+								<p>Total Usage</p>
+							</div>
+
+						</div>
+
+						<div class="col-lg-3 col-sm-6">
+
+							<div class="teaser info_bg_color counter-background-teaser text-center">
+								<span class="counter counter-background" data-from="0" data-to="{{t_waste_r}}" data-speed="1800">0</span>
+								<h3 class="counter-wrap highlight" data-from="0" data-to="{{t_waste_r}}" data-speed="1800">
+									<span class="counter" data-from="0" data-to="{{t_waste_r}}" data-speed="1500">0</span>
+								</h3>
+								<p>Total Wastage</p>
+							</div>
+
+						</div>
+					</div>
+				
+                    <div class="row">
+                        
+						<table  class="table table-striped">
+							<thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Name</th>
+                                    <th>Plastic Collector Name</th>
+                                    <th>Total Collection</th>
+                                    <th>Usage</th>
+                                    <th>Wastage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in report_r %}
+                                <tr>
+                                
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.rc_id.comp_name}}</td>
+                                    <td>{{i.plastic_id.pc_name}}</td>
+                                    <td>{{i.total_collection}} KGs</td>
+                                    <td>{{i.usage}} KGs</td>
+                                    <td>{{i.wastage}} KGs</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+						</table>
+                    </div>
+
+				</div>
+			</section>
+{% endif %}
+{% endblock %}

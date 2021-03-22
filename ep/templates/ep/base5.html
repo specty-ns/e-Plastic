@@ -129,7 +129,7 @@
 				<div class="side_header_logo ds ms">
 					<a href="">
 						<span class="logo_text playfair margin_0">
-							<a href="{% url 'collectorindex' %}">E-Plastic</a>
+							<a href="{% url 'collectorindex' pk=request.session.id %}">E-Plastic</a>
 						</span>
 					</a>
 				</div>
@@ -150,7 +150,8 @@
 											<div class="media-body media-middle">
 												<h4>{{request.session.Pcname}}</h4>
 												<small>Plastic Collector</small>	
-												<a href="{% url 'custdata' %}">Data</a>									
+												<a href="{% url 'custdata' %}">Data</a>	
+												<a href="{% url 'report' pk=request.session.id %}">Report</a>									
 											</div>
 										</div>
 									</a>

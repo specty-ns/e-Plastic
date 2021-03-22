@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path("",views.IndexPage,name="index"),
     path("companyindex/",views.CompanyIndexPage,name="companyindex"),
-    path("collectorindex/",views.CollectorIndexPage,name="collectorindex"),
+    path("collectorindex/<int:pk>",views.CollectorIndexPage,name="collectorindex"),
     path("index2/",views.Index2Page,name="index2"),
     path("signup/",views.CustomerSignUp,name="signup"),
     path("adminsp/",views.AdminSignUp,name="adminsp"),
@@ -67,6 +67,6 @@ urlpatterns = [
     path("pickupstatus/<int:pk>",views.PickUpStatus,name="pickupstatus"),
     path("data",views.CustData,name="custdata"),
     path("adddata/",views.AddData,name="adddata"),
-    path("CustomerReports/<int:pk>",views.CustReport,name="custreport"),
+    path("Reports/<int:pk>",views.Report,name="report"),
     path("rcdata",views.RCData,name="rcdata"),
 ]
