@@ -97,11 +97,6 @@ class AddToCart(models.Model):
     cart_quantity=models.BigIntegerField(default=1)
     cart_date=models.DateTimeField()
     cart_subtotal=models.BigIntegerField(default=0)
-
-class Order(models.Model):
-    customer_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
-    order_total=models.BigIntegerField(default=0)
-    payment_status = models.CharField(max_length=20,default="")
     
 class Transaction(models.Model):
     made_by = models.ForeignKey(Master, related_name='transactions',on_delete=models.CASCADE)
@@ -139,3 +134,11 @@ class RecyclingData(models.Model):
     usage = models.FloatField()
     collection_date = models.DateField()
     types = models.CharField(max_length=100)
+
+class Order(models.Model):
+    customer_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
+    product_id = models.ForeignKey(RecycleProduct,on_delete=models.CASCADE)
+    order_qty = models.BigIntegerField()
+    transaction_id = models.ForeignKey(Transaction,on_delete=models.CASCADE)
+    payment_status = models.CharField(max_length=20,default="")
+    is_placed = models.DateTimeField(auto_now_add=True)

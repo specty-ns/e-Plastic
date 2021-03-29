@@ -168,9 +168,12 @@
 													<li>
 														<a href="shop-product-right.html">Single Product</a>
 													</li>
+													{% if request.session.id %}
+
 													<li>
 														<a href="{% url 'showthecart' pk=request.session.id %}">Shopping Cart</a>
 													</li>
+													{% endif %}
 													<li>
 														<a href="shop-checkout-right.html">Checkout</a>
 													</li>
@@ -614,7 +617,7 @@
 												<a href="contact4.html">Contact 4</a>
 											</li>
 										</ul>
-										{% if request.session.Firstname %}
+										{% if request.session.id %}
 										<li>
 											<a>{{request.session.Firstname}}</a>
 											<ul>
@@ -622,7 +625,7 @@
 													<a href="{% url 'profiledata' pk=request.session.id %}">My Profile</a>
 												</li>
 												<li>
-													<a href="{% url 'signin' %}">Log Out</a>
+													<a href="{% url 'logout' %}">Log Out</a>
 												</li>
 											</ul>
 										</li>

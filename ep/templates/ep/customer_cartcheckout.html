@@ -230,13 +230,14 @@
 									{% csrf_token %}
 									{% for j in key22 %}
 									<input type="hidden" name="cid" value="{{j.cust_id.id}}">
+									<input type="number" name="cartid" value="{{j.id}}">
+									<input type="hidden" name="proid" value="{{j.rp_id.id}}">
+									<input type="hidden" name="cqty" value="{{j.cart_quantity}}">
+
 									{% endfor %}
 									<input type="hidden" name="total" value="{{total}}">
 									<button class="theme_button color1">checkout</button>
-								</form>
-
-
-					
+								</form>					
 							</div>
 
 						</aside>
