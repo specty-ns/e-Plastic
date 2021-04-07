@@ -7,6 +7,7 @@ var $window = jQuery(window);
 
 //hidding menu elements that do not fit in menu width
 //processing center logo
+
 function menuHideExtraElements() {
 	
 	//cleaneng changed elements

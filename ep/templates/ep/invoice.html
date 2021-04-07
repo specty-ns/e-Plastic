@@ -44,64 +44,70 @@
   </header>
   
   <!-- Main Content -->
+  {% if invoice %}
+
   <main>
   <div class="row">
-    <div class="col-sm-6"><strong>Date:</strong> 05/12/2020</div>
-    <div class="col-sm-6 text-sm-right"> <strong>Invoice No:</strong> 16835</div>
+    <div class="col-sm-6"><strong>Date and Time:</strong> {{invoice.order_date}}</div>
+    <div class="col-sm-6 text-sm-right"> <strong>Invoice No:</strong> {{invoice.id}}</div>
 	  
   </div>
   <hr>
+  
   <div class="row">
+    <div class="col-sm-6 text-sm-right order-sm-1"> <strong>Pay To:</strong>
+      <address>
+      {{invoice.company_id.comp_name}},<br />
+      {{invoice.company_id.comp_address}},<br />
+      {{invoice.company_id.comp_city}}, {{invoice.company_id.comp_state}}, {{invoice.company_id.comp_postalcode}} <br />
+      {{invoice.company_id.master_id.email}} <br>
+      +91 {{invoice.company_id.comp_contact}}
+      </address>
+    </div>
     <div class="col-sm-6 order-sm-0"> <strong>Invoiced To:</strong>
       <address>
-      Smith Rhodes<br />
-      15 Hodges Mews, High Wycombe<br />
-      HP12 3JL<br />
-      United Kingdom
+      {{invoice.cust_id.fname}} {{invoice.cust_id.lname}},<br />
+      {{invoice.cust_id.address}},<br />
+      {{invoice.cust_id.city}}, {{invoice.cust_id.state}}, {{invoice.cust_id.postalcode}}<br />
+      {{invoice.cust_id.master_id.email}} <br>
+      +91 {{invoice.cust_id.contact}}
       
       </address>
     </div>
   </div>
-
-	STATUS: {{ STATUS }}
   <div class="card">
     <div class="card-body p-0">
       <div class="table-responsive">
-        {% if order %}
 
         <table class="table mb-0">
 		<thead class="card-header">
           <tr>
-            <td class="col-3 border-0"><strong>Product</strong></td>
-            <td class="col-4 border-0"><strong></strong></td>
-            <td class="col-2 text-center border-0"><strong>Rate</strong></td>
-			<td class="col-1 text-center border-0"><strong>Quantity</strong></td>
-            <td class="col-2 text-right border-0"><strong>Amount</strong></td>
+            <td class="col-3 border"><strong>Product</strong></td>
+            <td class="col-2 text-center border"><strong>Rate</strong></td>
+			<td class="col-1 text-center border"><strong>Quantity</strong></td>
+            <td class="col-2 text-right border"><strong>Amount</strong></td>
           </tr>
         </thead>
           <tbody>
-            {% for i in order %}
             <tr>
-              <td class="col-3 border-0">{{i.rp_id.rproduct_name}}</td>
-              <td class="col-4 text-1 border-0"></td>
-              <td class="col-2 text-center border-0">{{i.rp_id.rproduct_price}}</td>
-			  <td class="col-1 text-center border-0">{{i.cart_quantity}}</td>
-			  <td class="col-2 text-right border-0">{{i.cart_subtotal}}</td>
+              <td class="col-3 border">{{invoice.rp_id.rproduct_name}}</td>
+              <td class="col-2 text-center border">{{invoice.rp_id.rproduct_price}}</td>
+			  <td class="col-1 text-center border">{{invoice.cart_quantity}}</td>
+			  <td class="col-2 text-right border">{{invoice.cart_subtotal}}</td>
             </tr>
-            {% endfor %}
           </tbody>
           <tfoot class="card-footer">
           <tr>
-            <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
-            <td><i class="fa fa-inr"></i>2150.00</td>
+            <td colspan="3" class="text-right"><strong>Sub Total:</strong></td>
+            <td><i class="fa fa-inr"></i>{{invoice.cart_subtotal}}</td>
           </tr>
           <tr>
-            <td colspan="4" class="text-right"><strong>Shipping:</strong></td>
+            <td colspan="3" class="text-right"><strong>Shipping:</strong></td>
             <td><i class="fa fa-inr"></i>00.00</td>
           </tr>
           <tr>
-            <td colspan="4" class="text-right"><strong>Total:</strong></td>
-            <td><i class="fa fa-inr"></i>2150.00</td>
+            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+            <td><i class="fa fa-inr"></i>{{invoice.cart_subtotal}}</td>
           </tr>
 		  </tfoot>
         </table>

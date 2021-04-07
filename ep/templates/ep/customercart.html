@@ -41,6 +41,9 @@
 									</thead>
 									<tbody>
 										{% for i in key20 %}
+										{% if i.payment_status == 'pending' %}
+										
+									
 										<tr class="cart_item">
 											<td class="product-info">
 												<div class="media">
@@ -92,6 +95,7 @@
 											</td>
 										</form>
 										</tr>
+										{% endif %}										
 										{% endfor %}
 									</tbody>
 								</table>

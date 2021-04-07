@@ -69,5 +69,8 @@ urlpatterns = [
     path("adddata/",views.AddData,name="adddata"),
     path("Reports/<int:pk>",views.Report,name="report"),
     path("rcdata",views.RCData,name="rcdata"),
-    path("invoice/",views.invoice,name="invoice"),
+    path("invoice/<int:pk>",views.invoice,name="invoice"),
+    path("Customer_Orders/",views.OrderDetails,name="custorder"),
+    path("OrderDetails/<int:pk>",views.OrderInfo,name="odetails"),
+    path("OrderSaved/<int:pk>",views.SaveOrder,name="save")
 ]

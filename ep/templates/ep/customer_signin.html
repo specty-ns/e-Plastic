@@ -148,6 +148,11 @@
 								<strong><p style="color: red;">{{msg}}</p></strong>
 
 								{% endif %}
+								{% if msg3 %}
+								
+								<strong><p style="color: red;">{{msg3}}</p></strong>
+
+								{% endif %}
 								<form action="{% url 'login' %}" method="post">
 									{% csrf_token %}
 									<input type="hidden" name="role" id="" value="customer">

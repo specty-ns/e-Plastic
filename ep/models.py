@@ -89,14 +89,6 @@ class PlasticRequest(models.Model):
     request_date = models.DateTimeField()
     request_quantity = models.BigIntegerField(default=0)
     status = models.CharField(max_length=20,default="pending")
-
-class AddToCart(models.Model):
-    rp_id=models.ForeignKey(RecycleProduct,on_delete=models.CASCADE)
-    cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
-    cart_price=models.BigIntegerField(default=0)
-    cart_quantity=models.BigIntegerField(default=1)
-    cart_date=models.DateTimeField()
-    cart_subtotal=models.BigIntegerField(default=0)
     
 class Transaction(models.Model):
     made_by = models.ForeignKey(Master, related_name='transactions',on_delete=models.CASCADE)
@@ -134,6 +126,20 @@ class RecyclingData(models.Model):
     usage = models.FloatField()
     collection_date = models.DateField()
     types = models.CharField(max_length=100)
+
+class AddToCart(models.Model):
+    rp_id=models.ForeignKey(RecycleProduct,on_delete=models.CASCADE)
+    cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
+    cart_price=models.BigIntegerField(default=0)
+    cart_quantity=models.BigIntegerField(default=1)
+    cart_date=models.DateTimeField()
+    cart_subtotal=models.BigIntegerField(default=0)
+    order_date = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=50,default="pending")
+    order_status = models.CharField(max_length=50)
+    transaction_id = models.ForeignKey(Transaction,on_delete=models.CASCADE,null=True)
+    company_id = models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
+    order_comment = models.CharField(max_length=200,default="")
 
 class Order(models.Model):
     customer_id=models.ForeignKey(Customer,on_delete=models.CASCADE)

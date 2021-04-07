@@ -87,9 +87,9 @@ def CustData(request):
     return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
 def RCData(request):
     return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all()})
-def invoice(request):
-    mas = Master.objects.get(id=request.session['id'])
-    return render(request,"ep/invoice.html",{"order":AddToCart.objects.all().filter(cust_id=Customer.objects.get(master_id  =mas))})
+def invoice(request,pk):
+    invoice = AddToCart.objects.get(id=pk)
+    return render(request,"ep/invoice.html",{"invoice":invoice})
 
 def OTP(request):
     return render(request,"ep/otpverify.html")
@@ -118,6 +118,8 @@ def Register(request):
                     email_subject = "Customer Verification"
                     sendmail(email_subject,'mail_template',email,{'name':fname,'otp':otp})
                     mail = email
+                    request.session['email']=newMaster.email
+
                     return render(request,"ep/otpverify.html",{'email':mail})
                 else:
                     message= "Password doesn't match!"
@@ -145,6 +147,8 @@ def Register(request):
                     email_subject = "Recycling Company Verification"
                     sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
                     mail = email
+                    request.session['email']=newMaster.email
+
                     return render(request,"ep/otpverify.html",{'email':mail})
                     
                 else:
@@ -171,6 +175,8 @@ def Register(request):
                     email_subject = "Plastic Collector Verification"
                     sendmail(email_subject,'mail_template',email,{'name':name,'otp':otp})
                     mail = email
+                    request.session['email']=newMaster.email
+
                     return render(request,"ep/otpverify.html",{'email':mail})    
                 else:
                     message= "Password doesn't match!"
@@ -181,7 +187,7 @@ def Register(request):
 def VerifyOtp(request):
     print("------------1--------------")
     try:
-        email=request.POST['email']
+        email=request.session['email']
         eotp=int(request.POST['eotp'])
         print("Eotp--------------->",eotp)
         user = Master.objects.get(email=email)
@@ -206,7 +212,6 @@ def LoginUser(request):
             email = request.POST['email']
             password= request.POST['password']
             user = Master.objects.get(email=email)
-            print("user------------------------->",user)
             if user:
                 if user.password==password and user.role=="customer":
                     cust = Customer.objects.get(master_id=user)
@@ -221,13 +226,17 @@ def LoginUser(request):
                     request.session['id'] = user.id
                     return HttpResponseRedirect(reverse('index2'))      
                 else:
-                    message = "User Email or Password Doesnot match"
+                    message = "Password Doesn't match!"
                     return render(request,"ep/customer_signin.html",{'msg':message})
             else:
                 message = "User Email or Password Doesnot match"
-                return render(request,"ep/customer_signin.html",{'msg':message})
-
-        elif request.POST['role']=="RecyclingCompany":
+                return render(request,"ep/customer_signin.html",{'msg3':message})
+    except Exception as cust:
+            message = "Email doesn't match"
+            print("CustLogin---------------------->",cust)
+            return render(request,"ep/customer_signin.html",{'msg3':message})
+    try:
+        if request.POST['role']=="RecyclingCompany":
             email = request.POST['email']
             password= request.POST['password']
             user = Master.objects.get(email=email)
@@ -253,10 +262,14 @@ def LoginUser(request):
                     request.session['Oemail']=comp.owner_email
                     return render(request,"ep/company_index.html")
                 else:
-                    message= "Role or Email or Password doesn't match!"
+                    message= "Role or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
-
-        elif request.POST['role']=="PlasticCollector":
+    except Exception as rc:
+            message = "Email doesn't match"
+            print("RcLogin---------------------->",rc)
+            return render(request,"ep/admin_signin.html",{'msg9':message})
+    try:
+        if request.POST['role']=="PlasticCollector":
             email = request.POST['email']
             password= request.POST['password']
             user = Master.objects.get(email=email)
@@ -284,10 +297,13 @@ def LoginUser(request):
                     url = f'/collectorindex/{pc}'
                     return redirect(url)  
                 else:
-                    message= "Role or Email or Password doesn't match!"
+                    message= "Role or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
-    except Exception as e2:
-        print("LoginException---------------------->",e2)
+    except Exception as pc:
+            message = "Email doesn't match"
+            print("Pccccc---------------------->",pc)
+            return render(request,"ep/admin_signin.html",{'msg5':message})
+
                 
 def CustomerProfileData(request,pk):
     if "email" in request.session and "password" in request.session:
@@ -733,10 +749,10 @@ def UpdateRProduct(request,pk):
             print("Image Product--------->",i)
     else:
         return redirect('adminin')
-def ShowPro(request):
+def ShowPro(request,pk):
     if "email" in request.session and "password" in request.session:
 
-        pro_id = RecycleProduct.objects.all()
+        pro_id = RecycleProduct.objects.get(id=pk)
         return render(request,"ep/shop-product-right.html",{'key17':pro_id})
     else:
         return redirect('adminin')
@@ -792,13 +808,15 @@ def AddCart(request):
                 atc = Customer.objects.get(master_id=atcdata)
                 print("Cust--------------->",atc)
                 pro_id = request.POST['pid']
-                rp = RecycleProduct.objects.get(id=pro_id)
+                rp = RecycleProduct.objects.get(id =pro_id)
                 print("Recycle--------------->",rp)
                 atc_price = int(request.POST['atcprice'])
                 atc_qty = int(request.POST['product_quantity'])
                 atc_subtotal = int(atc_price * atc_qty)
-                atc_date = datetime.date.today()
-                newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal)
+                atc_date = datetime.datetime.now()
+                comp = rp.company_id.id
+                comp_id = Company.objects.get(id=comp)
+                newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal,company_id=comp_id)
                 rp.rproduct_quantity-=atc_qty
                 rp.save()
                 ppp = request.session['id']
@@ -817,7 +835,7 @@ def ShowCart(request,pk):
             total = 0
             if cdata.role=="customer":
                 cust = Customer.objects.get(master_id=cdata)
-                show = AddToCart.objects.all().filter(cust_id=cust)
+                show = AddToCart.objects.all().filter(cust_id=cust,payment_status="pending")
                 for t in show:
                     total += t.cart_subtotal
                 print("Totallll",total)
@@ -901,7 +919,7 @@ def CartCheckout(request,pk):
         total = 0
         if udata.role == "customer":
             cdata = Customer.objects.get(master_id=udata)
-            cartdata = AddToCart.objects.all().filter(cust_id=cdata)
+            cartdata = AddToCart.objects.all().filter(cust_id=cdata,payment_status="pending")
             for t in cartdata:
                     total += t.cart_subtotal
             return render(request,"ep/customer_cartcheckout.html",{"key22":cartdata,"total":total,"key23":cdata})
@@ -952,6 +970,42 @@ def PickUpStatus(request,pk):
     else:   
         return redirect('adminin')
 
+def OrderDetails(request):
+    if "email" in request.session and "password" in request.session:
+        user = Master.objects.get(id=request.session['id'])
+        if user.role == "RecyclingCompany":
+            rc = Company.objects.get(master_id=user)
+            for rp in RecycleProduct.objects.all().filter(company_id=rc):
+                rc = rp.company_id
+            order = AddToCart.objects.all().filter(company_id=rc)
+            return render(request,"ep/company_order-received.html",{"order":order})
+
+        if user.role == "customer":
+            cust = Customer.objects.get(master_id=user)
+            order = AddToCart.objects.all().filter(cust_id=cust)
+            return render(request,"ep/customer_orders.html",{"order":order})
+    else:   
+            return redirect('adminin')
+def OrderInfo(request,pk):
+    if "email" in request.session and "password" in request.session:
+        odetails = AddToCart.objects.get(id=pk)
+        cust = int(odetails.cust_id.id)
+        data = AddToCart.objects.all().filter(cust_id=cust)
+        count=0
+        for c in (data): 
+            if c.payment_status=='TXN_SUCCESS':
+                count=count+1
+        return render(request,"ep/company_order-details.html",{"odetails":odetails,'count':count})
+    else:   
+            return redirect('adminin')
+def SaveOrder(request,pk):
+    if "email" in request.session and "password" in request.session:
+        data = AddToCart.objects.get(id=pk)
+        data.order_status = request.POST['ostatus']
+        data.save()
+        return HttpResponseRedirect(reverse('custorder')) 
+    else:   
+            return redirect('adminin')
 def AddData(request):
     if "email" in request.session and "password" in request.session:
         user = Master.objects.get(id=request.session['id'])
@@ -1028,7 +1082,8 @@ def callback(request):
         received_data = dict(request.POST)
         paytm_params = {}
         paytm_checksum = received_data['CHECKSUMHASH'][0]
-       
+          
+
         for key, value in received_data.items():
             if key == 'CHECKSUMHASH':
                 paytm_checksum = value[0]
@@ -1038,12 +1093,20 @@ def callback(request):
         is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
         if is_valid_checksum:
             received_data['message'] = "Checksum Matched"
-            
-            print('SSSSSSSSSSSSSSSSSSSSSSS2: ', paytm_params['STATUS'])#TXN_SUCCESS
+            print(paytm_params['ORDERID'])
+            # user = Master.objects.get(id=paytm_params['ORDERID'])
+            # cust = Customer.objects.get(master_id=user)
+            for i in AddToCart.objects.all().filter(transaction_id=paytm_params['ORDERID']):
+                i.payment_status = paytm_params['STATUS'] 
+                if paytm_params['STATUS'] == "TXN_SUCCESS":
+                    i.order_status = "Order Placed"
+                else:
+                    i.order_status = "Failed"
+                i.save()    
         else:
             received_data['message'] = "Checksum Mismatched"
             
-            print('SSSSSSSSSSSSSSSSSSSSSSS3: ', paytm_params['RESPMSG'])
+            print("Payment3",paytm_params['STATUS'])
 
             return render(request, 'ep/callback.html', context=received_data)
         return render(request, 'ep/callback.html', context=received_data)
@@ -1060,22 +1123,28 @@ def initiate_payment(request):
             return render(request, 'ep/customer_cartcheckout.html')
         
         transaction = Transaction.objects.create(made_by=cdata, amount=amount)
-        
+    
         transaction.save()  
         cid = request.POST['cid']
         print(cid)
+        print("TEREEEEEEEEE",transaction.id)
+
         cust_id  =Customer.objects.get(id=cid)
         pro_id = RecycleProduct.objects.get(id=request.POST['proid'])
         qty =request.POST['cqty'] 
-        print("ffffffffffffffff",qty)
-        order = Order.objects.create(customer_id=cust_id,product_id=pro_id,order_qty=qty,is_placed=datetime.datetime.today(), transaction_id=transaction)
-        order.save()
+        cmt =request.POST.get('instructions')
+        print("ddddddd",cmt)
+        print("ffffffffffffffff",qty) 
+        for i in AddToCart.objects.all().filter(cust_id=cust_id,payment_status="pending"):
+            i.transaction_id = transaction
+            i.order_comment = cmt   
+            i.save()    
         merchant_key = settings.PAYTM_SECRET_KEY
 
         params = (
             ('MID', settings.PAYTM_MERCHANT_ID),
-            ('ORDER_ID', str(transaction.order_id)),
-            ('CUST_ID', str(transaction.made_by.email)),
+            ('ORDER_ID', str(transaction.id)),
+            ('CUST_ID', request.POST['cid']),
             ('TXN_AMOUNT', str(transaction.amount)),
             ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
             ('WEBSITE', settings.PAYTM_WEBSITE),

@@ -3,7 +3,7 @@
         <title>Merchant Check Out Page</title>
     </head>
     <body>
-        <h1>Please do not refresh this page...</h1>
+        <h1>Please do not refresh this page...                    {{request.session.id}}        </h1>
         <form method="post" action="https://securegw-stage.paytm.in/order/process/" name="f1">
             {% csrf_token %}
             <table>

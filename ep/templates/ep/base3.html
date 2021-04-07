@@ -625,6 +625,12 @@
 													<a href="{% url 'profiledata' pk=request.session.id %}">My Profile</a>
 												</li>
 												<li>
+													<a href="{% url 'invoice' %}">Invoices</a>
+												</li>
+												<li>
+													<a href="{% url 'report' pk=request.session.id %}">Reports</a>
+												</li>
+												<li>
 													<a href="{% url 'logout' %}">Log Out</a>
 												</li>
 											</ul>
