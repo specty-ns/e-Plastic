@@ -1113,7 +1113,6 @@ def callback(request):
 def initiate_payment(request):
     udata = Master.objects.get(id=request.session['id'])
     if udata.role == "customer":
-
         try:
             cdata = Master.objects.get(email=request.session['email'])
             amount = int(request.POST['total'])

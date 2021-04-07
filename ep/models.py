@@ -79,7 +79,7 @@ class RecycleProduct(models.Model):
     rproduct_date = models.DateTimeField()
     rproduct_price = models.BigIntegerField(default=0)
     rproduct_image = models.ImageField(upload_to="rproductimg/")
-    rproduct_quantity = models.BigIntegerField(default=0)
+    rproduct_quantity = models.PositiveIntegerField()
     rproduct_desc = models.CharField(max_length=500)
 
 class PlasticRequest(models.Model):

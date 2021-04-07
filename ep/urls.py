@@ -72,5 +72,5 @@ urlpatterns = [
     path("invoice/<int:pk>",views.invoice,name="invoice"),
     path("Customer_Orders/",views.OrderDetails,name="custorder"),
     path("OrderDetails/<int:pk>",views.OrderInfo,name="odetails"),
-    path("OrderSaved/<int:pk>",views.SaveOrder,name="save")
+    path("OrderSaved/<int:pk>",views.SaveOrder,name="save"),
 ]
