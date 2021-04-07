@@ -576,6 +576,8 @@ def RPButton(request,pk):
                 sendreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
                 showreq(email_subject,'mail_template',pc_email,{'rcname':rcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
                 message= "Request Sent Successfully"
+                pro_id.pproduct_quantity-=pc_qty
+                pro_id.save()
                 return HttpResponseRedirect(reverse('rpallpro'),{'msg':message})
         except Exception as e11:
             print("Req Button ----------------------------->",e11)
@@ -638,6 +640,8 @@ def RejectProduct(request,pk):
             email_subject = "Plastic Request Rejected"
             rejectreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':reqqty,'productname':pproductname,'requestdate':reqdate})
             all_preq.status = request.POST['rejectreq']
+            all_preq.pproduct_id.pproduct_quantity+=reqqty
+            all_preq.pproduct_id.save()
             all_preq.save()
             return HttpResponseRedirect(reverse('showpreq'))
         except Exception as rr:
@@ -678,12 +682,16 @@ def AddRProduct(request,pk):
                 rc = Company.objects.get(master_id=udata)
                 rpro_name = request.POST['rpname']  
                 rpro_date = request.POST['rpdate']
-                rpro_price = request.POST['rpprice']
+                rpro_price = int(request.POST['rpprice'])
                 rpro_image = request.FILES['rpimage']
-                rpro_quantity = request.POST['rpqty']
-                newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_date=rpro_date,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
-                message= "Product Added Successfully"
-                return render(request,"ep/addrproduct.html",{'msg':message})   
+                rpro_quantity = int(request.POST['rpqty'])
+                if rpro_quantity<=0 or rpro_price<=0 :
+                    message= "Invalid quantity or price"
+                    return render(request,"ep/addrproduct.html",{'qty':message})
+                else:
+                    newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_date=rpro_date,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
+                    message= "Product Added Successfully"
+                    return render(request,"ep/addrproduct.html",{'msg':message})   
         except Exception as asp:
             print("------------>Add R Product",asp)
     else:
