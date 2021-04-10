@@ -6,6 +6,7 @@ from django.conf import settings
 from .paytm import generate_checksum, verify_checksum
 from .utils import *
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 # Create your views here.
 def IndexPage(request):
@@ -704,7 +705,17 @@ def GetAllRProduct(request,pk):
         if udata.role=="RecyclingCompany":
             pc = Company.objects.get(master_id=udata)
             allpproduct= RecycleProduct.objects.all().filter(company_id=pc)
-            return render(request,"ep/allrproducts.html",{'key14':allpproduct})
+            p = Paginator(allpproduct,5)
+            page_num = request.GET.get('page',1)
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page = p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            num =p.num_pages
+            print(p.count)
+            return render(request,"ep/allrproducts.html",{'key14':page,'count':p})
     else:
         return redirect('adminin')
 

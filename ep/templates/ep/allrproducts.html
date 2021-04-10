@@ -159,26 +159,39 @@
 							<div class="row">
 								<div class="col-md-6">
 									<ul class="pagination highlightlinks">
-										<li class="disabled">
-											<a href="#">
+										<li class="text-md-left">
+											{% if key14.has_previous %}
+											<a href="{% url 'allrproducts' pk=request.session.id %}?page={{key14.previous_page_number}}">
 												<span class="sr-only">Prev</span>
 												<i class="fa fa-angle-left" aria-hidden="true"></i>
 											</a>
+											{% endif %}
 										</li>
-										<li class="active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
+										
+										<!-- {% for p in num %}
+										<li><a href="#">{{p.num_pages}}</a></li>
+										{% endfor %} -->
+										{% for c in count.page_range %}
+											{% if key14.number == c %}
+												<li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>
+											{% else %}
+												<li><a href="?page={{ c }}">{{ c }}</a></li>
+											{% endif %}
+										{% endfor %}
+										{% if key14.has_next %}
 										<li>
-											<a href="#">
+											<a href="{% url 'allrproducts' pk=request.session.id %}?page={{key14.next_page_number}}">
 												<span class="sr-only">Next</span>
 												<i class="fa fa-angle-right" aria-hidden="true"></i>
 											</a>
-										</li>
+										</li>	
+										{% endif %}
+										
 									</ul>
+									
 								</div>
 								<div class="col-md-6 text-md-right">
-									Showing 1 to 6 of 12 items
+									Showing {{key14.start_index}} to {{key14.end_index}} of {{count.count}} items
 								</div>
 							</div>
 						</div>
