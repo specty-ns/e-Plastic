@@ -18,7 +18,8 @@
 					</div>
 				</div>
 			</section>
-{% if report %}
+
+{% load ep_extras %}
 			<section class="ls section_padding_100">
 				<div class="container">
 					
@@ -35,7 +36,7 @@
 									<i class="rt-icon2-stack" style="color:green;"></i>
 								</div>
 								<h3 class="counter-wrap highlight" data-from="0" data-to="40" data-speed="1800">
-									<span class="counter" data-from="0" data-to="{{count}}" data-speed="1500">0</span>
+									<span class="counter" data-from="0" data-to="{{total.count}}" data-speed="1500">0</span>
 								</h3>
 								<p>Total Reports</p>
 							</div>
@@ -78,17 +79,31 @@
 								</h3>
 								<p>Total Wastage</p><span>in KGs</span>
 							</div>
-
+							
 						</div>
+						<form action="{% my_url report.number 'page' request.GET.urlencode %}" class="form-inline filters-form" method="GET">
+							&nbsp;&nbsp;&nbsp;
+							<select onchange="form.submit();" name="pc_name" style="height: fit-content;">
+								<option value="All">All</option>
+								{% for pc in plast %}
+								<option value="{{pc.id}}">{{pc.pc_name}}</option>
+								
+								{% endfor %}
+							</select>
+							<!-- {{reportFilter.form}} -->
+							<br><br>	
+							<!-- <button class="theme_button color2"  style="padding: 10px 20px;">Search</button> -->
+						</form>
+						
 					</div>
-				
+					
                     <div class="row">
                         
 						<table class="table_template darklinks" id="timetable">
 							<thead>
                                 <tr>
                                     <th>Sr. No.</th>
-                                    <th>Name</th>
+									<th>Date of Collection</th>
                                     <th>Plastic Collector Name</th>
                                     <th>Total Collection</th>
                                     <th>Usage</th>
@@ -96,22 +111,89 @@
                                 </tr>
                             </thead>
                             <tbody>
+								{% if report %}
                                 {% for i in report %}
                                 <tr>
                                 
-                                    <td>{{forloop.counter}}</td>
-                                    <td>{{i.cust_id.fname}} {{i.cust_id.lname}}</td>
+                                    <td>{{report.start_index|add:forloop.counter0 }}</td>
+									<td>{{i.collection_date|date:"Y-m-d"}}</td>
                                     <td>{{i.plastic_id.pc_name}}</td>
                                     <td>{{i.total_collection}} KGs</td>
                                     <td>{{i.usage}} KGs</td>
                                     <td>{{i.wastage}} KGs</td>
                                 </tr>
                                 {% endfor %}
+								{% else %}
+								<tr>
+									<td colspan="6">No Records</td>
+								</tr>
+								{% endif %}
+
                             </tbody>
 						</table>
                     </div>
-
+					<div class="row">
+						<div class="col-md-6">
+							
+							<ul class="pagination highlightlinks">
+							
+								{% if report.has_previous %}
+								<li>
+									<a href="{% my_url 1 'page' request.GET.urlencode %}">
+										<span>First</span>
+									</a>
+								</li>
+								<li class="text-md-left">
+									
+									<a href="{% my_url report.previous_page_number 'page' request.GET.urlencode %}">
+										<span class="sr-only">Prev</span>
+										<i class="fa fa-angle-left" aria-hidden="true"></i>
+									</a>
+									{% endif %}
+								</li>
+								
+								<!-- {% for p in num %}
+								<li><a href="#">{{p.num_pages}}</a></li>
+								{% endfor %} -->
+								{% for c in total.page_range %}
+									{% if report.number == c %}
+										<li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>
+									{% elif c > report.number|add:'-3' and c < report.number|add:'3' %}
+										<li><a href="{% my_url c 'page' request.GET.urlencode %}" >{{ c }}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if report.has_next %}
+								<li>
+									<a href="{% my_url report.next_page_number 'page' request.GET.urlencode %}">
+										<span class="sr-only">Next</span>
+										<i class="fa fa-angle-right" aria-hidden="true"></i>
+									</a>
+								</li>	
+								<li>
+									<a href="{% my_url total.num_pages 'page' request.GET.urlencode %}">
+										<span>Last</span>
+									</a>
+								</li>
+								{% endif %}
+								
+							</ul>
+							
+						</div>
+						<div class="col-md-6 text-md-right">
+							Showing {{report.start_index}} to {{report.end_index}} of {{total.count}} items
+						</div>
+					</div>
+				
 				</div>
 			</section>
-{% endif %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+	$(document).ready(function() {
+		var selected_option = $('.orderby').find('option[value={{filter}}]');
+		selected_option.attr('selected','selected').siblings().removeAttr('selected')
+	})
+</script>
 {% endblock %}

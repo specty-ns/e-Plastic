@@ -209,4 +209,15 @@ class Migration(migrations.Migration):
                 ('transaction_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='ep.transaction')),
             ],
         ),
+        migrations.AddField(
+            model_name='addtocart',
+            name='order_comment',
+            field=models.CharField(default='', max_length=200),
+        ),
+        migrations.AlterField(
+            model_name='recycleproduct',
+            name='rproduct_quantity',
+            field=models.PositiveIntegerField(),
+        )
     ]
+

@@ -7,6 +7,7 @@ from .paytm import generate_checksum, verify_checksum
 from .utils import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from .filters import *
 
 # Create your views here.
 def IndexPage(request):
@@ -1001,8 +1002,20 @@ def OrderDetails(request):
 
         if user.role == "customer":
             cust = Customer.objects.get(master_id=user)
-            order = AddToCart.objects.all().filter(cust_id=cust)
-            return render(request,"ep/customer_orders.html",{"order":order})
+            order = AddToCart.objects.all().filter(cust_id=cust).exclude(payment_status="pending")
+            search = request.GET.get('search')
+            if search !='' and search is not None:
+                order= order.filter(rp_id__rproduct_name__icontains= search) | order.filter(order_status__icontains=search) | order.filter(order_date__icontains=search)
+            p = Paginator(order,1)
+            page_num = request.GET.get('page')
+            try:
+                cust_orders = p.page(page_num)
+            except PageNotAnInteger:
+                cust_orders = p.page(1)
+            except EmptyPage:
+                cust_orders = p.page(p.num_pages)
+            print("PPHAAAAAAAAAAAAA0",p.num_pages)
+            return render(request,"ep/customer_orders.html",{"order":cust_orders,"page":p})
     else:   
             return redirect('adminin')
 def OrderInfo(request,pk):
@@ -1058,22 +1071,35 @@ def Report(request,pk):
     if "email" in request.session and "password" in request.session:
         user= Master.objects.get(id=pk)
         if user.role == "customer":
+            # rFilter = ReportFilter(request.GET,queryset=report)
+            # report = rFilter.qs {"reportFilter":rFilter,}
             cust = Customer.objects.get(master_id=user)
             report=CustomerData.objects.all().filter(cust_id=cust)
+            pc_name = request.GET.get('pc_name')
+            plast = PlasticC.objects.all()
+            if pc_name != '' and pc_name is not None and pc_name.isdigit() == True :
+                report = report.filter(plastic_id=pc_name)
+
+            p = Paginator(report,5)
+            page_num = request.GET.get('page')
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page = p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            num =p.num_pages
             totalcollection = 0
             totalusage = 0
             totalwastage = 0
-            count =0
-            for c in enumerate(report): 
-                count=count+1
-                print(count)
             for i in report:
                 totalcollection += i.total_collection
             for u in report:
                 totalusage+=u.usage
             for w in report:
                 totalwastage+=w.wastage
-            return render(request,"ep/customer_report.html",{"report":report,"totalcollection":totalcollection,"count":count,"t_usage":totalusage,"t_waste":totalwastage})
+            
+            return render(request,"ep/customer_report.html",{"plast":plast,"report":page,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage,'total':p})
 
         if user.role == "PlasticCollector":
             plast = PlasticC.objects.get(master_id=user)

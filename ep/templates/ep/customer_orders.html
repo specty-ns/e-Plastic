@@ -13,7 +13,7 @@
             </a>
                     </li>
                     
-                    <li class="active">Reports</li>
+                    <li class="active">Orders</li>
                 </ol>
             </div>
         </div>
@@ -24,14 +24,28 @@
                     <div class="container-fluid">
                         <h3>Orders</h3>
                        
-                        
+    {% load ep_extras %}                    
     {% if order %}
 
                             <div class="card mb-4">
-                                
+                                <div class="text-lg-right"></div>
+                                    <div class="widget widget_search">
+
+                                        <form method="GET" action="{% my_url order.number 'page' request.GET.urlencode %}">
+                                            <!-- <div class="form-group-wrap"> -->
+                                            <div class="form-group">
+                                                <label class="sr-only" for="widget-search">Search for:</label>
+                                                <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
+                                            </div>
+                                            <button type="submit" class="theme_button color1">Search</button>
+                                            <!-- </div> -->
+                                        </form>
+                                    </div>
+
+                                </div>
                                 <div class="card-body" >
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable"   width="100%" cellspacing="0">
+                                        <table class="table_template darklinks" id="timetable"   width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Sr. No.</th>
@@ -46,75 +60,83 @@
                                             
                                             <tbody>
                                                 {% for i in order %}
-                                                {% if i.payment_status != 'pending' %}
+                                                
                                                 <tr>
-                                                    <td>{{forloop.counter}}</td>
-                                                    <td><a href="{% url 'profiledata' pk=request.session.id %}">{{i.cust_id.fname}} {{i.cust_id.lname}}</a>   </td>
+                                                    <td>{{order.start_index|add:forloop.counter0 }}</td>
+                                                    <td><a href="{% url 'profiledata' pk=request.session.id %}">{{i.cust_id.fname}} {{i.cust_id.lname}}</a>
                                                     <td><a href="{% url 'prodesc' pk=i.rp_id.id %}" style="color:#54be73;">
                                                         {{i.rp_id.rproduct_name}}
                                                     </a></td>
-                                                    <td>{{i.order_date}}</td>
+                                                    <td>{{i.order_date|date:"Y-m-d"}}</td>
                                                     <td>{{i.order_status}}</td>
-                                                    <td>{{i.transaction_id}}</td>                    
+                                                    <td>{{i.transaction_id.id}}</td>                    
                                                     <td>
                                                         {% if i.payment_status == 'TXN_SUCCESS' %}
                                                         <a href="{% url 'invoice' pk=i.id %}" class="theme_button color1">Invoices</a>  
                                                         {% endif %}                                 
                                                     </td>
                                                 </tr>
-                                                {% endif %}
                                                 {% endfor %}
                                                 
 
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            
+                                            <ul class="pagination highlightlinks">
+                                            
+                                                {% if order.has_previous %}
+                                                <li>
+                                                    <a href="{% my_url 1 'page' request.GET.urlencode %}">
+                                                        <span>First</span>
+                                                    </a>
+                                                </li>
+                                                <li class="text-md-left">
+                                                    
+                                                    <a href="{% my_url order.previous_page_number 'page' request.GET.urlencode %}">
+                                                        <span class="sr-only">Prev</span>
+                                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                                    </a>
+                                                    {% endif %}
+                                                </li>
+                                                
+                                                <!-- {% for p in num %}
+                                                <li><a href="#">{{p.num_pages}}</a></li>
+                                                {% endfor %} -->
+                                                {% for c in page.page_range %}
+                                                    {% if order.number == c %}
+                                                        <li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>
+                                                    {% elif c > order.number|add:'-3' and c < order.number|add:'3' %}
+                                                        <li><a href="{% my_url c 'page' request.GET.urlencode %}" >{{ c }}</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if order.has_next %}
+                                                <li>
+                                                    <a href="{% my_url order.next_page_number 'page' request.GET.urlencode %}">
+                                                        <span class="sr-only">Next</span>
+                                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                    </a>
+                                                </li>	
+                                                <li>
+                                                    <a href="{% my_url page.num_pages 'page' request.GET.urlencode %}">
+                                                        <span>Last</span>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="col-md-6 text-md-right">
+                                            Showing {{order.start_index}} to {{order.end_index}} of {{page.count}} items
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                     </div>
                 </main>   
-            </div>
-{% else %}
-            <div class="card mb-4">
-                                            
-                <div class="card-body" >
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable"   width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Sr. No.</th>
-                                    <th>Customer Name</th>
-                                    <th>Order</th>
-                                    <th>Order Date</th>
-                                    <th>Order Status</th>
-                                    <th>Transcation ID</th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody>
-                                {% for i in order %}
-                                {% if i.payment_status != 'pending' %}
-                                <tr>
-                                    <td>{{forloop.counter}}</td>
-                                    <td>{{i.cust_id.fname}} {{i.cust_id.lname}}<br>&lt;{{i.cust_id.master_id.email}}&gt;</td>
-                                    <td><a href="{% url 'prodesc' pk=i.rp_id.id %}" style="color:#54be73;">
-                                        {{i.rp_id.rproduct_name}}
-                                    </a></td>
-                                    <td>{{i.order_date}}</td>
-                                    <td>{{i.order_status}}</td>
-                                    <td>{{i.transaction_id}}</td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %}
-                                
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            </div>
-            </main>   
             </div>
 {% endif %}
 {% endblock %}

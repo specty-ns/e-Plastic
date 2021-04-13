@@ -45,9 +45,7 @@ class Company(models.Model):
     owner_gender = models.CharField(max_length=50)
     owner_contact = models.CharField(max_length=50)
     owner_email = models.EmailField(max_length=50)
-    
-
-   
+       
 class PlasticC(models.Model):
     master_id=models.ForeignKey(Master,on_delete=models.CASCADE)
     pc_name = models.CharField(max_length=50)
@@ -117,7 +115,9 @@ class CustomerData(models.Model):
     wastage = models.FloatField()
     usage = models.FloatField()
     collection_date = models.DateField()
-
+    def __str__(self):
+        return self.plastic_id.pc_name
+        
 class RecyclingData(models.Model):
     rc_id = models.ForeignKey(Company,on_delete=models.CASCADE)
     plastic_id = models.ForeignKey(PlasticC,on_delete=models.CASCADE)
