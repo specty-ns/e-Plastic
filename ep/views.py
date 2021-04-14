@@ -458,12 +458,11 @@ def AddPProduct(request,pk):
             if udata.role=="PlasticCollector":
                 pc = PlasticC.objects.get(master_id=udata)
                 pro_name = request.POST['pname']
-                pro_date = request.POST['pdate']
                 pro_price = request.POST['pprice']
                 pro_image = request.FILES['pimage']
                 pro_quantity = request.POST['pqty']
 
-                newProduct=PlasticProduct.objects.create(plasticc_id=pc,pproduct_name=pro_name,pproduct_date=pro_date,pproduct_price=pro_price,pproduct_image=pro_image,pproduct_quantity=pro_quantity)
+                newProduct=PlasticProduct.objects.create(plasticc_id=pc,pproduct_name=pro_name,pproduct_price=pro_price,pproduct_image=pro_image,pproduct_quantity=pro_quantity)
                 message= "Product Added Successfully"
                 return render(request,"ep/addpproduct.html",{'msg':message})
         except Exception as ae:
@@ -477,7 +476,18 @@ def GetAllPProduct(request,pk):
         if udata.role=="PlasticCollector":
             pc = PlasticC.objects.get(master_id=udata)
             allpproduct= PlasticProduct.objects.all().filter(plasticc_id=pc)
-            return render(request,"ep/allpproducts.html",{'key9':allpproduct})
+            search = request.GET.get('search')
+            if search !='' and search is not None:
+                allpproduct=allpproduct.filter(pproduct_name__icontains=search) | allpproduct.filter(pproduct_date__icontains=search)
+            p = Paginator(allpproduct,5)
+            page_num = request.GET.get('page')
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page= p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            return render(request,"ep/allpproducts.html",{'key9':page,"page":p})
     else:
         return redirect('adminin')
 
@@ -498,7 +508,6 @@ def UpdateProduct(request,pk):
         try:
             pro = PlasticProduct.objects.get(pk=pk)
             pro.pproduct_name = request.POST['pname']
-            pro.pproduct_date = request.POST['pdate']
             pro.pproduct_price = request.POST['pprice']
             pro.pproduct_image = request.FILES['pimage']
             pro.pproduct_quantity = request.POST['pqty']
@@ -523,12 +532,47 @@ def DeleteProduct(request,pk):
             print("------------>delete error",ok)
     else:
         return redirect('adminin')
+def RPAllStatus(request):
 
+    if "email" in request.session and "password" in request.session:
+        all_show = PlasticRequest.objects.all()
+        search = request.GET.get('search')
+        if search !='' and search is not None:
+            all_show= all_show.filter(pproduct_id__pproduct_name__icontains= search) 
+        status = request.GET.get('status')
+        if status !='' and status is not None:
+            all_show= all_show.filter(status=status)
+        p = Paginator(all_show,5)
+        page_num = request.GET.get('page',1)
+        try:
+            page = p.page(page_num)
+        except PageNotAnInteger:
+            page = p.page(1)
+        except EmptyPage:
+            page = p.page(p.num_pages)
+        num =p.num_pages
+        print(p.count)
+        return render(request,"ep/rp_allprostatus.html",{'status':page,'count':p})
+    else:
+        return redirect('adminin')
 def RPAllProduct(request):
     if "email" in request.session and "password" in request.session:
 
         all_pro = PlasticProduct.objects.all() 
-        return render(request,"ep/rp_allproducts.html",{'key11':all_pro})
+        search = request.GET.get('search')
+        if search !='' and search is not None:
+            all_pro= all_pro.filter(pproduct_name__icontains= search) | all_pro.filter(plasticc_id__pc_name__icontains=search) | all_pro.filter(pproduct_date__icontains=search)
+        p = Paginator(all_pro,5)
+        page_num = request.GET.get('page',1)
+        try:
+            page = p.page(page_num)
+        except PageNotAnInteger:
+            page = p.page(1)
+        except EmptyPage:
+            page = p.page(p.num_pages)
+        num =p.num_pages
+        print(p.count)
+        return render(request,"ep/rp_allproducts.html",{'key11':page,'count':p})
     else:
         return redirect('adminin')
 def RPButtonClick(request,pk):
@@ -578,7 +622,7 @@ def RPButton(request,pk):
                 sendreq(email_subject,'mail_template',email,{'pcname':pcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
                 showreq(email_subject,'mail_template',pc_email,{'rcname':rcname,'requestqty':pc_qty,'productname':plasticname,'requestdate':pc_date})
                 message= "Request Sent Successfully"
-                pro_id.pproduct_quantity-=pc_qty
+                pro_id.pproduct_quantity-=int(pc_qty)
                 pro_id.save()
                 return HttpResponseRedirect(reverse('rpallpro'),{'msg':message})
         except Exception as e11:
@@ -592,9 +636,21 @@ def ShowPReq(request):
             if udata.role=="PlasticCollector":
                 pc = PlasticC.objects.get(master_id=udata)
                 allpproduct = PlasticRequest.objects.all().filter(plasticc_id=pc)
-                for i in allpproduct:
-                    print("Status ------------>",i.status, len(allpproduct))
-            return render(request,"ep/showplasticreq.html",{'key13':allpproduct})
+                status = request.GET.get('status')
+                search = request.GET.get('search')
+                if status !='' and status is not None:
+                    allpproduct =allpproduct.filter(status=status)
+                if search !='' and search is not None:
+                    allpproduct = allpproduct.filter(comp_id__comp_name__icontains=search) | allpproduct.filter(id__icontains=search) |allpproduct.filter(pproduct_id__id__icontains=search) | allpproduct.filter(request_date__icontains=search)
+                p = Paginator(allpproduct,5)
+                page_num = request.GET.get('page')
+                try:
+                    page = p.page(page_num)
+                except PageNotAnInteger:
+                    page= p.page(1)
+                except EmptyPage:
+                    page = p.page(p.num_pages)
+            return render(request,"ep/showplasticreq.html",{'key13':page,'page':p})
         except Exception as s:
             print("Show ----------------------------->",s)
             return render(request,"ep/showplasticreq.html")
@@ -650,32 +706,7 @@ def RejectProduct(request,pk):
             print("------------>delete error",rr)
     else:
         return redirect('adminin')
-def SortPlasticRequest(request):
-    if "email" in request.session and "password" in request.session:
-        udata = Master.objects.get(id=request.session['id'])
-        if udata.role == "PlasticCollector":
-            if request.POST['status'] == "All":
-                pc = PlasticC.objects.get(master_id=udata)
-                filtered_data = PlasticRequest.objects.all().filter(plasticc_id=pc)
-                return render(request, "ep/showplasticreq.html", {"key24": filtered_data,"filter":request.POST['status']})
-            else:
-                pc = PlasticC.objects.get(master_id=udata)
-                filtered_data = PlasticRequest.objects.filter(plasticc_id=pc,status=request.POST['status'])
-                return render(request, "ep/showplasticreq.html", {"key24": filtered_data,"filter":request.POST['status']})
-        if udata.role == "RecyclingCompany":
-            if request.POST['status'] == "SendRequest":
-                all_pro = PlasticProduct.objects.all() 
-                return render(request,"ep/rp_allproducts.html",{'key11':all_pro,"filter":request.POST['status']})
-            if request.POST['status'] == "All":
-                comp = Company.objects.get(master_id=udata)
-                data = PlasticRequest.objects.all().filter(comp_id=comp)
-                return render(request, "ep/rp_allproducts.html", {"key25": data,"filter":request.POST['status']})
-            else:
-                comp = Company.objects.get(master_id=udata)
-                data = PlasticRequest.objects.filter(comp_id=comp,status=request.POST['status'])
-                return render(request, "ep/rp_allproducts.html", {"key25":data,"filter":request.POST['status']})
-    else:
-        return redirect('adminin')
+
 def AddRProduct(request,pk):
     if "email" in request.session and "password" in request.session:
         try:
@@ -683,7 +714,6 @@ def AddRProduct(request,pk):
             if udata.role=="RecyclingCompany":
                 rc = Company.objects.get(master_id=udata)
                 rpro_name = request.POST['rpname']  
-                rpro_date = request.POST['rpdate']
                 rpro_price = int(request.POST['rpprice'])
                 rpro_image = request.FILES['rpimage']
                 rpro_quantity = int(request.POST['rpqty'])
@@ -691,7 +721,7 @@ def AddRProduct(request,pk):
                     message= "Invalid quantity or price"
                     return render(request,"ep/addrproduct.html",{'qty':message})
                 else:
-                    newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_date=rpro_date,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
+                    newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
                     message= "Product Added Successfully"
                     return render(request,"ep/addrproduct.html",{'msg':message})   
         except Exception as asp:
@@ -706,6 +736,9 @@ def GetAllRProduct(request,pk):
         if udata.role=="RecyclingCompany":
             pc = Company.objects.get(master_id=udata)
             allpproduct= RecycleProduct.objects.all().filter(company_id=pc)
+            search = request.GET.get('search')
+            if search !='' and search is not None:
+                allpproduct= allpproduct.filter(rproduct_name__icontains= search)
             p = Paginator(allpproduct,5)
             page_num = request.GET.get('page',1)
             try:
@@ -720,10 +753,30 @@ def GetAllRProduct(request,pk):
     else:
         return redirect('adminin')
 
+
 def ShopProduct(request):
     try:
         all_preq = RecycleProduct.objects.all() 
-        return render(request,"ep/shop-right.html",{'key15':all_preq})
+        search = request.GET.get('search')
+        sort = request.GET.get('sort')
+        if sort !="" and sort is not None:
+            if sort=="lth":
+                print("FFFFFFFFFFFFFFFFFFEEEEEEEEEEEEEEEE")
+                all_preq = all_preq.order_by('rproduct_price')
+            elif sort =="htl":
+                all_preq = all_preq.order_by('-rproduct_price')
+        if search !='' and search is not None:
+            all_preq = all_preq.filter(rproduct_name__icontains=search)
+        p = Paginator(all_preq,5)
+        page_num = request.GET.get('page',1)
+        try:
+            page = p.page(page_num)
+        except PageNotAnInteger:
+            page = p.page(1)
+        except EmptyPage:
+            page = p.page(p.num_pages)
+        return render(request,"ep/shop-right.html",{'key15':page,'page':p})
+    
     except Exception as saa:
         print("Show ----------------------------->",saa)
     
@@ -831,12 +884,12 @@ def AddCart(request):
                 rp = RecycleProduct.objects.get(id =pro_id)
                 print("Recycle--------------->",rp)
                 atc_price = int(request.POST['atcprice'])
+                
                 atc_qty = int(request.POST['product_quantity'])
                 atc_subtotal = int(atc_price * atc_qty)
-                atc_date = datetime.datetime.now()
                 comp = rp.company_id.id
                 comp_id = Company.objects.get(id=comp)
-                newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_date=atc_date,cart_quantity=atc_qty,cart_subtotal=atc_subtotal,company_id=comp_id)
+                newAddCart=AddToCart.objects.create(rp_id=rp,cust_id=atc,cart_price=atc_price,cart_quantity=atc_qty,cart_subtotal=atc_subtotal,company_id=comp_id)
                 rp.rproduct_quantity-=atc_qty
                 rp.save()
                 ppp = request.session['id']
@@ -960,7 +1013,7 @@ def Schedule(request):
 
             email_subject = "Plastic Pickup Request Sent"
             PickupSent(email_subject,'mail_template',email,{'fullname':cname,'contact':cnumber,'pickup_datetime':pickupschedule.sc_date_time,'pickup_details':scomment})
-            message = "Pickup Done"
+            message = "Pickup Request Sent!"
             return render(request,"ep/index-2.html",{'msg':message})
             
     else:
@@ -968,7 +1021,21 @@ def Schedule(request):
 def ShowPickUp(request):     
     if "email" in request.session and "password" in request.session:
         pick = ScheduleOrder.objects.all()
-        return render(request,"ep/showpickupreq.html",{'pickup':pick})
+        status = request.GET.get('status')
+        search = request.GET.get('search')
+        if status !='' and status is not None:
+            pick = pick.filter(pickup_status=status)
+        if search !='' and search is not None:
+            pick = pick.filter(sc_comment__icontains=search)| pick.filter(sc_date_time__icontains=search) | pick.filter(cust_name__icontains=search) | pick.filter(cust_number__icontains=search)
+        p = Paginator(pick,5)
+        page_num = request.GET.get('page')
+        try:
+            cust_pick = p.page(page_num)
+        except PageNotAnInteger:
+            cust_pick = p.page(1)
+        except EmptyPage:
+            cust_pick = p.page(p.num_pages)
+        return render(request,"ep/showpickupreq.html",{'pickup':cust_pick,'page':p})
     else:   
         return redirect('adminin')
 def PickUpStatus(request,pk):
@@ -995,18 +1062,38 @@ def OrderDetails(request):
         user = Master.objects.get(id=request.session['id'])
         if user.role == "RecyclingCompany":
             rc = Company.objects.get(master_id=user)
+            cust = Customer.objects.all()
             for rp in RecycleProduct.objects.all().filter(company_id=rc):
                 rc = rp.company_id
-            order = AddToCart.objects.all().filter(company_id=rc)
-            return render(request,"ep/company_order-received.html",{"order":order})
-
+            order = AddToCart.objects.all().filter(company_id=rc,payment_status='TXN_SUCCESS')
+            cust_name = request.GET.get('name')
+            print("SSSSSSSSSSSSSSSSSsCC",cust_name)
+            if cust_name !='' and cust_name is not None:
+                order = order.filter(cust_id__fname__icontains=cust_name)
+            search = request.GET.get('search')
+            if search !='' and search is not None:
+               order= order.filter(rp_id__rproduct_name__icontains= search) | order.filter(cust_id__fname__icontains= search) | order.filter(cust_id__lname__icontains= search)
+            p = Paginator(order,5)
+            page_num = request.GET.get('page',1)
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page = p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            num =p.num_pages
+            print(p.count)
+            return render(request,"ep/company_order-received.html",{"order":page,'count':p,'cust':cust})
         if user.role == "customer":
             cust = Customer.objects.get(master_id=user)
             order = AddToCart.objects.all().filter(cust_id=cust).exclude(payment_status="pending")
             search = request.GET.get('search')
+            status = request.GET.get('status')
+            if status !="" and status is not None:
+                order = order.filter(order_status__icontains=status)
             if search !='' and search is not None:
                 order= order.filter(rp_id__rproduct_name__icontains= search) | order.filter(order_status__icontains=search) | order.filter(order_date__icontains=search)
-            p = Paginator(order,1)
+            p = Paginator(order,5)
             page_num = request.GET.get('page')
             try:
                 cust_orders = p.page(page_num)
@@ -1077,8 +1164,8 @@ def Report(request,pk):
             report=CustomerData.objects.all().filter(cust_id=cust)
             pc_name = request.GET.get('pc_name')
             plast = PlasticC.objects.all()
-            if pc_name != '' and pc_name is not None and pc_name.isdigit() == True :
-                report = report.filter(plastic_id=pc_name)
+            if pc_name != '' and pc_name is not None:
+                report = report.filter(plastic_id__pc_name__icontains=pc_name)
 
             p = Paginator(report,5)
             page_num = request.GET.get('page')

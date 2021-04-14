@@ -66,7 +66,7 @@ class PlasticC(models.Model):
 class PlasticProduct(models.Model):
     plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
     pproduct_name = models.CharField(max_length=100)
-    pproduct_date = models.DateTimeField()
+    pproduct_date = models.DateTimeField(auto_now_add=True)
     pproduct_price = models.BigIntegerField(default=0)
     pproduct_image = models.ImageField(upload_to="pproductimg/")
     pproduct_quantity = models.BigIntegerField(default=0)
@@ -74,7 +74,7 @@ class PlasticProduct(models.Model):
 class RecycleProduct(models.Model):
     company_id=models.ForeignKey(Company,on_delete=models.CASCADE)
     rproduct_name = models.CharField(max_length=100)
-    rproduct_date = models.DateTimeField()
+    rproduct_date = models.DateTimeField(auto_now_add=True)
     rproduct_price = models.BigIntegerField(default=0)
     rproduct_image = models.ImageField(upload_to="rproductimg/")
     rproduct_quantity = models.PositiveIntegerField()
@@ -132,7 +132,7 @@ class AddToCart(models.Model):
     cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
     cart_price=models.BigIntegerField(default=0)
     cart_quantity=models.BigIntegerField(default=1)
-    cart_date=models.DateTimeField()
+    cart_date=models.DateTimeField(auto_now_add=True)
     cart_subtotal=models.BigIntegerField(default=0)
     order_date = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=50,default="pending")

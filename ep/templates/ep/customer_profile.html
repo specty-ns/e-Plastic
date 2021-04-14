@@ -1,31 +1,24 @@
 {% extends 'ep/base4.html' %}
 {% block content %}
 
-			<section class="ls with_bottom_border">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-6">
-							<ol class="breadcrumb darklinks">
-								<li>
-									<a href="#">Dashboard</a>
-								</li>
-								<li class="active">Profile</li>
-							</ol>
-						</div>
-						<!-- .col-* -->
-						<div class="col-md-6 text-md-right">
-							<span class="dashboard-daterangepicker">
-								<i class="fa fa-calendar"></i>
-								<span></span>
-								<i class="caret"></i>
-							</span>
-						</div>
-						<!-- .col-* -->
-					</div>
-					<!-- .row -->
-				</div>
-				<!-- .container -->
-			</section>
+<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<h2 class="highlight">{{key3.fname}} {{key3.lname}}</h2>
+				<ol class="breadcrumb darklinks">
+					<li>
+						<a href="{% url 'index2' %}">
+				Home
+			</a>
+					</li>
+					
+					<li class="active">My Profile</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
 
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
@@ -98,7 +91,7 @@
 												<div class="media small-teaser">
 													<div class="media-left media-middle">
 														<div class="teaser_icon label-warning round fontsize_16">
-															<i class="fa fa-globe"></i>
+															<i class="fa fa-map-marker"></i>
 														</div>
 													</div>
 													
@@ -117,7 +110,7 @@
 												<div class="media small-teaser">
 													<div class="media-left media-middle">
 														<div class="teaser_icon label-success round fontsize_16">
-															<i class="fa fa-flag"></i>
+															<i class="fa fa-phone"></i>
 														</div>
 													</div>
 													<div class="media-body media-middle">
@@ -155,10 +148,11 @@
 														<strong class="grey">
 															Comments:
 														</strong>
-														146
+														0
 													</div>
 												</div>
 											</li>
+											
 											<li>
 												<div class="media small-teaser">
 													<div class="media-left media-middle">
@@ -170,7 +164,7 @@
 														<strong class="grey">
 															Member since:
 														</strong>
-														12/10/2014
+														{{key3.master_id.is_created}}
 													</div>
 												</div>
 											</li>
@@ -185,7 +179,7 @@
 														<strong class="grey">
 															Last activity:
 														</strong>
-														2 days ago
+														52 mins ago
 													</div>
 												</div>
 											</li>

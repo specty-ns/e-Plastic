@@ -158,7 +158,6 @@
 							</ul>
 
 						</div>
-						<a href="{% url 'rcdata' %}">Data</a>
 						<!-- main side nav start -->
 						<nav class="mainmenu_side_wrapper">
 							<h3 class="dark_bg_color">Dashboard</h3>
@@ -198,30 +197,39 @@
 												Log Out
 											</a>
 										</li>
-										<li>
-											<a href="admin_inbox.html">
-							Inbox
-						</a>
-										</li>
+										
 									</ul>
 								</li>
 								<li>
 									<a href="admin_posts.html">
 										<i class="fa fa-file-text"></i>
-										Posts
+										Data
+									</a>
+									<ul>
+										<li><a href="{% url 'rcdata' %}">
+							Add Plastic Report
+						</a>
+										</li>
+										
+
+									</ul>
+								</li>
+								<li>
+									<a href="">
+										<i class="fa fa-paper-plane"></i>
+										Requests
 									</a>
 									<ul>
 										<li>
-											<a href="admin_posts.html">
-							Posts
-						</a>
+											<a href="{% url 'rpallpro' %}">
+												Shop Plastic
+											</a>
+							
+						
 										</li>
 										<li>
-											<a href="admin_post.html">
-							Single Post
-						</a>
+											<a href="{% url 'rpallstatus' %}">Plastic Requests</a>
 										</li>
-
 									</ul>
 								</li>
 								<li>
@@ -230,13 +238,7 @@
 										Products
 									</a>
 									<ul>
-										<li>
-											<a href="{% url 'rpallpro' %}">
-												Plastic Products
-											</a>
-							
-						</a>
-										</li>
+										
 										<li>
 											<a href="{% url 'allrproducts' pk=request.session.id %}">
 												Recycled Products

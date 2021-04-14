@@ -83,13 +83,14 @@
 						</div>
 						<form action="{% my_url report.number 'page' request.GET.urlencode %}" class="form-inline filters-form" method="GET">
 							&nbsp;&nbsp;&nbsp;
-							<select onchange="form.submit();" name="pc_name" style="height: fit-content;">
-								<option value="All">All</option>
+							<input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
+							<datalist id="brow"  style="height: fit-content;">
+								<!-- <option value="" selected disabled>Select Plastic Collector</option>
+								<option value="">All</option> -->
 								{% for pc in plast %}
-								<option value="{{pc.id}}">{{pc.pc_name}}</option>
-								
+								<option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
 								{% endfor %}
-							</select>
+							</datalist>
 							<!-- {{reportFilter.form}} -->
 							<br><br>	
 							<!-- <button class="theme_button color2"  style="padding: 10px 20px;">Search</button> -->
@@ -123,6 +124,7 @@
                                     <td>{{i.wastage}} KGs</td>
                                 </tr>
                                 {% endfor %}
+								
 								{% else %}
 								<tr>
 									<td colspan="6">No Records</td>

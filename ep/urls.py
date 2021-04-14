@@ -31,6 +31,7 @@ urlpatterns = [
     path("ppupdate/<int:pk>",views.UpdateProduct,name="ppupdate"),
     path("deleteproduct/<int:pk>",views.DeleteProduct,name="deleteproduct"),
     path("rpallpro/",views.RPAllProduct,name="rpallpro"),
+    path("rpallstatus/",views.RPAllStatus,name="rpallstatus"),
     path("rpclick/<int:pk>",views.RPButtonClick,name="rpclick"),
     path("rprequest/<int:pk>",views.RPButton,name="rprequest"),
     path("showpreq/",views.ShowPReq,name="showpreq"),
@@ -61,7 +62,6 @@ urlpatterns = [
     path('otpverify/',views.VerifyOtp,name="otpverify"),
     path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
     path("logout/",views.Logout,name="logout"),
-    path("sortplasticreq/",views.SortPlasticRequest,name="sortplasticreq"),
     path("scheduleorder/pickup",views.Schedule,name="scheduleorder"),
     path("pickuprequests/",views.ShowPickUp,name="pickuprequests"),
     path("pickupstatus/<int:pk>",views.PickUpStatus,name="pickupstatus"),
@@ -73,4 +73,5 @@ urlpatterns = [
     path("Customer_Orders/",views.OrderDetails,name="custorder"),
     path("OrderDetails/<int:pk>",views.OrderInfo,name="odetails"),
     path("OrderSaved/<int:pk>",views.SaveOrder,name="save"),
+
 ]

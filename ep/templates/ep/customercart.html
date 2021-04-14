@@ -20,11 +20,12 @@
 					</div>
 				</div>
 			</section>
-{% if key20 %}
+
 			<section class="ls section_padding_top_100 section_padding_bottom_75 columns_padding_25">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-7 col-md-8 col-lg-9 col-sm-push-5 col-md-push-4 col-lg-push-3">
+						<div class="">
+							<!-- <div class="col-sm-7 col-md-8 col-lg-9 col-sm-push-5 col-md-push-4 col-lg-push-3"> -->
 							{% if msg %}
 							<strong><p style="color: red;">{{msg}}</p></strong>
 							{% endif %}
@@ -40,9 +41,8 @@
 										</tr>
 									</thead>
 									<tbody>
+										{% if key20 %}
 										{% for i in key20 %}
-										{% if i.payment_status == 'pending' %}
-										
 									
 										<tr class="cart_item">
 											<td class="product-info">
@@ -54,15 +54,19 @@
 													</div>
 													<div class="media-body">
 														<h4 class="media-heading">
-															<a href="shop-product-right.html">{{i.rp_id.rproduct_name}}</a>
+														
+															<a href="{% url 'prodesc' pk=i.id %}">{{i.rp_id.rproduct_name}}</a>
+														
 														</h4>
-														<span class="grey">Color:</span> Black
+
+														<small><span class="grey"> Recycling Company:</span> {{i.rp_id.company_id.comp_name}}</small>
 														<br>
-														<span class="grey">Size:</span> M
+														<!-- <span class="grey">Size:</span> M -->
 													</div>
 												</div>
 											</td>
 											<td class="product-price">
+												
 												<span class="currencies">₹</span>
 												<span class="amount">{{i.rp_id.rproduct_price}}</span>
 											</td>
@@ -77,8 +81,6 @@
 													<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
 												</form>
 												</div>
-											
-												
 											</td>
 											
 											<td class="product-subtotal">
@@ -91,21 +93,31 @@
 													{% csrf_token %}
 												<input type="hidden" name="rcp" value = {{i.rp_id.id}}>
 												<input type="hidden" name="product_quantity" value="{{i.cart_quantity}}">
-												<button class="theme_button"><i  class="fa fa-trash-o" ></i></button>
+												<button class="theme_button"  style="height: 5px; padding-top: 10px;"><i  class="fa fa-trash-o" ></i></button>
 											</td>
 										</form>
 										</tr>
-										{% endif %}										
+										
 										{% endfor %}
+										{% else %}
+										<tr>
+											<td colspan="5">
+												<center>Your Cart is Empty! <i class="fa fa-shopping-cart"></i></center>
+											</td>
+										</tr>
+										
+										{% endif %}										
+										
 									</tbody>
 								</table>
 							</div>
-							
+							<center>
 							<div class="cart-buttons">
-								<a class="theme_button" href="{% url 'showpro' %}">Countinue Shopping</a>		
+								<a class="theme_button color1" href="{% url 'showpro' %}">Countinue Shopping</a>		
 								
 								<a href="{% url 'checkout' pk=request.session.id %}" class="theme_button color2">Proceed to Checkout</a>
 							</div>
+						</center>
 							<div class="cart-collaterals">
 								<div class="cart_totals">
 									<h4>Cart Totals</h4>
@@ -138,7 +150,7 @@
 								</div>
 							</div>
 						
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-sm-6">
 									<div class="coupon with_padding with_background">
 										<h3 class="topmargin_0">Discount Codes</h3>
@@ -175,19 +187,19 @@
 									</div>
 								</div>
 
-							</div>
+							</div> -->
 
 						</div>
 						<!--eof .col-sm-8 (main content)-->
 
 						<!-- sidebar -->
-						<aside class="col-sm-5 col-md-4 col-lg-3 col-sm-pull-7 col-md-pull-8 col-lg-pull-9">
+						<!-- <aside class="col-sm-5 col-md-4 col-lg-3 col-sm-pull-7 col-md-pull-8 col-lg-pull-9"> -->
 
-							<div class="widget widget_price_filter">
+							<!-- <div class="widget widget_price_filter">
 
 								<h3 class="widget-title poppins">Filter by Price</h3>
-								<!-- price slider -->
-								<form method="get" action="http://webdesign-finder.com/html/gogreen/" class="form-inline">
+								
+								<form method="get" action="#" class="form-inline">
 
 									<div class="slider-range-price"></div>
 
@@ -209,14 +221,14 @@
 										<button type="submit" class="theme_button wide_button color1">Filter</button>
 									</div>
 								</form>
-							</div>
+							</div> -->
 
-							<div class="widget widget_shopping_cart">
+							<!-- <div class="widget widget_shopping_cart"> -->
 
-								<h3 class="widget-title poppins">Your Cart</h3>
-								<div class="widget_shopping_cart_content">
+								<!-- <h3 class="widget-title poppins">Your Cart</h3>
+								<div class="widget_shopping_cart_content"> -->
 
-									<ul class="cart_list product_list_widget media-list darklinks">
+									<!-- <ul class="cart_list product_list_widget media-list darklinks">
 
 										<li class="media">
 											<div class="media-left media-middle">
@@ -252,18 +264,18 @@
 											</div>
 										</li>
 
-									</ul>
+									</ul> -->
 									<!-- end product list -->
 
-									<p class="buttons topmargin_40">
-					<a href="shop-cart-right.html" class="theme_button color1 margin_0">View cart</a>
+									<!-- <p class="buttons topmargin_40">
+					<a href="shop-cart-right.html" class="theme_button color1 margin_0">View cart</a> -->
 					<!-- <a href="shop-checkout-right.html" class="theme_button">Checkout</a> -->
-				</p>
+				<!-- </p> -->
 
-								</div>
-							</div>
+								<!-- </div>
+							</div> -->
 
-							<div class="widget widget_categories">
+							<!-- <div class="widget widget_categories">
 
 								<h3 class="widget-title poppins">All Categories</h3>
 								<ul class="greylinks">
@@ -280,22 +292,22 @@
 										<a href="blog-right.html" title="">Picanha spare ribs</a>
 									</li>
 								</ul>
-							</div>
+							</div> -->
 
-							<div class="widget widget_tabs widget_theme_post_tabs half-tabs">
+							<!-- <div class="widget widget_tabs widget_theme_post_tabs half-tabs"> -->
 
 
 								<!-- Nav tabs -->
-								<ul class="nav nav-tabs" role="tablist">
+								<!-- <ul class="nav nav-tabs" role="tablist">
 									<li class="active"><a href="#widget-tab4" role="tab" data-toggle="tab">popular</a></li>
 									<li><a href="#widget-tab5" role="tab" data-toggle="tab">Recent</a></li>
-								</ul>
+								</ul> -->
 
 								<!-- Tab panes -->
-								<div class="tab-content top-color-border">
+								<!-- <div class="tab-content top-color-border"> -->
 
 
-									<div class="tab-pane fade in active" id="widget-tab4">
+									<!-- <div class="tab-pane fade in active" id="widget-tab4">
 										<ul class="cart_list product_list_widget media-list darklinks">
 											<li class="media">
 												<div class="media-left media-middle">
@@ -346,11 +358,11 @@
 												</div>
 											</li>
 										</ul>
-									</div>
+									</div> -->
 									<!-- eof tab -->
 
 
-									<div class="tab-pane fade" id="widget-tab5">
+									<!-- <div class="tab-pane fade" id="widget-tab5">
 										<ul class="cart_list product_list_widget media-list darklinks">
 											<li class="media">
 												<div class="media-left media-middle">
@@ -401,11 +413,11 @@
 												</div>
 											</li>
 										</ul>
-									</div>
+									</div> -->
 									<!-- eof tab -->
 
 
-									<div class="tab-pane fade" id="widget-tab6">
+									<!-- <div class="tab-pane fade" id="widget-tab6">
 										<div class="vertical-item">
 											<div class="item-media">
 												<img src="images/gallery/01.jpg" alt="">
@@ -465,28 +477,24 @@
 										</div>
 
 
-									</div>
+									</div> -->
 									<!-- eof tab -->
 
-								</div>
+								<!-- </div> -->
 								<!-- eof tab-content -->
 
-							</div>
+							<!-- </div> -->
 							<!-- eof widget -->
 
 
-						</aside>
+						<!-- </aside> -->
 						<!-- eof aside sidebar -->
 					</div>
 				</div>
 			</section>
-{% endif %}
+
 {% endblock %}
 {% block scripts %}
-<script>
-		var update_qty = function() {
-			alert('hello')
-			
-		}
-</script>
+
+
 {% endblock %}

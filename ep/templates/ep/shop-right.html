@@ -1,6 +1,7 @@
 {% extends 'ep/base3.html' %}
 {% load static %}
 {% block content %}
+{% load ep_extras %}
 			<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
 				<div class="container">
 					<div class="row">
@@ -34,32 +35,76 @@
 										<strong><p style="color: green;">{{msg}}</p></strong>
 								
 									{% endif %}
-									<div class="form-group select-group">
-										<select aria-required="true" id="date" name="date" class="choice empty form-control">
-											<option value="" disabled selected data-default>Default Sorting</option>
-											<option value="value">by Value</option>
-											<option value="date">by Date</option>
-											<option value="popular">by Popularity</option>
-										</select>
-										<i class="fa fa-angle-down theme_button" aria-hidden="true"></i>
-									</div>
+									
+										<div class="widget widget_search">
+											<form method="GET" action="{% my_url key13.number 'page' request.GET.urlencode %}">
+												<select onchange="form.submit();" name="sort" style="width: auto; float: left;height: 50px;">
+													<option value="" disabled selected>Sort by Price</option>
+													<option value="">Default</option>
+													<option value="lth">Low to High</option>
+													<option value="htl">High to Low</option>
+												</select>
+													<div class="form-group">
+														<input id="widget-search" type="text" style="width: auto; float: right;" name="search"  placeholder="Search">
+													</div>
+													<!-- </div> -->
+													<button type="submit" class="theme_button color1">Search</button>
+						
+												</form>
+											</div>
+								
 							</div>
-							<div class="columns-2">
-								{% for i in key15 %}
-								<li class="product type-product">
-									<div class="vertical-item">
-										<div class="item-media with_background bottommargin_30">
-											<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="10%">
+							<!-- <div class="columns-4">
+								
+								
+											
+
+						</div> -->
+						{% for i in key15 %}
+						
+						<table class="table_template">
+							<tbody>
+								<tr>
+									<td  style="max-width: 500px;">	
+										<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="50%" height="50%">
+									</td>
+									<td>
+										<b style="font-size: 20px;"><a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
+															
+											<span style="color: limegreen;" class="amount">₹{{i.rproduct_price}}</span></b>
+										<form action="{% url 'addtocart' %}" method="post">
+											{% csrf_token %}
+											
+											Enter Quantity
+											<input type="number" min="1" max="{{i.rproduct_quantity}}"class="product-quantity"  style="background:lightcyan;" name="product_quantity">
+											<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
+											<input type="hidden" name="pid" value="{{i.id}}">
+											<button class="theme_button color1"  style="padding: 10px 10px;">Add to Cart</button>		
+										</form>	
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				
+						<!-- <div class="col-sm-6">
+							
+							<ul id="" class="">
+								<li class="">
+									<div class="horizontal-item">
+										<div style="max-width: 500px;">
+											<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
 										</div>
 										<div class="item-content">
 											<h4 class="poppins bottommargin_10">
 												<a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
 											</h4>
 											<p class="price">
+									 
 									<ins>
 										₹<span class="amount">{{i.rproduct_price}}</span>
 									</ins>
 									{{i.company_id.comp_name}} 
+
 								</p>
 								<form action="{% url 'addtocart' %}" method="post">
 									{% csrf_token %}
@@ -69,35 +114,60 @@
 									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
 									<input type="hidden" name="pid" value="{{i.id}}">
 									<button class="theme_button color1" >Add to Cart</button>		
-								</form>			
-								</div>
+								</form>	
+									</div>
 									</div>
 								</li>
-							{% endfor %}				
-
-						</div>
+							</ul>
+							
+						</div> -->
+						{% endfor %}
 							
 {% endif %}
 							<div class="row">
 								<div class="col-sm-12 text-center">
 									<ul class="pagination highlightlinks">
-										<li class="disabled">
-											<a href="#">
+										{% if key15.has_previous %}
+										<li>
+											<a href="{% my_url 1 'page' request.GET.urlencode %}">
+												<span>First</span>
+											</a>
+										</li>
+										<li class="text-md-left">
+											
+											<a href="{% my_url key15.previous_page_number 'page' request.GET.urlencode %}">
 												<span class="sr-only">Prev</span>
 												<i class="fa fa-angle-left" aria-hidden="true"></i>
 											</a>
+											{% endif %}
 										</li>
-										<li class="active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
+										
+
+										{% for c in page.page_range %}
+											{% if key15.number == c %}
+												<li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>
+											{% elif c > key15.number|add:'-3' and c < key15.number|add:'3' %}
+												<li><a href="{% my_url c 'page' request.GET.urlencode %}" >{{ c }}</a></li>
+											{% endif %}
+										{% endfor %}
+										{% if key15.has_next %}
 										<li>
-											<a href="#">
+											<a href="{% my_url key15.next_page_number 'page' request.GET.urlencode %}">
 												<span class="sr-only">Next</span>
 												<i class="fa fa-angle-right" aria-hidden="true"></i>
 											</a>
+										</li>	
+										<li>
+											<a href="{% my_url page.num_pages 'page' request.GET.urlencode %}">
+												<span>Last</span>
+											</a>
 										</li>
+										{% endif %}
+										
 									</ul>
+									
+								</div>
+								
 								</div>
 							</div>
 
@@ -106,5 +176,5 @@
 
 					</div>
 				</div>
-			</section> -->
+			</section>
 {% endblock %}
