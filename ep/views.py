@@ -26,7 +26,9 @@ def IndexPage(request):
         totalwastage_i+=y.wastage
     return render(request,"ep/index.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
-    return render(request,"ep/company_index.html")
+    user = Master.objects.get(id=request.session['id'])
+    comp = Company.objects.get(master_id=user)
+    return render(request,"ep/company_index.html",{'image':comp.comp_image})
 def CollectorIndexPage(request,pk):
     user = Master.objects.get(id=pk)
     plast = PlasticC.objects.get(master_id=user)
@@ -88,7 +90,8 @@ def Dashboard(request):
 def CustData(request):
     return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
 def RCData(request):
-    return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all()})
+    comp = Company.objects.get(master_id=request.session['id'])
+    return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),'image':comp.comp_image})
 def invoice(request,pk):
     invoice = AddToCart.objects.get(id=pk)
     return render(request,"ep/invoice.html",{"invoice":invoice})
@@ -262,7 +265,7 @@ def LoginUser(request):
                     request.session['Ogen']=comp.owner_gender
                     request.session['Ocon']=comp.owner_contact
                     request.session['Oemail']=comp.owner_email
-                    return render(request,"ep/company_index.html")
+                    return HttpResponseRedirect(reverse('companyindex'))
                 else:
                     message= "Role or Password doesn't match!"
                     return render(request,"ep/admin_signin.html",{'msg':message})
@@ -1149,7 +1152,7 @@ def AddData(request):
             types = request.POST['types']
             newData = RecyclingData.objects.create(rc_id=recycling_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date,types=types)
             message = "Data Added!"
-            return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),"msg":message})
+            return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),"msg":message,'image':recycling_id.comp_image})
 
     else:   
         return redirect('adminin')
