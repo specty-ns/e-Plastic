@@ -114,8 +114,9 @@
 							<center>
 							<div class="cart-buttons">
 								<a class="theme_button color1" href="{% url 'showpro' %}">Countinue Shopping</a>		
-								
+								{% if key20 %}
 								<a href="{% url 'checkout' pk=request.session.id %}" class="theme_button color2">Proceed to Checkout</a>
+								{% endif %}
 							</div>
 						</center>
 							<div class="cart-collaterals">

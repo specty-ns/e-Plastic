@@ -131,7 +131,7 @@ class AddToCart(models.Model):
     rp_id=models.ForeignKey(RecycleProduct,on_delete=models.CASCADE)
     cust_id=models.ForeignKey(Customer,on_delete=models.CASCADE)
     cart_price=models.BigIntegerField(default=0)
-    cart_quantity=models.BigIntegerField(default=1)
+    cart_quantity=models.BigIntegerField(default=1) 
     cart_date=models.DateTimeField(auto_now_add=True)
     cart_subtotal=models.BigIntegerField(default=0)
     order_date = models.DateTimeField(auto_now_add=True)
