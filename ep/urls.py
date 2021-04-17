@@ -73,5 +73,6 @@ urlpatterns = [
     path("Customer_Orders/",views.OrderDetails,name="custorder"),
     path("OrderDetails/<int:pk>",views.OrderInfo,name="odetails"),
     path("OrderSaved/<int:pk>",views.SaveOrder,name="save"),
+    path("pdf/",views.ReportPdf.as_view(),name='pdf'),
 
 ]

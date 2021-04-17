@@ -9,9 +9,10 @@
 						<div class="col-md-6">
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="#">Dashboard</a>
+									<a href="{% url 'collectorindex' pk=request.session.id %}">Dashboard</a>
 								</li>
-								<li class="active">Products</li>
+								<li>Products</li>
+								<li class="active">Plastic Products</li>
 							</ol>
 						</div>
 						<!-- .col-* -->
@@ -32,18 +33,20 @@
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
 
-					<div class="row">
-						<div class="col-md-12">
-							<h3>Products</h3>
-						</div>
-						<!-- .col-* -->
-					</div>
+					
 					<!-- .row -->
 
 					<div class="row">
 						
 						<div class="col-xs-12">
+							
 							<div class="widget widget_search">
+								<div class="row">
+									<div class="col-md-12">
+										<h3>Plastic Products</h3>
+									</div>
+									<!-- .col-* -->
+								</div>
 								<form method="GET" action="{% my_url key9.number 'page' request.GET.urlencode %}">
 									
 										<div class="form-group">

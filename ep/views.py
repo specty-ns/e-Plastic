@@ -8,6 +8,9 @@ from .utils import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .filters import *
+from django.http import HttpResponse
+from django.views.generic import View
+
 
 # Create your views here.
 def IndexPage(request):
@@ -1211,6 +1214,24 @@ def Report(request,pk):
 
     else:   
         return redirect('signin')
+class ReportPdf(View):
+    def get(self, request, *args, **kwargs):
+        report= CustomerData.objects.filter(plastic_id__pc_name=request.GET['name'])
+        if report:
+            report = CustomerData.objects.all().filter(plastic_id__pc_name=request.GET['name'],cust_id__master_id__id=request.session['id'])
+            data = {'report':report}
+            pdf = render_to_pdf('ep/report.html', data)
+            if pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                filename = "Reports%s.pdf" %("12341231")
+                content = "filename='%s'" %(filename)
+                response['Content-Disposition'] = content
+
+                # download = request.GET.get("download")
+                # if download:
+                #     content = "attachment; filename='%s'" %(filename)
+                return response
+        return render(request,"ep/404.html")
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
@@ -1271,7 +1292,7 @@ def initiate_payment(request):
         print("ffffffffffffffff",qty) 
         for i in AddToCart.objects.all().filter(cust_id=cust_id,payment_status="pending"):
             i.transaction_id = transaction
-            i.order_comment = cmt   
+            i.order_comment = cmt
             i.save()    
         merchant_key = settings.PAYTM_SECRET_KEY
 

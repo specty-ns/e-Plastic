@@ -1,160 +1,119 @@
-{% extends 'ep/base4.html' %}
+{% extends 'ep/base.html' %}
 {% load static %}
 {% block content %}
-			<section class="ds section_padding_top_15 section_padding_bottom_15 table_section section_bottom_overlap">
-				<div class="container-fluid">
+<section class="intro_section page_mainslider ds">
+	<div class="flexslider" data-dots="false">
+		<ul class="slides">
+
+			<li>
+				<img src="{% static 'images/slide01.jpg' %}" alt="">
+				<div class="container">
 					<div class="row">
-						<div class="col-md-9 col-sm-8 text-center text-sm-left">
-							<div class="media small-teaser teaser inline-block">
-								<div class="media-left media-middle">
-									<div class="teaser_icon light_bg_color big_bg highlight2 round size_xsmall">
-										<i class="fa fa-phone"></i>
+						<div class="col-sm-12 text-center">
+							<div class="slide_description_wrapper">
+								<div class="slide_description">
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h3 class="highlight">
+											E-Plastic
+										</h3>
+									</div>
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h2>
+											Recycling
+										</h2>
+									</div>
+									<div class="intro-layer" data-animation="fadeInRight">
+										<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
+										<a href="gallery-extended-2-cols.html" class="theme_button color1">About us</a>
 									</div>
 								</div>
-								<div class="media-body media-middle">
-									<span class="fontsize_20 medium grey">01 123 456 789</span>
-									<br>
-									<span class="small-text small-spacing">140 Horizon Circle, San Diego, CA</span>
-								</div>
+								<!-- eof .slide_description -->
 							</div>
-							<div class="media small-teaser teaser inline-block">
-								<div class="media-left media-middle">
-									<div class="teaser_icon light_bg_color big_bg highlight2 round size_xsmall">
-										<i class="fa fa-clock-o"></i>
-									</div>
-								</div>
-								<div class="media-body media-middle">
-									<span class="fontsize_20 medium grey">Open Hours</span>
-									<br>
-									<span class="small-text small-spacing">Weekdays 8.00-18.00, Sat: closed</span><br>
-								</div>
-							</div>
-							<div class="media small-teaser teaser inline-block">
-								
-							</div>
+							<!-- eof .slide_description_wrapper -->
 						</div>
-						
-						<div class="col-md-3 col-sm-4 text-center text-sm-right">
-							<a href="#pickup" class="theme_button color2 margin_0">Schedule pickup</a>
-						</div>
+						<!-- eof .col-* -->
 					</div>
+					<!-- eof .row -->
 				</div>
-			</section>
+				<!-- eof .container -->
+			</li>
 
-			<section class="intro_section page_mainslider ds">
-				<div class="flexslider" data-dots="false">
-					<ul class="slides">
-
-						<li>
-							<img src="{% static 'images/slide01.jpg' %}" alt="">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-12 text-center">
-										<div class="slide_description_wrapper">
-											<div class="slide_description">
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h3 class="highlight">
-														E-Plastic
-													</h3>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h2>
-														Recycling
-													</h2>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
-													<a href="gallery-extended-2-cols.html" class="theme_button color1">About us</a>
-												</div>
-											</div>
-											<!-- eof .slide_description -->
-										</div>
-										<!-- eof .slide_description_wrapper -->
+			<li>
+				<img src="{% static 'images/slide02.jpg' %}" alt="">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							<div class="slide_description_wrapper">
+								<div class="slide_description">
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h2 class="small">
+											Save Your Planet
+										</h2>
 									</div>
-									<!-- eof .col-* -->
-								</div>
-								<!-- eof .row -->
-							</div>
-							<!-- eof .container -->
-						</li>
-
-						<li>
-							<img src="images/slide02.jpg" alt="">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-12 text-center">
-										<div class="slide_description_wrapper">
-											<div class="slide_description">
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h2 class="small">
-														Save Your Planet
-													</h2>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h3 class="highlight text-uppercase bottommargin">
-														Save Your community
-													</h3>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
-													<a href="gallery-extended-2-cols.html" class="theme_button color1">Our services</a>
-												</div>
-											</div>
-											<!-- eof .slide_description -->
-										</div>
-										<!-- eof .slide_description_wrapper -->
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h3 class="highlight text-uppercase bottommargin">
+											Save Your community
+										</h3>
 									</div>
-									<!-- eof .col-* -->
-								</div>
-								<!-- eof .row -->
-							</div>
-							<!-- eof .container -->
-						</li>
-
-						<li>
-							<img src="images/slide03.jpg" alt="">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-12 text-center">
-										<div class="slide_description_wrapper">
-											<div class="slide_description">
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h3 class="highlight text-uppercase">
-														Circular
-													</h3>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<h2 class="text-uppercase">
-														Economy
-													</h2>
-												</div>
-												<div class="intro-layer" data-animation="fadeInRight">
-													<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
-													<a href="gallery-extended-2-cols.html" class="theme_button color1">contact us</a>
-												</div>
-											</div>
-											<!-- eof .slide_description -->
-										</div>
-										<!-- eof .slide_description_wrapper -->
+									<div class="intro-layer" data-animation="fadeInRight">
+										<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
+										<a href="gallery-extended-2-cols.html" class="theme_button color1">Our services</a>
 									</div>
-									<!-- eof .col-* -->
 								</div>
-								<!-- eof .row -->
+								<!-- eof .slide_description -->
 							</div>
-							<!-- eof .container -->
-						</li>
-
-					</ul>
+							<!-- eof .slide_description_wrapper -->
+						</div>
+						<!-- eof .col-* -->
+					</div>
+					<!-- eof .row -->
 				</div>
-				<!-- eof flexslider -->
+				<!-- eof .container -->
+			</li>
 
-				<div class="scroll_button_wrap">
-					<a href="#about" class="scroll_button">
-						<span class="sr-only">scroll down</span>
-					</a>
+			<li>
+				<img src="{% static 'images/slide03.jpg' %}" alt="">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							<div class="slide_description_wrapper">
+								<div class="slide_description">
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h3 class="highlight text-uppercase">
+											Circular
+										</h3>
+									</div>
+									<div class="intro-layer" data-animation="fadeInRight">
+										<h2 class="text-uppercase">
+											Economy
+										</h2>
+									</div>
+									<div class="intro-layer" data-animation="fadeInRight">
+										<p>We can solve your corporate IT disposition needs quickly and professionally.<br> Save Your community, Save Your planet</p>
+										<a href="gallery-extended-2-cols.html" class="theme_button color1">contact us</a>
+									</div>
+								</div>
+								<!-- eof .slide_description -->
+							</div>
+							<!-- eof .slide_description_wrapper -->
+						</div>
+						<!-- eof .col-* -->
+					</div>
+					<!-- eof .row -->
 				</div>
-			</section>
+				<!-- eof .container -->
+			</li>
 
+		</ul>
+	</div>
+	<!-- eof flexslider -->
+
+	<div class="scroll_button_wrap">
+		<a href="#about" class="scroll_button">
+			<span class="sr-only">scroll down</span>
+		</a>
+	</div>
+</section>
 			<section id="about" class="ls section_padding_top_100 section_padding_bottom_150">
 				<div class="container">
 					<div class="row">

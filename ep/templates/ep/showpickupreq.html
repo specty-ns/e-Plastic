@@ -8,9 +8,10 @@
 						<div class="col-md-6">
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="#">Dashboard</a>
+									<a href="{% url 'collectorindex' pk=request.session.id %}">Dashboard</a>
 								</li>
-								<li class="active">Products</li>
+								<li>Requests</li>
+								<li class="active">Pick-up Requests</li>
 							</ol>
 						</div>
 						<!-- .col-* -->
@@ -33,7 +34,7 @@
 
 					<div class="row">
 						<div class="col-md-12">
-							<h3> Plastic Pickup</h3>
+							<h3> Pick-up Requests </h3>
 						</div>
 						<!-- .col-*<form action="{% my_url pickup.number 'page' request.GET.urlencode %}" method="GET" class="form-inline filters-form">
 								

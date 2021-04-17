@@ -6,8 +6,9 @@
 						<div class="col-md-6">
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="#">Dashboard</a>
+									<a href="{% url 'collectorindex' pk=request.session.id %}">Dashboard</a>
 								</li>
+								<li>Products</li>
 								<li class="active">Add Plastic</li>
 							</ol>
 						</div>
@@ -29,16 +30,7 @@
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
 
-					<div class="row">
-						<div class="col-sm-12">
-							<h3>Single product
-								<small class="pull-right">
-									<a href="admin_comments.html">
-										<i class="fa fa-comments"></i> product discussion</a>
-								</small>
-							</h3>
-						</div>
-					</div>
+					
 					<!-- .row -->
 					<form class="form-horizontal" action="{% url 'addpproduct' pk=request.session.id %}" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
@@ -51,10 +43,12 @@
 							<div class="col-md-8">
 								<div class="with_border with_padding">
                                     
-									<h4>
-										Add Plastic
-										
-									</h4>
+									<div class="row">
+										<div class="col-md-12">
+											<h3>Add Products</h3>
+										</div>
+										<!-- .col-* -->
+									</div>
 									<hr>
 									<div class="row form-group">
 										<label class="col-lg-3 control-label">Plastic Collector Id: </label>

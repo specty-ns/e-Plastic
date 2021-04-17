@@ -7,8 +7,9 @@
 						<div class="col-md-6">
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="#">Dashboard</a>
+									<a href="{% url 'collectorindex' pk=request.session.id %}">Dashboard</a>
 								</li>
+								<li>Requests</li>
 								<li class="active">Products</li>
 							</ol>
 						</div>

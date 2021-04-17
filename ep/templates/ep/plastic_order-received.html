@@ -1,16 +1,16 @@
-{% extends 'ep/base2.html' %}
+{% extends 'ep/base5.html' %}
 {% block content %}
 
-<section class="ls with_bottom_border">
+<section class="ls with_bottom_border" >
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <ol class="breadcrumb darklinks">
+                <ol class="breadcrumb darklinks" >
                     <li>
-                        <a href="{% url 'companyindex' %}">Dashboard</a>
+                        <a href="#">Dashboard</a>
                     </li>
-                    <li>Orders</li>
-                    <li class="active">Customer Orders</li>
+                    
+                    <li class="active">Orders</li>
                 </ol>
             </div>
             <!-- .col-* -->
@@ -38,17 +38,17 @@
     
     <div class="widget widget_search">
         <form method="GET" action="{% my_url order.number 'page' request.GET.urlencode %}">
-            <div class="widget widget_search">
+            <div class="widget widget_search" >
                 <form method="GET" action="{% my_url key13.number 'page' request.GET.urlencode %}">
                     <input list="brow" name="name" onchange="form.submit();" style="width: 190px; float: left;height: 50px;" placeholder="Select Customer Name">
                                     <datalist id="brow"  style="height: fit-content; width: fit-content;">
                                         <!-- <option value="" selected disabled>Select Plastic Collector</option>
                                         <option value="">All</option> -->
                                         <option value="" selected disabled>Select Status</option>
-                                        {% for i in cust %}
+                                        <option value="{{comp.comp_id.comp_name}}"></option>
                          
-                                        <option value="{{i.fname}}"></option>
-                                        {% endfor %}
+                                        
+                                        
                                     </datalist>
                                     
                                     <div class="form-group">
@@ -69,10 +69,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>Sr. No.</th>
-                                                    <th>Customer Name</th>
+                                                    <th>Company Name</th>
                                                     <th>Order(Product ID)</th>
                                                     <th>Order Date</th>
                                                     <th>Order Status</th>
+                                                    <th>Total</th>
                                                     <th>Transcation ID</th>
                                                 </tr>
                                             </thead>
@@ -84,12 +85,13 @@
                                                 
                                                 <tr>
                                                     <td>{{forloop.counter}}</td>
-                                                    <td>{{i.cust_id.fname}} {{i.cust_id.lname}}<br>&lt;{{i.cust_id.master_id.email}}&gt;</td>
+                                                    <td>{{i.comp_id.comp_name}}<br>&lt;{{i.comp_id.master_id.email}}&gt;</td>
                                                     <td><a href="{% url 'odetails' pk=i.id %}" style="color:#54be73;">
-                                                        {{i.rp_id.rproduct_name}}({{i.id}})
+                                                        {{i.pproduct_id.pproduct_name}}({{i.id}})
                                                     </a></td>
-                                                    <td>{{i.order_date | date:'Y-m-d H:i'}}</td>
-                                                    <td>{{i.order_status }}</td>
+                                                    <td>{{i.request_date | date:'Y-m-d H:i'}}</td>
+                                                    <td>{{i.status }}</td>
+                                                    <td>{{i.total_price}}</td>
                                                     <td>{{i.transaction_id.id}}</td>
                                                 </tr>
                                                 

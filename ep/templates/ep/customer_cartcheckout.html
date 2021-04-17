@@ -4,10 +4,10 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12 text-center">
-							<h2 class="highlight">Checkout</h2>
+							<h2 class="highlight">{{request.session.Firstname}} {{request.session.Lastname}}</h2>
 							<ol class="breadcrumb darklinks">
 								<li>
-									<a href="index.html">
+									<a href="{% url 'index2' %}">
 							Home
 						</a>
 								</li>

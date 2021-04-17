@@ -1,10 +1,10 @@
-{% extends 'ep/base4.html' %}
+{% extends 'ep/base3.html' %}
 {% block content %}
 			<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12 text-center">
-							<h2 class="highlight">Progress Bars</h2>
+							<h2 class="highlight">{{request.session.Firstname}} {{request.session.Lastname}}</h2>
 							<ol class="breadcrumb darklinks">
 								<li>
 									<a href="{% url 'index2' %}">
@@ -90,10 +90,12 @@
 								{% for pc in plast %}
 								<option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
 								{% endfor %}
-							</datalist>
-							<!-- {{reportFilter.form}} -->
-							<br><br>	
-							<!-- <button class="theme_button color2"  style="padding: 10px 20px;">Search</button> -->
+							</datalist>&nbsp;
+							Starting Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
+							Ending Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
+							<br><br>
+
+							<button class="theme_button color2"  style="padding: 10px 20px;">Search</button>
 						</form>
 						
 					</div>
@@ -185,9 +187,29 @@
 							Showing {{report.start_index}} to {{report.end_index}} of {{total.count}} items
 						</div>
 					</div>
-				
+					<center>
+					<form action="{% url 'pdf' %}" method="GET">
+					<div class="btn-group btn-group-sm-3 d-print-none">
+						<input list="brow" name="name" placeholder="Select Plastic Collector">
+							<datalist id="brow"  style="height: fit-content;">
+								<!-- <option value="" selected disabled>Select Plastic Collector</option>
+								<option value="">All</option> -->
+								{% for pc in plast %}
+								<option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
+								{% endfor %}
+							</datalist>
+							<button class="theme_button color2" style="padding: 10px 20px;">
+								<i class="fa fa-print">
+								</i> Print</button>
+								
+					  
+					  
+				   </div>
+				</form>
+				</center>
 				</div>
 			</section>
+			
 
 {% endblock %}
 
