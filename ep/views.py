@@ -27,7 +27,7 @@ def IndexPage(request):
         totalusage_i+=x.usage
     for y in report_i:
         totalwastage_i+=y.wastage
-    return render(request,"ep/index.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
+    return render(request,"ep/index-2.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
     user = Master.objects.get(id=request.session['id'])
     comp = Company.objects.get(master_id=user)
@@ -98,6 +98,8 @@ def RCData(request):
 def invoice(request,pk):
     invoice = AddToCart.objects.get(id=pk)
     return render(request,"ep/invoice.html",{"invoice":invoice})
+def download(request):
+    return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
 
 def OTP(request):
     return render(request,"ep/otpverify.html")
@@ -174,7 +176,7 @@ def Register(request):
             user=Master.objects.filter(email=email)
             if user:
                 message = "User already exist! "
-                return render(request,"ep/index.html",{'msg':message})
+                return render(request,"ep/admin_signup.html",{'msg':message})
             else:
                 if password==cpassword:
                     otp = randint(10000,99999)
@@ -1216,9 +1218,10 @@ def Report(request,pk):
         return redirect('signin')
 class ReportPdf(View):
     def get(self, request, *args, **kwargs):
-        report= CustomerData.objects.filter(plastic_id__pc_name=request.GET['name'])
+        
+        report= CustomerData.objects.filter(plastic_id__pc_name=request.GET['pc_name'])
         if report:
-            report = CustomerData.objects.all().filter(plastic_id__pc_name=request.GET['name'],cust_id__master_id__id=request.session['id'])
+            report = CustomerData.objects.all().filter(plastic_id__pc_name=request.GET['pc_name'],cust_id__master_id__id=request.session['id'])
             data = {'report':report}
             pdf = render_to_pdf('ep/report.html', data)
             if pdf:
@@ -1226,12 +1229,11 @@ class ReportPdf(View):
                 filename = "Reports%s.pdf" %("12341231")
                 content = "filename='%s'" %(filename)
                 response['Content-Disposition'] = content
-
-                # download = request.GET.get("download")
-                # if download:
-                #     content = "attachment; filename='%s'" %(filename)
                 return response
-        return render(request,"ep/404.html")
+        else:
+            msg = "No data or Field empty"
+            return render(request,"ep/download.html",{'error':msg})
+        
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':

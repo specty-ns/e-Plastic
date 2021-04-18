@@ -1,0 +1,46 @@
+{% extends 'ep/base3.html' %}
+{% block content %}
+			<section class="page_breadcrumbs ds parallax section_padding_top_65 section_padding_bottom_65">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							<h2 class="highlight">{{request.session.Firstname}} {{request.session.Lastname}}</h2>
+							<ol class="breadcrumb darklinks">
+								<li>
+									<a href="{% url 'index2' %}">
+							Home
+						</a>
+								</li>
+								
+								<li class="active">Reports</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</section>
+
+<section class="ls section_padding_100">
+    <form action="{% url 'pdf' %}" class="form-inline filters-form" method="GET">
+        &nbsp;&nbsp;&nbsp;
+        <input list="brow" name="pc_name" placeholder="Select Plastic Collector">
+        <datalist id="brow"  style="height: fit-content;">
+            <!-- <option value="" selected disabled>Select Plastic Collector</option>
+            <option value="">All</option> -->
+            {% for pc in plast %}
+            <option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
+            {% endfor %}
+        </datalist>&nbsp;
+        Starting Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
+        Ending Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
+        <br><br>
+        <button  class="theme_button color2" style="padding: 10px 20px;">
+            <i class="fa fa-download">
+            </i> Download</button>
+    </form>
+    {% if error %}
+    <p>{{error}}</p>
+    {% endif %}
+</section>
+			
+
+{% endblock %}

@@ -81,9 +81,9 @@
 							</div>
 							
 						</div>
-						<form action="{% my_url report.number 'page' request.GET.urlencode %}" class="form-inline filters-form" method="GET">
+						<form  class="form-inline filters-form" method="GET">
 							&nbsp;&nbsp;&nbsp;
-							<input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
+							<input list="brow" name="pc_name" placeholder="Select Plastic Collector">
 							<datalist id="brow"  style="height: fit-content;">
 								<!-- <option value="" selected disabled>Select Plastic Collector</option>
 								<option value="">All</option> -->
@@ -94,8 +94,9 @@
 							Starting Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
 							Ending Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
 							<br><br>
+							<button class="theme_button color2" formaction="{% my_url report.number 'page' request.GET.urlencode %}" style="padding: 10px 20px;">Search</button>
 
-							<button class="theme_button color2"  style="padding: 10px 20px;">Search</button>
+							
 						</form>
 						
 					</div>
@@ -187,26 +188,7 @@
 							Showing {{report.start_index}} to {{report.end_index}} of {{total.count}} items
 						</div>
 					</div>
-					<center>
-					<form action="{% url 'pdf' %}" method="GET">
-					<div class="btn-group btn-group-sm-3 d-print-none">
-						<input list="brow" name="name" placeholder="Select Plastic Collector">
-							<datalist id="brow"  style="height: fit-content;">
-								<!-- <option value="" selected disabled>Select Plastic Collector</option>
-								<option value="">All</option> -->
-								{% for pc in plast %}
-								<option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
-								{% endfor %}
-							</datalist>
-							<button class="theme_button color2" style="padding: 10px 20px;">
-								<i class="fa fa-print">
-								</i> Print</button>
-								
-					  
-					  
-				   </div>
-				</form>
-				</center>
+					
 				</div>
 			</section>
 			
