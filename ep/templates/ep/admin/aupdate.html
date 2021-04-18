@@ -35,9 +35,8 @@
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputLastName">Verified</label>
                                                         <select name="verification" id="" style="height: 50px;">
-                                                            <option> {{key19.is_verified}}</option>
-                                                            <option>True</option>
-                                                            <option>False</option>
+                                                            <option value="True">Yes</option>
+                                                            <option value="False">No</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -45,8 +44,11 @@
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="small mb-1" for="inputEmailAddress">Active</label>
-                                                        {{key19.is_active}}    
+                                                        <label class="small mb-1" for="inputLastName">Active</label>
+                                                        <select name="active" id="" style="height: 50px;">
+                                                            <option value="True">Yes</option>
+                                                            <option value="False">No</option>
+                                                        </select>    
                                                     </div>
                                                 </div>
                                             </div>

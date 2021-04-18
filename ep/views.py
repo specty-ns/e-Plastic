@@ -27,7 +27,7 @@ def IndexPage(request):
         totalusage_i+=x.usage
     for y in report_i:
         totalwastage_i+=y.wastage
-    return render(request,"ep/index.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
+    return render(request,"ep/index-2.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
     user = Master.objects.get(id=request.session['id'])
     comp = Company.objects.get(master_id=user)
@@ -876,6 +876,7 @@ def AUpdate(request,pk):
         try:
             udata = Master.objects.get(id=pk)
             udata.is_verified = request.POST['verification'] 
+            udata.is_active = request.POST['active'] 
             udata.is_updated = datetime.datetime.now()  
             udata.save()
             url = f"/showadmin/"

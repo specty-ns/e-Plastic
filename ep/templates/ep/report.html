@@ -37,15 +37,8 @@
             top:772pt;
             height:30pt;
         }
-    @frame content_frame
-        {
-            left:50pt;
-            width:512pt;
-            top:90pt;
-            height:620pt;
-        }
-
     }
+    
 </style>
 </head>
 <body>
@@ -59,7 +52,7 @@
             <img src="..\ep\static\images\logo.png" alt="">
             
           </a> 
-      <span class="logo_text" style="color: green;">
+      <span class="logo_text" style="color:green;">
         <span class="big">E-Plastic</span>
         <span class="small-text">Recycling</span>
       </span>   
@@ -131,7 +124,7 @@
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/switcher.js' %}"></script>
 </body>
-<div id="footer_content" class="col-md-6 text-md-right">
-    <p style="color: green;">E-Plastic Recycling Page <pdf:pagenumber> of <pdf:pagecount></p>
+<div id="footer_content" style="text-align: right;">
+     Page <pdf:pagenumber> of <pdf:pagecount>
   </div>
 </html>
