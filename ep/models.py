@@ -115,10 +115,9 @@ class CustomerData(models.Model):
     wastage = models.FloatField()
     usage = models.FloatField()
     collection_date = models.DateField()
-    def __str__(self):
-        return self.plastic_id.pc_name
+    
         
-class RecyclingData(models.Model):
+class PlasticData(models.Model):
     rc_id = models.ForeignKey(Company,on_delete=models.CASCADE)
     plastic_id = models.ForeignKey(PlasticC,on_delete=models.CASCADE)
     total_collection = models.FloatField()

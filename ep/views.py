@@ -35,7 +35,7 @@ def CompanyIndexPage(request):
 def CollectorIndexPage(request,pk):
     user = Master.objects.get(id=pk)
     plast = PlasticC.objects.get(master_id=user)
-    report_r=RecyclingData.objects.all().filter(plastic_id=plast)
+    report_r=PlasticData.objects.all().filter(plastic_id=plast)
     totalcollection_r = 0
     totalusage_r = 0
     totalwastage_r = 0
@@ -848,7 +848,6 @@ def ALogin(request):
         if username == "admin" and password == "admin":
             request.session['Username']=username
             request.session['Password']=password
-             
             return render(request,"ep/admin/aindex.html")
         else:
             message = "Invalid Username or Password"
@@ -886,6 +885,38 @@ def AUpdate(request,pk):
     else:
         return redirect('alogin')
 
+def AdminPCData(request):
+    if "Username" in request.session and "Password" in request.session:
+        pc_data = PlasticData.objects.all()
+        pc_name = request.GET.get('coll')
+        start_date = request.GET.get('sdate')
+        end_date = request.GET.get('edate')
+        if pc_name !='' and pc_name is not None and pc_name !="All":
+            pc_data = pc_data.filter(plastic_id__pc_name__icontains=pc_name)
+        if start_date !='' and start_date is not None:
+            pc_data = pc_data.filter(collection_date__gte=start_date)
+        if end_date !='' and end_date is not None:
+            pc_data = pc_data.filter(collection_date__lte=end_date)
+        data =  {'plastic':pc_data,'comp':Company.objects.all(),'plast':PlasticC.objects.all()}
+        return render(request,'ep/admin/collector_data.html',data)
+    else:
+        return redirect('alogin')
+def AdminCustData(request):
+    if "Username" in request.session and "Password" in request.session:
+        cust_data = CustomerData.objects.all()
+        cust_name = request.GET.get('cust')
+        start_date = request.GET.get('sdate')
+        end_date = request.GET.get('edate')
+        if cust_name !='' and cust_name is not None and cust_name !="All":
+            cust_data = cust_data.filter(cust_id__fname__icontains=cust_name) 
+        if start_date !='' and start_date is not None:
+            cust_data = cust_data.filter(collection_date__gte=start_date)
+        if end_date !='' and end_date is not None:
+            cust_data = cust_data.filter(collection_date__lte=end_date)
+        data =  {'customer':cust_data,'cust':Customer.objects.all()}
+        return render(request,'ep/admin/customer_data.html',data)
+    else:
+        return redirect('alogin')
 def AddCart(request):
     if "email" in request.session and "password" in request.session:
         try:
@@ -1154,16 +1185,20 @@ def AddData(request):
             
         if user.role == "RecyclingCompany":
             recycling_id = Company.objects.get(master_id=user)
-            plastic_id = PlasticC.objects.get(id=request.POST['rc_id'])
+            plastic_id = PlasticC.objects.get(pc_name=request.POST['rc_id'])
             total_collect = request.POST['totalcollect']
             use = request.POST['usage']
             waste = request.POST['wastage']
             date = request.POST['date_coll']
             types = request.POST['types']
-            newData = RecyclingData.objects.create(rc_id=recycling_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date,types=types)
-            message = "Data Added!"
-            return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),"msg":message,'image':recycling_id.comp_image})
-
+         
+            if int(use) + int(waste) == int(total_collect) :
+                newData = PlasticData.objects.create(rc_id=recycling_id,plastic_id=plastic_id,total_collection=total_collect,usage=use,wastage=waste,collection_date=date,types=types)
+                message = "Data Added!"
+                return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),"msg":message,'image':recycling_id.comp_image})
+            else:
+                message = "Invalid Data"
+                return render(request,"ep/rc_data.html",{'error':message})
     else:   
         return redirect('adminin')
 
@@ -1202,7 +1237,7 @@ def Report(request,pk):
             return render(request,"ep/customer_report.html",{"plast":plast,"report":page,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage,'total':p})
 
         if user.role == "PlasticCollector":
-            report_r=RecyclingData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
+            report_r=PlasticData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
             pc_name = request.GET.get('pc_name')
             comp = Company.objects.all()
             if pc_name != '' and pc_name is not None and pc_name !="All":
@@ -1250,6 +1285,7 @@ class ReportPdf(View):
                 report = report.filter(plastic_id__pc_name=name)
             if start_date !='' and start_date is not None:
                 report = report.filter(collection_date__gte=start_date)
+                
             if end_date !='' and end_date is not None:
                 report =report.filter(collection_date__lte=end_date)
             if report.exists():

@@ -30,12 +30,26 @@
 
 			<section class="ls section_padding_top_100 section_padding_bottom_100">
 				<div class="container">
-
+                    {% if msg %}
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <strong>{{msg}}</strong>
+                    </div>
+                    {% endif %}
 					<div class="row">
-						{% if msg %}
-						<h5 style="color: green;">{{msg}}</h5>
-						{% endif %}
-
+						
+                        {% if error %}
+                        <div class="alert alert-warning" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <strong>{{error}}</strong>
+                        </div>
+                        {% endif %}
 						<form action="{% url 'adddata' %}" method="POST">
 							{% csrf_token %}
 
@@ -50,7 +64,7 @@
                                     <input list="brow" class="form-control" name ="rc_id" style="height: 50px;" placeholder="Select...">
 									<datalist id="brow"  style="height: fit-content;">
 										{% for i in rc %}
-										<option value="{{i.id}}">{{i.pc_name}}</option>
+										<option value="{{i.pc_name}}">{{i.pc_name}}</option>
                                         {% endfor %}
 									</datalist>
 								</div>

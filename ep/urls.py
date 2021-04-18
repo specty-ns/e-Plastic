@@ -75,5 +75,6 @@ urlpatterns = [
     path("OrderSaved/<int:pk>",views.SaveOrder,name="save"),
     path("pdf/",views.ReportPdf.as_view(),name='pdf'),
     path('downloads/',views.download,name='download'),
-
+    path("PlasticData/",views.AdminPCData,name="aplastic"),
+    path("CustomerData/",views.AdminCustData,name='acustomer')
 ]
