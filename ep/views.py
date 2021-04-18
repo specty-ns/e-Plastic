@@ -27,7 +27,7 @@ def IndexPage(request):
         totalusage_i+=x.usage
     for y in report_i:
         totalwastage_i+=y.wastage
-    return render(request,"ep/index-2.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
+    return render(request,"ep/index.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
     user = Master.objects.get(id=request.session['id'])
     comp = Company.objects.get(master_id=user)
@@ -98,11 +98,12 @@ def RCData(request):
 def invoice(request,pk):
     invoice = AddToCart.objects.get(id=pk)
     return render(request,"ep/invoice.html",{"invoice":invoice})
-def download(request):
-    return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
 
 def OTP(request):
     return render(request,"ep/otpverify.html")
+
+def download(request):
+    return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
 
 def Register(request):
     try:
@@ -176,7 +177,7 @@ def Register(request):
             user=Master.objects.filter(email=email)
             if user:
                 message = "User already exist! "
-                return render(request,"ep/admin_signup.html",{'msg':message})
+                return render(request,"ep/index.html",{'msg':message})
             else:
                 if password==cpassword:
                     otp = randint(10000,99999)
@@ -637,6 +638,7 @@ def RPButton(request,pk):
             print("Req Button ----------------------------->",e11)
     else:
         return redirect('adminin')
+
 def ShowPReq(request):
     if "email" in request.session and "password" in request.session:
         try:
@@ -646,10 +648,12 @@ def ShowPReq(request):
                 allpproduct = PlasticRequest.objects.all().filter(plasticc_id=pc)
                 status = request.GET.get('status')
                 search = request.GET.get('search')
-                if status !='' and status is not None:
+
+                if status !='' and status is not None and status !="All":
                     allpproduct =allpproduct.filter(status=status)
                 if search !='' and search is not None:
                     allpproduct = allpproduct.filter(comp_id__comp_name__icontains=search) | allpproduct.filter(id__icontains=search) |allpproduct.filter(pproduct_id__id__icontains=search) | allpproduct.filter(request_date__icontains=search)
+
                 p = Paginator(allpproduct,5)
                 page_num = request.GET.get('page')
                 try:
@@ -658,7 +662,7 @@ def ShowPReq(request):
                     page= p.page(1)
                 except EmptyPage:
                     page = p.page(p.num_pages)
-            return render(request,"ep/showplasticreq.html",{'key13':page,'page':p})
+            return render(request,"ep/showplasticreq.html",{'key13':page,'page':p,'allproduct':allpproduct})
         except Exception as s:
             print("Show ----------------------------->",s)
             return render(request,"ep/showplasticreq.html")
@@ -1031,7 +1035,7 @@ def ShowPickUp(request):
         pick = ScheduleOrder.objects.all()
         status = request.GET.get('status')
         search = request.GET.get('search')
-        if status !='' and status is not None:
+        if status !='' and status is not None and status!="All":
             pick = pick.filter(pickup_status=status)
         if search !='' and search is not None:
             pick = pick.filter(sc_comment__icontains=search)| pick.filter(sc_date_time__icontains=search) | pick.filter(cust_name__icontains=search) | pick.filter(cust_number__icontains=search)
@@ -1192,13 +1196,27 @@ def Report(request,pk):
             for u in report:
                 totalusage+=u.usage
             for w in report:
-                totalwastage+=w.wastage
+                totalwastage+=w.wastage 
             
             return render(request,"ep/customer_report.html",{"plast":plast,"report":page,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage,'total':p})
 
         if user.role == "PlasticCollector":
-            plast = PlasticC.objects.get(master_id=user)
-            report_r=RecyclingData.objects.all().filter(plastic_id=plast)
+            report_r=RecyclingData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
+            pc_name = request.GET.get('pc_name')
+            comp = Company.objects.all()
+            if pc_name != '' and pc_name is not None and pc_name !="All":
+                report_r = report_r.filter(rc_id__comp_name=pc_name)
+
+            p = Paginator(report_r,5)
+            page_num = request.GET.get('page')
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page = p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            num =p.num_pages
+
             totalcollection_r = 0
             totalusage_r = 0
             totalwastage_r = 0
@@ -1212,28 +1230,39 @@ def Report(request,pk):
                 totalusage_r+=u.usage
             for w in report_r:
                 totalwastage_r+=w.wastage
-            return render(request,"ep/plastic_data.html",{"report_r":report_r,"totalcollection_r":totalcollection_r,"count_r":count_r,"t_usage_r":totalusage_r,"t_waste_r":totalwastage_r})
+            return render(request,"ep/plastic_data.html",{"comp":comp,"report_r":page,"totalcollection_r":totalcollection_r,"count_r":count_r,"t_usage_r":totalusage_r,"t_waste_r":totalwastage_r,'total':p})
 
     else:   
         return redirect('signin')
 class ReportPdf(View):
     def get(self, request, *args, **kwargs):
         
-        report= CustomerData.objects.filter(plastic_id__pc_name=request.GET['pc_name'])
-        if report:
-            report = CustomerData.objects.all().filter(plastic_id__pc_name=request.GET['pc_name'],cust_id__master_id__id=request.session['id'])
-            data = {'report':report}
-            pdf = render_to_pdf('ep/report.html', data)
-            if pdf:
-                response = HttpResponse(pdf, content_type='application/pdf')
-                filename = "Reports%s.pdf" %("12341231")
-                content = "filename='%s'" %(filename)
-                response['Content-Disposition'] = content
-                return response
-        else:
-            msg = "No data or Field empty"
+        report= CustomerData.objects.filter(cust_id__master_id__id=request.session['id'])
+        name = request.GET['pc_name']
+        start_date = request.GET['sdate']
+        end_date = request.GET['edate']
+        if name =='' and start_date =='' and end_date =='':
+            msg = "Field empty"
             return render(request,"ep/download.html",{'error':msg})
-        
+        else:
+            if name !='' and name is not None and name !='All':
+                report = report.filter(plastic_id__pc_name=name)
+            if start_date !='' and start_date is not None:
+                report = report.filter(collection_date__gte=start_date)
+            if end_date !='' and end_date is not None:
+                report =report.filter(collection_date__lte=end_date)
+            if report.exists():
+                data = {'report':report}
+                pdf = render_to_pdf('ep/report.html', data)
+                if pdf:
+                    response = HttpResponse(pdf, content_type='application/pdf')
+                    filename = "Reports%s.pdf" %("12341231")
+                    content = "filename='%s'" %(filename)
+                    response['Content-Disposition'] = content
+                    return response
+            else:
+                msg = "No data"
+                return render(request,"ep/download.html",{'error':msg})
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':

@@ -42,8 +42,6 @@
                 <form method="GET" action="{% my_url key13.number 'page' request.GET.urlencode %}">
                     <input list="brow" name="name" onchange="form.submit();" style="width: 190px; float: left;height: 50px;" placeholder="Select Customer Name">
                                     <datalist id="brow"  style="height: fit-content; width: fit-content;">
-                                        <!-- <option value="" selected disabled>Select Plastic Collector</option>
-                                        <option value="">All</option> -->
                                         <option value="" selected disabled>Select Status</option>
                                         <option value="{{comp.comp_id.comp_name}}"></option>
                          
@@ -56,7 +54,6 @@
                                         <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
                                     </div>
                                     <button type="submit" class="theme_button color1">Search</button>
-                                    <!-- </div> -->
         </form>
     </div>
     <br>
@@ -132,9 +129,6 @@
                         {% endif %}
                     </li>
                     
-                    <!-- {% for p in num %}
-                    <li><a href="#">{{p.num_pages}}</a></li>
-                    {% endfor %} -->
                     
                     {% for c in count.page_range %}
                         {% if order.number == c %}
@@ -168,5 +162,4 @@
     </div>
 </div>
 {% endblock %}
-<!-- Data Table area End-->
 

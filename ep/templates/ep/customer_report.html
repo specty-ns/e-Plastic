@@ -83,19 +83,19 @@
 						</div>
 						<form  class="form-inline filters-form" method="GET">
 							&nbsp;&nbsp;&nbsp;
-							<input list="brow" name="pc_name" placeholder="Select Plastic Collector">
+							<input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
 							<datalist id="brow"  style="height: fit-content;">
-								<!-- <option value="" selected disabled>Select Plastic Collector</option>
-								<option value="">All</option> -->
-								{% for pc in plast %}
-								<option value="{{pc.pc_name}}">{{pc.pc_name}}</option>
+								<!-- <option value="" selected disabled>Select Plastic Collector</option>-->
+								<option value="All">All</option> 
+								{% for r in comp %}
+								<option value="{{r.comp_name}}">{{r.comp_name}}</option>
 								{% endfor %}
 							</datalist>&nbsp;
 							Starting Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
 							Ending Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
 							<br><br>
 							<button class="theme_button color2" formaction="{% my_url report.number 'page' request.GET.urlencode %}" style="padding: 10px 20px;">Search</button>
-
+							<a class="fa fa-download theme_button color2" style="padding: 10px 20px;" href="{% url 'download' %}">Download</a>
 							
 						</form>
 						
@@ -187,6 +187,7 @@
 						<div class="col-md-6 text-md-right">
 							Showing {{report.start_index}} to {{report.end_index}} of {{total.count}} items
 						</div>
+
 					</div>
 					
 				</div>

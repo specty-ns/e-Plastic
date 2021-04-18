@@ -71,7 +71,7 @@
 								<nav class="mainmenu_wrapper">
 									<ul class="mainmenu nav sf-menu">
 										<li>
-											<a href="{% url 'index2' %}">Home</a>
+											<a>Home</a>
 	
 										</li>
 										
@@ -102,11 +102,6 @@
 											<li><a href="#pickup">Schedule Pickup</a></li>
 											<li>
 												<a href="{% url 'report' pk=request.session.id %}">Reports</a>
-                                                <ul>
-                                                    <li>
-                                                        <a href="{% url 'download' %}">Download</a>
-                                                    </li>
-                                                </ul>
 											</li>
 										
 											<li>
@@ -117,6 +112,7 @@
 													</li>
 													
 	
+													
 													<li>
 														<a href="{% url 'logout' %}">Log Out</a>
 													</li>
