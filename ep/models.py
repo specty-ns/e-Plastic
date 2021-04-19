@@ -80,13 +80,7 @@ class RecycleProduct(models.Model):
     rproduct_quantity = models.PositiveIntegerField()
     rproduct_desc = models.CharField(max_length=500)
 
-class PlasticRequest(models.Model):
-    comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)
-    plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
-    pproduct_id=models.ForeignKey(PlasticProduct,on_delete=models.CASCADE)
-    request_date = models.DateTimeField()
-    request_quantity = models.BigIntegerField(default=0)
-    status = models.CharField(max_length=20,default="pending")
+
     
 class Transaction(models.Model):
     made_by = models.ForeignKey(Master, related_name='transactions',on_delete=models.CASCADE)
@@ -107,6 +101,16 @@ class ScheduleOrder(models.Model):
     sc_date_time = models.DateTimeField()
     sc_comment = models.CharField(max_length=200)
     pickup_status = models.CharField(max_length=50, default="pending")
+
+class PlasticRequest(models.Model):
+    comp_id=models.ForeignKey(Company,on_delete=models.CASCADE)
+    plasticc_id=models.ForeignKey(PlasticC,on_delete=models.CASCADE)
+    pproduct_id=models.ForeignKey(PlasticProduct,on_delete=models.CASCADE)
+    request_date = models.DateTimeField()
+    request_quantity = models.BigIntegerField(default=0)
+    status = models.CharField(max_length=20,default="pending")
+    transaction_id = models.ForeignKey(Transaction,on_delete=models.CASCADE,null=True)
+    payment_status = models.CharField(max_length=50,default="pending")
 
 class CustomerData(models.Model):
     cust_id = models.ForeignKey(Customer,on_delete=models.CASCADE)

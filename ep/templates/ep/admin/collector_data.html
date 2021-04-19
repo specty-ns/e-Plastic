@@ -36,6 +36,7 @@
                                     <table class="table table-bordered" id="dataTable"  width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>Sr. No.</th>
                                                 <th>Recycling Company</th>
                                                 <th>Plastic Collector</th>
                                                 <th>Collection Date</th>
@@ -52,6 +53,7 @@
                                             {% if plastic %}
                                             {% for i in plastic %}
                                             <tr>
+                                                <td>{{forloop.counter}}</td>
                                                 <td>{{i.rc_id.comp_name}} <br> &lt;{{i.rc_id.master_id.email}}&gt;</td>
                                                 <td>{{i.plastic_id.pc_name}} <br> &lt;{{i.plastic_id.master_id.email}}&gt; </td>
                                                 <td>{{i.collection_date}}</td>

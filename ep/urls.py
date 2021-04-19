@@ -76,5 +76,12 @@ urlpatterns = [
     path("pdf/",views.ReportPdf.as_view(),name='pdf'),
     path('downloads/',views.download,name='download'),
     path("PlasticData/",views.AdminPCData,name="aplastic"),
-    path("CustomerData/",views.AdminCustData,name='acustomer')
+    path("CustomerData/",views.AdminCustData,name='acustomer'),
+    path("CompanyData/",views.AdminRCData,name="rcdata"),
+    path("CustomerDataPdf/",views.AdminCustDataPdf.as_view(),name='acustomerpdf'),
+    path("CustomerDataDl/",views.AdminCustDataDl,name='acustomerdl'),
+    path("CompanyDataDl/",views.AdminRCDataDl,name="rcdatadl"),
+    path("CompanyDataPdf/",views.AdminRCDataPdf,name="rcdatapdf"),
+    path("CompanyOrderDetails/<int:pk>",views.CompanyOrderInfo,name="Codetails"),
+    path('second/',views.second, name='callback'),
 ]

@@ -104,6 +104,12 @@ def OTP(request):
 
 def download(request):
     return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
+def AdminCustDataDl(request):
+    return render(request,"ep/admin/customer_data_dl.html",{'cust':Customer.objects.all()})
+def AdminRCDataDl(request):
+    return render(request,"ep/admin/company_data_dl.html")
+def AdminPCDataDl(request):
+    return render(request,"ep/admin/collector_data_dl.html")
 
 def Register(request):
     try:
@@ -499,7 +505,6 @@ def GetAllPProduct(request,pk):
             return render(request,"ep/allpproducts.html",{'key9':page,"page":p})
     else:
         return redirect('adminin')
-
 def PPUpdateButton(request,pk):
     if "email" in request.session and "password" in request.session:
         try:
@@ -668,6 +673,7 @@ def ShowPReq(request):
             return render(request,"ep/showplasticreq.html")
     else:
         return redirect('adminin')
+
 
 def reqaccept(request,pk):
     if "email" in request.session and "password" in request.session:
@@ -917,6 +923,89 @@ def AdminCustData(request):
         return render(request,'ep/admin/customer_data.html',data)
     else:
         return redirect('alogin')
+class AdminCustDataPdf(View):
+   
+    def get(self, request, *args, **kwargs):
+        try:
+            cust_data = CustomerData.objects.all()
+            cust_name = request.GET.get('cust')
+            start_date = request.GET.get('sdate')
+            end_date = request.GET.get('edate')
+            if cust_name =='' and start_date =='' and end_date =='':
+                msg = "Field empty"
+                return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+            else:
+                if cust_name !='' and cust_name is not None and cust_name !="All":
+                    cust_data = cust_data.filter(cust_id__fname__icontains=cust_name) 
+                if start_date !='' and start_date is not None:
+                    cust_data = cust_data.filter(collection_date__gte=start_date)
+                if end_date !='' and end_date is not None:
+                    cust_data = cust_data.filter(collection_date__lte=end_date)
+                if cust_data.exists():
+                    data =  {'customer':cust_data,'sdate':start_date,'edate':end_date}
+                    pdf = render_to_pdf('ep/admin/customer_data_report.html', data)
+                    if pdf:
+                        response = HttpResponse(pdf, content_type='application/pdf')
+                        filename = "Reports_%s_%s_%s.pdf" %(cust_name,start_date,end_date)
+                        content = "filename='%s'" %(filename)
+                        response['Content-Disposition'] = content
+                        return response
+                else:
+                    msg = "No data"
+                    return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+        except Exception as pdf:
+            msg = "No Internet Connection"
+            print("PDDDDDDDDDDDDDDDDD",pdf)
+            return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+def AdminRCData(request):
+    if "Username" in request.session and "Password" in request.session:
+        rc_data = AddToCart.objects.all().filter(payment_status='TXN_SUCCESS')
+        rc_name = request.GET.get('rc')
+        start_date = request.GET.get('sdate')
+        end_date = request.GET.get('edate')
+        if rc_name !='' and rc_name is not None and rc_name !="All":
+            rc_data = rc_data.filter(company_id__comp_name__icontains=rc_name) 
+        if start_date !='' and start_date is not None:
+            rc_data = rc_data.filter(order_date__gte=start_date)
+        if end_date !='' and end_date is not None:
+            rc_data = rc_data.filter(order_date__lte=end_date)
+        data =  {'company':rc_data,'rc':Company.objects.all()}
+        return render(request,'ep/admin/company_data.html',data)
+    else:
+        return redirect('alogin')
+class AdminRCDataPdf(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            rc_data = CustomerData.objects.all()
+            rc_name = request.GET.get('rc')
+            start_date = request.GET.get('sdate')
+            end_date = request.GET.get('edate')
+            if rc_name =='' and rc_name =='' and rc_name =='':
+                msg = "Field empty"
+                return render(request,"ep/admin/company_data_dl.html",{'error':msg})
+            else:
+                if rc_name !='' and rc_name is not None and rc_name !="All":
+                    rc_data = rc_data.filter(company_id__comp_name__icontains=rc_name) 
+                if start_date !='' and start_date is not None:
+                    rc_data = rc_data.filter(order_date__gte=start_date)
+                if end_date !='' and end_date is not None:
+                    rc_data = rc_data.filter(order_date__lte=end_date)
+                if rc_data.exists():
+                    data =  {'company':rc_data,'sdate':start_date,'edate':end_date}
+                    pdf = render_to_pdf('ep/admin/company_data_report.html', data)
+                    if pdf:
+                        response = HttpResponse(pdf, content_type='application/pdf')
+                        filename = "Reports_%s_%s_%s.pdf" %(cust_name,start_date,end_date)
+                        content = "filename='%s'" %(filename)
+                        response['Content-Disposition'] = content
+                        return response
+                else:
+                    msg = "No data"
+                    return render(request,"ep/admin/company_data_dl.html",{'error':msg})
+        except Exception as pdf:
+            msg = "No Internet Connection"
+            print("PDDDDDDDDDDDDDDDDD",pdf)
+            return render(request,"ep/admin/company_data_dl.html",{'error':msg})
 def AddCart(request):
     if "email" in request.session and "password" in request.session:
         try:
@@ -944,7 +1033,40 @@ def AddCart(request):
             print("Add to cart nai thatu--------------->",aaaa)
     else:
         return redirect('signin')
-
+class AdminCustDataPdf(View):
+   
+    def get(self, request, *args, **kwargs):
+        try:
+            cust_data = CustomerData.objects.all()
+            cust_name = request.GET.get('cust')
+            start_date = request.GET.get('sdate')
+            end_date = request.GET.get('edate')
+            if cust_name =='' and start_date =='' and end_date =='':
+                msg = "Field empty"
+                return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+            else:
+                if cust_name !='' and cust_name is not None and cust_name !="All":
+                    cust_data = cust_data.filter(cust_id__fname__icontains=cust_name) 
+                if start_date !='' and start_date is not None:
+                    cust_data = cust_data.filter(collection_date__gte=start_date)
+                if end_date !='' and end_date is not None:
+                    cust_data = cust_data.filter(collection_date__lte=end_date)
+                if cust_data.exists():
+                    data =  {'customer':cust_data,'sdate':start_date,'edate':end_date}
+                    pdf = render_to_pdf('ep/admin/customer_data_report.html', data)
+                    if pdf:
+                        response = HttpResponse(pdf, content_type='application/pdf')
+                        filename = "Reports_%s_%s_%s.pdf" %(cust_name,start_date,end_date)
+                        content = "filename='%s'" %(filename)
+                        response['Content-Disposition'] = content
+                        return response
+                else:
+                    msg = "No data"
+                    return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+        except Exception as pdf:
+            msg = "No Internet Connection"
+            print("PDDDDDDDDDDDDDDDDD",pdf)
+            return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
 def ShowCart(request,pk):
     if "email" in request.session and "password" in request.session:
         try:
@@ -1147,6 +1269,31 @@ def OrderDetails(request):
                 cust_orders = p.page(p.num_pages)
             print("PPHAAAAAAAAAAAAA0",p.num_pages)
             return render(request,"ep/customer_orders.html",{"order":cust_orders,"page":p})
+        if user.role == "PlasticCollector":
+            pc = PlasticC.objects.get(master_id=user)
+            comp = Company.objects.all()
+            
+            for pp in PlasticProduct.objects.all().filter(plasticc_id=pc):
+                pc = pp.plasticc_id
+            order = PlasticRequest.objects.all().filter(plasticc_id=pc,payment_status='TXN_SUCCESS')
+            cust_name = request.GET.get('name')
+            if cust_name !='' and cust_name is not None and cust_name!="All":
+                order = order.filter(comp_id__comp_name__icontains=cust_name)
+            search = request.GET.get('search')
+            if search !='' and search is not None:
+                order= order.filter(comp_id__comp_name__icontains= search) 
+                
+            p = Paginator(order,5)
+            page_num = request.GET.get('page',1)
+            try:
+                page = p.page(page_num)
+            except PageNotAnInteger:
+                page = p.page(1)
+            except EmptyPage:
+                page = p.page(p.num_pages)
+            num =p.num_pages
+            print(p.count)
+            return render(request,"ep/collector_order-received.html",{"order":page,'comp':comp,'count':p})
     else:   
             return redirect('adminin')
 def OrderInfo(request,pk):
@@ -1201,6 +1348,19 @@ def AddData(request):
                 return render(request,"ep/rc_data.html",{'error':message})
     else:   
         return redirect('adminin')
+def CompanyOrderInfo(request,pk):
+    if "email" in request.session and "password" in request.session:
+        odetails = PlasticRequest.objects.get(id=pk)
+        comp = int(odetails.comp_id.id)
+        data = PlasticRequest.objects.all().filter(comp_id=comp)
+        count=0
+        for c in (data): 
+            if c.payment_status=='TXN_SUCCESS':
+                count=count+1
+        total = odetails.request_quantity * odetails.pproduct_id.pproduct_price
+        return render(request,"ep/collector_order-details.html",{"odetails":odetails,'count':count,'total':total})
+    else:   
+            return redirect('adminin')
 
 def Report(request,pk):
     if "email" in request.session and "password" in request.session:
@@ -1237,7 +1397,7 @@ def Report(request,pk):
             return render(request,"ep/customer_report.html",{"plast":plast,"report":page,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage,'total':p})
 
         if user.role == "PlasticCollector":
-            report_r=PlasticData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
+            report_r=RecyclingData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
             pc_name = request.GET.get('pc_name')
             comp = Company.objects.all()
             if pc_name != '' and pc_name is not None and pc_name !="All":
@@ -1272,42 +1432,45 @@ def Report(request,pk):
         return redirect('signin')
 class ReportPdf(View):
     def get(self, request, *args, **kwargs):
-        
-        report= CustomerData.objects.filter(cust_id__master_id__id=request.session['id'])
-        name = request.GET['pc_name']
-        start_date = request.GET['sdate']
-        end_date = request.GET['edate']
-        if name =='' and start_date =='' and end_date =='':
-            msg = "Field empty"
-            return render(request,"ep/download.html",{'error':msg})
-        else:
-            if name !='' and name is not None and name !='All':
-                report = report.filter(plastic_id__pc_name=name)
-            if start_date !='' and start_date is not None:
-                report = report.filter(collection_date__gte=start_date)
-                
-            if end_date !='' and end_date is not None:
-                report =report.filter(collection_date__lte=end_date)
-            if report.exists():
-                data = {'report':report}
-                pdf = render_to_pdf('ep/report.html', data)
-                if pdf:
-                    response = HttpResponse(pdf, content_type='application/pdf')
-                    filename = "Reports%s.pdf" %("12341231")
-                    content = "filename='%s'" %(filename)
-                    response['Content-Disposition'] = content
-                    return response
-            else:
-                msg = "No data"
+        try:
+            report= CustomerData.objects.filter(cust_id__master_id__id=request.session['id'])
+            name = request.GET['pc_name']
+            start_date = request.GET['sdate']
+            end_date = request.GET['edate']
+            if name =='' and start_date =='' and end_date =='':
+                msg = "Field empty"
                 return render(request,"ep/download.html",{'error':msg})
+            else:
+                if name !='' and name is not None and name !='All':
+                    report = report.filter(plastic_id__pc_name=name)
+                if start_date !='' and start_date is not None:
+                    report = report.filter(collection_date__gte=start_date)
+                if end_date !='' and end_date is not None:
+                    report =report.filter(collection_date__lte=end_date)
+                if report.exists():
+                    data = {'report':report,'sdate':start_date,'edate':end_date}
+                    pdf = render_to_pdf('ep/report.html', data)
+                    if pdf:
+                        response = HttpResponse(pdf, content_type='application/pdf')
+                        filename = "Reports_%s_%s_%s.pdf" %(name,start_date,end_date)
+                        content = "filename='%s'" %(filename)
+                        response['Content-Disposition'] = content
+                        return response
+                else:
+                    msg = "No data"
+                    return render(request,"ep/download.html",{'error':msg})
+        except Exception as pdf:
+            msg = "No Internet Connection"
+            print("PDDDDDDDDDDDDDDDDD",pdf)
+            return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
         received_data = dict(request.POST)
         paytm_params = {}
         paytm_checksum = received_data['CHECKSUMHASH'][0]
-          
-
+        
         for key, value in received_data.items():
             if key == 'CHECKSUMHASH':
                 paytm_checksum = value[0]
@@ -1316,17 +1479,18 @@ def callback(request):
         # Verify checksum
         is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
         if is_valid_checksum:
-            received_data['message'] = "Checksum Matched"
-            print(paytm_params['ORDERID'])
-            # user = Master.objects.get(id=paytm_params['ORDERID'])
-            # cust = Customer.objects.get(master_id=user)
-            for i in AddToCart.objects.all().filter(transaction_id=paytm_params['ORDERID']):
-                i.payment_status = paytm_params['STATUS'] 
-                if paytm_params['STATUS'] == "TXN_SUCCESS":
-                    i.order_status = "Order Placed"
-                else:
-                    i.order_status = "Failed"
-                i.save()    
+                received_data['message'] = "Checksum Matched"
+                
+                print(paytm_params['ORDERID'])
+                # user = Master.objects.get(id=paytm_params['ORDERID'])
+                # cust = Customer.objects.get(master_id=user)
+                for i in AddToCart.objects.all().filter(transaction_id=paytm_params['ORDERID']):
+                    i.payment_status = paytm_params['STATUS'] 
+                    if paytm_params['STATUS'] == "TXN_SUCCESS":
+                        i.order_status = "Order Placed"
+                    else:
+                        i.order_status = "Failed"
+                    i.save()    
         else:
             received_data['message'] = "Checksum Mismatched"
             
@@ -1334,6 +1498,7 @@ def callback(request):
 
             return render(request, 'ep/callback.html', context=received_data)
         return render(request, 'ep/callback.html', context=received_data)
+
 def initiate_payment(request):
     udata = Master.objects.get(id=request.session['id'])
     if udata.role == "customer":
@@ -1395,28 +1560,30 @@ def initiate_payment(request):
             print("-------------------------------------------",amount)
             # user = authenticate(request, username=username, password=password)
         except:
-            return render(request, 'ep/customer_cartcheckout.html')
+            return render(request, 'ep/company_cartcheckout.html')
         
         transaction = Transaction.objects.create(made_by=cdata, amount=amount)
         
         transaction.save()
         comp = request.POST['comp']
-        comp_id  =Company.objects.get(id=comp)
+        comp_id  = Company.objects.get(id=comp)
+        req = PlasticRequest.objects.get(comp_id=comp,payment_status="pending")
+        req.transaction_id = transaction
+        req.save()
         # pstatus = request.POST['paystatus']
         
         merchant_key = settings.PAYTM_SECRET_KEY
 
         params = (
             ('MID', settings.PAYTM_MERCHANT_ID),
-            ('ORDER_ID', str(transaction.order_id)),
-            ('CUST_ID', str(transaction.made_by.email)),
+            ('ORDER_ID', str(transaction.id)),
+            ('CUST_ID', request.POST['comp']),
             ('TXN_AMOUNT', str(transaction.amount)),
             ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
             ('WEBSITE', settings.PAYTM_WEBSITE),
-            # ('EMAIL', request.user.email),
             # ('MOBILE_N0', '9911223388'),
             ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),
-            ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+            ('CALLBACK_URL', 'http://127.0.0.1:8000/second/'),
             # ('PAYMENT_MODE_ONLY', 'NO'),
         )
         paytm_params = dict(params)
@@ -1426,8 +1593,37 @@ def initiate_payment(request):
         transaction.save()
     
         paytm_params['CHECKSUMHASH'] = checksum
-        print('SSSSSSSSSSSSSSSSSSSSSSS: ', paytm_params['RESPMSG'])
+        
         return render(request, 'ep/redirect.html', context=paytm_params)
+
+@csrf_exempt
+def second(request):
+    if request.method == 'POST':
+        received_data = dict(request.POST)
+        paytm_params = {}
+        paytm_checksum = received_data['CHECKSUMHASH'][0]
+        
+        
+        for key, value in received_data.items():
+            if key == 'CHECKSUMHASH':
+                paytm_checksum = value[0]
+            else:
+                paytm_params[key] = str(value[0])
+                
+        # Verify checksum
+        is_valid_checksum = verify_checksum(paytm_params, settings.PAYTM_SECRET_KEY, str(paytm_checksum))
+        if is_valid_checksum:
+            received_data['message'] = "Checksum Matched"
+            plastic = PlasticRequest.objects.get(transaction_id=paytm_params['ORDERID'])
+            plastic.payment_status=paytm_params['STATUS']
+            plastic.save()   
+        else:
+            received_data['message'] = "Checksum Mismatched"
+            
+            print("Payment3",paytm_params['STATUS'])
+
+            return render(request, 'ep/callback.html', context=received_data)
+        return render(request, 'ep/callback.html', context=received_data)
 
 def Logout(request):
     if request.session['Role'] == "customer":

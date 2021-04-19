@@ -25,7 +25,7 @@
 <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
 <style>
 
-@page
+    @page
     {
 
     size: a4 portrait;
@@ -50,8 +50,8 @@
   <!-- Header -->
   <header>
   <div class="row align-items-center">
-    <div class="col-sm-7 text-center text-sm-left mb-3 mb-sm-0">
-        <a href="{% url 'index' %}" class="logo top_logo">
+    <div>
+        <a href="" class="logo top_logo">
             <img src="..\ep\static\images\logo.png" alt="">
             
           </a> 
@@ -83,34 +83,37 @@
                 <thead>
                     <tr>
                         <th>Sr. No.</th>
-                        <th>Date of Collection</th>
-                        <th>Plastic Collector Name</th>
+                        <th>Plastic Collector</th>
+                        <th>Customer Name</th>
+                        <th>Collection Date</th>
                         <th>Total Collection</th>
-                        <th>Usage</th>
-                        <th>Wastage</th>
+                        <th>Total Wastage</th>
+                        <th>Total Usage</th>
+                        
                     </tr>
                 </thead>
+                
+                
                 <tbody>
-                    {% if report %}
-                    {% for i in report %}
+                    {% if customer %}
+                    {% for i in customer %}
                     <tr>
-                    
-                        <td>{{forloop.counter }}</td>
-                        <td>{{i.collection_date|date:"Y-m-d"}}</td>
-                        <td>{{i.plastic_id.pc_name}}</td>
-                        <td>{{i.total_collection}} KGs</td>
-                        <td>{{i.usage}} KGs</td>
-                        <td>{{i.wastage}} KGs</td>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.plastic_id.pc_name}} <br> </td>
+                        <td>{{i.cust_id.fname}} {{i.cust_id.lname}}<br></td>
+                        <td>{{i.collection_date}}</td>
+                        <td>{{i.total_collection}}</td>
+                        <td>{{i.wastage}}</td>
+                        <td>{{i.usage}}</td>                                               
                     </tr>
-                    {% endfor %}
-                    
-                    {% else %}
+                    {% endfor %}   
+                    {% else %} 
                     <tr>
-                        <td colspan="6">No Records</td>
+                        <td colspan="7"><center>No Records</center> </td>
                     </tr>
                     {% endif %}
-
                 </tbody>
+
             </table>
             
         </center>
@@ -120,14 +123,14 @@
     </div>
 </section>
   <!-- Footer -->
-  
+<div id="footer_content" style="text-align: right;"> page <pdf:pagenumber>
+    of <pdf:pagecount>
+</div>
 </div>
 
 <script src="{% static 'js/compressed.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/switcher.js' %}"></script>
 </body>
-<div id="footer_content" style="text-align: right;">
-     Page <pdf:pagenumber> of <pdf:pagecount>
-  </div>
+
 </html>

@@ -52,7 +52,7 @@
                                             {% if customer %}
                                             {% for i in customer %}
                                             <tr>
-                                                <td>{{foorloop.counter}}</td>
+                                                <td>{{forloop.counter}}</td>
                                                 <td>{{i.plastic_id.pc_name}} <br> &lt;{{i.plastic_id.master_id.email}}&gt; </td>
                                                 <td>{{i.cust_id.fname}} {{i.cust_id.lname}}<br> &lt;{{i.cust_id.master_id.email}}&gt;</td>
                                                 <td>{{i.collection_date}}</td>
