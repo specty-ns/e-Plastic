@@ -66,8 +66,8 @@
   </header>
   
   <!-- Main Content -->
-
-  <section class="ls section_padding_100">
+{% if report %}
+<section class="ls section_padding_100">
     <div class="container">
             
         <div class="row">
@@ -91,7 +91,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if report %}
+                    
                     {% for i in report %}
                     <tr>
                     
@@ -103,13 +103,55 @@
                         <td>{{i.wastage}} KGs</td>
                     </tr>
                     {% endfor %}
-                    
-                    {% else %}
+                   
+                </tbody>
+            </table>
+            
+        </center>
+        </div>
+        
+        
+    </div>
+</section>
+{% elif orders %}
+<section class="ls section_padding_100">
+    <div class="container">
+            
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="divider_40"> Plastic Selling Reports {% if sdate %} from {{sdate}}{% endif %}{% if edate %} upto {{edate}} {% endif %} :</h1>
+            </div>
+        </div>
+        
+        <div class="row">
+            <center>
+        
+            <table class="table table-bordered" border="1" style="padding-top:5px; font-size: 12px;">
+                <thead>
                     <tr>
-                        <td colspan="6">No Records</td>
+                        <th>Sr. No.</th>
+                        <th>Customer Name</th>
+                        <th>Order(Product ID)</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Transcation ID</th>
                     </tr>
-                    {% endif %}
-
+                </thead>
+                
+                <tbody>
+                    {% for i in orders %}
+                    
+                    
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.cust_id.fname}} {{i.cust_id.lname}}</td>
+                        <td>{{i.rp_id.rproduct_name}}({{i.id}})</td>
+                        <td>{{i.order_date | date:'Y-m-d H:i'}}</td>
+                        <td>{{i.order_status }}</td>
+                        <td>{{i.transaction_id.id}}</td>
+                    </tr>
+                    
+                    {% endfor %}
                 </tbody>
             </table>
             
@@ -120,7 +162,7 @@
     </div>
 </section>
   <!-- Footer -->
-  
+{% endif %}
 </div>
 
 <script src="{% static 'js/compressed.js' %}"></script>

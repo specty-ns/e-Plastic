@@ -90,6 +90,12 @@ def CustomerProfile(request):
         return render(request,"ep/customer_profile.html")
     else:
         return redirect('adminin')
+def CompanyOrderDl(request):
+    if "email" in request.session and "password" in request.session:
+
+        return render(request,"ep/company_orders_dl.html",{'cust':Customer.objects.all()})
+    else:
+        return redirect('adminin')
 def CompanyProfile(request):
     if "email" in request.session and "password" in request.session:
 
@@ -410,14 +416,7 @@ def CompanyUpdateClick(request,pk):
     else:
         return redirect('adminin')
 
-def ReqPlastic(request):
-    if "email" in request.session and "password" in request.session:
-        udata = Master.objects.get(id=request.session['id'])
-        comp = Company.objects.get(id=udata)
-        request = PlasticRequest.objects.all().filter(comp_id=comp)
-        return render(request,"ep/company_reqplastic",{'requested_plastic':request})
-    else:
-        return redirect('adminin')
+
 def PlasticCollectorProfileData(request,pk):
     if "email" in request.session and "password" in request.session:
 
@@ -1446,7 +1445,7 @@ def Report(request,pk):
             return render(request,"ep/customer_report.html",{"plast":plast,"report":page,"totalcollection":totalcollection,"t_usage":totalusage,"t_waste":totalwastage,'total':p})
 
         if user.role == "PlasticCollector":
-            report_r=RecyclingData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
+            report_r=PlasticData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
             pc_name = request.GET.get('pc_name')
             comp = Company.objects.all()
             if pc_name != '' and pc_name is not None and pc_name !="All":
@@ -1481,38 +1480,70 @@ def Report(request,pk):
         return redirect('signin')
 class ReportPdf(View):
     def get(self, request, *args, **kwargs):
-        try:
-            report= CustomerData.objects.filter(cust_id__master_id__id=request.session['id'])
-            name = request.GET['pc_name']
-            start_date = request.GET['sdate']
-            end_date = request.GET['edate']
-            if name =='' and start_date =='' and end_date =='':
-                msg = "Field empty"
-                return render(request,"ep/download.html",{'error':msg})
-            else:
-                if name !='' and name is not None and name !='All Collectors':
-                    report = report.filter(plastic_id__pc_name=name)
-                if start_date !='' and start_date is not None:
-                    report = report.filter(collection_date__gte=start_date)
-                if end_date !='' and end_date is not None:
-                    report =report.filter(collection_date__lte=end_date)
-                if report.exists():
-                    data = {'report':report,'sdate':start_date,'edate':end_date}
-                    pdf = render_to_pdf('ep/report.html', data)
-                    if pdf:
-                        response = HttpResponse(pdf, content_type='application/pdf')
-                        filename = "Reports_%s_%s_%s.pdf" %(name,start_date,end_date)
-                        content = "filename='%s'" %(filename)
-                        response['Content-Disposition'] = content
-                        return response
-                else:
-                    msg = "No data"
+        if request.session['Role'] =="customer":
+            try:
+                report= CustomerData.objects.filter(cust_id__master_id__id=request.session['id'])
+                name = request.GET['pc_name']
+                start_date = request.GET['sdate']
+                end_date = request.GET['edate']
+                if name =='' and start_date =='' and end_date =='':
+                    msg = "Field empty"
                     return render(request,"ep/download.html",{'error':msg})
-        except Exception as pdf:
-            msg = "No Internet Connection"
-            print("PDDDDDDDDDDDDDDDDD",pdf)
-            return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
-
+                else:
+                    if name !='' and name is not None and name !='All Collectors':
+                        report = report.filter(plastic_id__pc_name=name)
+                    if start_date !='' and start_date is not None:
+                        report = report.filter(collection_date__gte=start_date)
+                    if end_date !='' and end_date is not None:
+                        report =report.filter(collection_date__lte=end_date)
+                    if report.exists():
+                        data = {'report':report,'sdate':start_date,'edate':end_date}
+                        pdf = render_to_pdf('ep/report.html', data)
+                        if pdf:
+                            response = HttpResponse(pdf, content_type='application/pdf')
+                            filename = "Reports_%s_%s_%s.pdf" %(name,start_date,end_date)
+                            content = "filename='%s'" %(filename)
+                            response['Content-Disposition'] = content
+                            return response
+                    else:
+                        msg = "No data"
+                        return render(request,"ep/download.html",{'error':msg})
+            except Exception as pdf:
+                msg = "No Internet Connection"
+                print("PDDDDDDDDDDDDDDDDD",pdf)
+                return render(request,"ep/download.html",{'error':msg})
+        if request.session['Role'] == "RecyclingCompany":
+            try:
+                orders= AddToCart.objects.all().filter(company_id__master_id=request.session['id'],payment_status="TXN_SUCCESS")
+                name = request.GET['cust']
+                start_date = request.GET['sdate']
+                end_date = request.GET['edate']
+                if name =='' and start_date =='' and end_date =='':
+                    msg = "Field empty"
+                    return render(request,"ep/company_orders_dl.html",{'error':msg})
+                else:
+                    if name !='' and name is not None and name !='All Customers':
+                        orders = orders.filter(cust_id__fname=name)
+                    if start_date !='' and start_date is not None:
+                        orders = orders.filter(order_date__gte=start_date)
+                    if end_date !='' and end_date is not None:
+                        orders =orders.filter(order_date__lte=end_date)
+                    if orders.exists():
+                        data = {'orders':orders,'sdate':start_date,'edate':end_date}
+                        pdf = render_to_pdf('ep/report.html', data)
+                        if pdf:
+                            response = HttpResponse(pdf, content_type='application/pdf')
+                            filename = "Reports_%s_%s_%s.pdf" %(name,start_date,end_date)
+                            content = "filename='%s'" %(filename)
+                            response['Content-Disposition'] = content
+                            return response
+                    else:
+                        msg = "No data"
+                        return render(request,"ep/company_orders_dl.html",{'error':msg})
+            except Exception as pdf:
+                msg = "No Internet Connection"
+                print("PDDDDDDDDDDDDDDDDD",pdf)
+                return render(request,"ep/company_orders_dl.html",{'error':msg})
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':

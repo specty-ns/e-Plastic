@@ -38,25 +38,21 @@
     
     <div class="widget widget_search">
         <form method="GET" action="{% my_url order.number 'page' request.GET.urlencode %}">
-            <div class="widget widget_search">
-                <form method="GET" action="{% my_url key13.number 'page' request.GET.urlencode %}">
-                    <input list="brow" name="name" onchange="form.submit();" style="width: 190px; float: left;height: 50px;" placeholder="Select Customer Name">
-                                    <datalist id="brow"  style="height: fit-content; width: fit-content;">
-                                        <!-- <option value="" selected disabled>Select Plastic Collector</option>
-                                        <option value="">All</option> -->
-                                        <option value="" selected disabled>Select Status</option>
-                                        {% for i in cust %}
-                         
-                                        <option value="{{i.fname}}"></option>
-                                        {% endfor %}
-                                    </datalist>
-                                    
-                                    <div class="form-group">
-                                        <label class="sr-only" for="widget-search">Search for:</label>
-                                        <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
-                                    </div>
-                                    <button type="submit" class="theme_button color1">Search</button>
-                                    <!-- </div> -->
+            <input list="brow" name="name" onchange="form.submit();" style="width: 190px; float: left;height: 50px;" placeholder="Select Customer Name">
+            <datalist id="brow"  style="height: fit-content; width: fit-content;">
+                <option value="All Customers"></option>
+                <option value="" selected disabled>Select Status</option>
+                {% for i in cust %}
+                <option value="{{i.fname}}">{{i.lname}}</option>
+                {% endfor %}
+            </datalist>
+            
+            <div class="form-group">
+                <label class="sr-only" for="widget-search">Search for:</label>
+                <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
+            </div>
+            <button type="submit" class="theme_button color1">Search</button>
+                    <!-- </div> -->
         </form>
     </div>
     <br>

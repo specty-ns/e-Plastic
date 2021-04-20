@@ -73,6 +73,7 @@ urlpatterns = [
     path("rcdata",views.RCData,name="rcdata"),
     path("invoice/<int:pk>",views.invoice,name="invoice"),
     path("Customer_Orders/",views.OrderDetails,name="custorder"),
+    path("Customer_OrdersDl/",views.CompanyOrderDl,name="custorderdl"),
     path("OrderDetails/<int:pk>",views.OrderInfo,name="odetails"),
     path("OrderSaved/<int:pk>",views.SaveOrder,name="save"),
     path("pdf/",views.ReportPdf.as_view(),name='pdf'),

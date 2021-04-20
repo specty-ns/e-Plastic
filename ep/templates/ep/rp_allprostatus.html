@@ -47,13 +47,9 @@
 							<div class="with_border with_padding">
 
 								<div class="row admin-table-filters">
-
-									
-
-
 									<!-- .col-* -->
                                     <div class="widget widget_search">
-                                        <form method="GET" action="{% my_url key13.number 'page' request.GET.urlencode %}">
+                                        <form method="GET" action="{% my_url status.number 'page' request.GET.urlencode %}">
                                             <input list="brow" name="status" onchange="form.submit();" style="width: auto; float: left;height: 50px;" placeholder="Select Order Status">
 									<datalist id="brow"  style="height: fit-content;">
 										<!-- <option value="" selected disabled>Select Plastic Collector</option>
