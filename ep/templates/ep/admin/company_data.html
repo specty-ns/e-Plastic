@@ -7,7 +7,8 @@
                         <h1 class="mt-4">Recycled Products Selling  to Customer</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Plastic Collector Data</li>
+                            <li class="breadcrumb-item">Reports</li>
+                            <li class="breadcrumb-item active">Recycling Company Data </li>
                         </ol>
                         
 
@@ -58,7 +59,7 @@
                                                 <td>{{i.rp_id.rproduct_name}}</td>
                                                 <td>{{i.cart_price}}</td>
                                                 <td>{{i.cart_quantity}}</td>
-                                                <td>{{i.order_date}}</td>
+                                                <td>{{i.order_date|date:"Y-m-d"}}</td>
                                                
                                             </tr>
                                             {% endfor %}   

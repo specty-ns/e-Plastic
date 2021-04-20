@@ -107,9 +107,9 @@ def download(request):
 def AdminCustDataDl(request):
     return render(request,"ep/admin/customer_data_dl.html",{'cust':Customer.objects.all()})
 def AdminRCDataDl(request):
-    return render(request,"ep/admin/company_data_dl.html")
+    return render(request,"ep/admin/company_data_dl.html",{'rc':Company.objects.all()})
 def AdminPCDataDl(request):
-    return render(request,"ep/admin/collector_data_dl.html")
+    return render(request,"ep/admin/collector_data_dl.html",{'plast':PlasticC.objects.all()})
 
 def Register(request):
     try:
@@ -907,6 +907,39 @@ def AdminPCData(request):
         return render(request,'ep/admin/collector_data.html',data)
     else:
         return redirect('alogin')
+class AdminPCDataPdf(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            pc_data = PlasticData.objects.all()
+            pc_name = request.GET.get('pc')
+            start_date = request.GET.get('sdate')
+            end_date = request.GET.get('edate')
+            if pc_name =='' and pc_name =='' and pc_name =='':
+                msg = "Field Empty"
+                return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
+            else:
+                if pc_name !='' and pc_name is not None and pc_name !="All":
+                    pc_data = pc_data.filter(plastic_id__pc_name__icontains=pc_name)
+                if start_date !='' and start_date is not None:
+                    pc_data = pc_data.filter(collection_date__gte=start_date)
+                if end_date !='' and end_date is not None:
+                    pc_data = pc_data.filter(collection_date__lte=end_date)
+                if pc_data.exists():
+                    data =  {'plastic':pc_data,'sdate':start_date,'edate':end_date}
+                    pdf = render_to_pdf('ep/admin/collector_data_report.html', data)
+                    if pdf:
+                        response = HttpResponse(pdf, content_type='application/pdf')
+                        filename = "Reports_%s_%s_%s.pdf" %(pc_name,start_date,end_date)
+                        content = "filename='%s'" %(filename)
+                        response['Content-Disposition'] = content
+                        return response
+                else:
+                    msg = "No data"
+                    return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
+        except Exception as pcpdf:
+            msg = "No Internet Connection"
+            print("pcPDDDDDDDDDDDDDDDDD",pcpdf)
+            return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
 def AdminCustData(request):
     if "Username" in request.session and "Password" in request.session:
         cust_data = CustomerData.objects.all()
@@ -932,7 +965,7 @@ class AdminCustDataPdf(View):
             start_date = request.GET.get('sdate')
             end_date = request.GET.get('edate')
             if cust_name =='' and start_date =='' and end_date =='':
-                msg = "Field empty"
+                msg = "Field Empty"
                 return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
             else:
                 if cust_name !='' and cust_name is not None and cust_name !="All":
@@ -976,12 +1009,12 @@ def AdminRCData(request):
 class AdminRCDataPdf(View):
     def get(self, request, *args, **kwargs):
         try:
-            rc_data = CustomerData.objects.all()
+            rc_data = AddToCart.objects.all().filter(payment_status='TXN_SUCCESS')
             rc_name = request.GET.get('rc')
             start_date = request.GET.get('sdate')
             end_date = request.GET.get('edate')
             if rc_name =='' and rc_name =='' and rc_name =='':
-                msg = "Field empty"
+                msg = "Field Empty"
                 return render(request,"ep/admin/company_data_dl.html",{'error':msg})
             else:
                 if rc_name !='' and rc_name is not None and rc_name !="All":
@@ -995,16 +1028,16 @@ class AdminRCDataPdf(View):
                     pdf = render_to_pdf('ep/admin/company_data_report.html', data)
                     if pdf:
                         response = HttpResponse(pdf, content_type='application/pdf')
-                        filename = "Reports_%s_%s_%s.pdf" %(cust_name,start_date,end_date)
+                        filename = "Reports_%s_%s_%s.pdf" %(rc_name,start_date,end_date)
                         content = "filename='%s'" %(filename)
                         response['Content-Disposition'] = content
                         return response
                 else:
                     msg = "No data"
                     return render(request,"ep/admin/company_data_dl.html",{'error':msg})
-        except Exception as pdf:
+        except Exception as rcpdf:
             msg = "No Internet Connection"
-            print("PDDDDDDDDDDDDDDDDD",pdf)
+            print("RCPDDDDDDDDDDDDDDDDD",rcpdf)
             return render(request,"ep/admin/company_data_dl.html",{'error':msg})
 def AddCart(request):
     if "email" in request.session and "password" in request.session:
@@ -1042,7 +1075,7 @@ class AdminCustDataPdf(View):
             start_date = request.GET.get('sdate')
             end_date = request.GET.get('edate')
             if cust_name =='' and start_date =='' and end_date =='':
-                msg = "Field empty"
+                msg = "Field Empty"
                 return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
             else:
                 if cust_name !='' and cust_name is not None and cust_name !="All":

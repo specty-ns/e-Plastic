@@ -58,6 +58,8 @@ urlpatterns = [
     path("checkout/<int:pk>",views.CartCheckout,name="checkout"),
     path('pay/', views.initiate_payment, name='pay'),
     path('callback/',views.callback, name='callback'),
+    path("CompanyOrderDetails/<int:pk>",views.CompanyOrderInfo,name="Codetails"),
+    path('second/',views.second, name='callback'),
     path('otp/',views.OTP,name='otp'),
     path('otpverify/',views.VerifyOtp,name="otpverify"),
     path('requestaccept/<int:pk>',views.reqaccept,name="requestaccept"),
@@ -76,12 +78,14 @@ urlpatterns = [
     path("pdf/",views.ReportPdf.as_view(),name='pdf'),
     path('downloads/',views.download,name='download'),
     path("PlasticData/",views.AdminPCData,name="aplastic"),
+    path("PlasticDataDl/",views.AdminPCDataDl,name="aplasticdl"),
+    path("PlasticDataPdf/",views.AdminPCDataPdf.as_view(),name="aplasticpdf"),
+
     path("CustomerData/",views.AdminCustData,name='acustomer'),
     path("CompanyData/",views.AdminRCData,name="rcdata"),
     path("CustomerDataPdf/",views.AdminCustDataPdf.as_view(),name='acustomerpdf'),
     path("CustomerDataDl/",views.AdminCustDataDl,name='acustomerdl'),
     path("CompanyDataDl/",views.AdminRCDataDl,name="rcdatadl"),
-    path("CompanyDataPdf/",views.AdminRCDataPdf,name="rcdatapdf"),
-    path("CompanyOrderDetails/<int:pk>",views.CompanyOrderInfo,name="Codetails"),
-    path('second/',views.second, name='callback'),
+    path("CompanyDataPdf/",views.AdminRCDataPdf.as_view(),name="rcdatapdf"),
+
 ]

@@ -72,7 +72,7 @@
             
         <div class="row">
             <div class="col-sm-12">
-                <h1 class="divider_40"> Plastic Selling Reports {% if sdate %} from date: {{sdate}}{% endif %}{% if edate %} till date: {{edate}} {% endif %}:</h1>
+                <h1 class="divider_40"> Recycled Products Selling  to Customer {% if sdate %} from date: {{sdate}}{% endif %}{% if edate %} till date: {{edate}} {% endif %} :</h1>
             </div>
         </div>
         
@@ -81,30 +81,31 @@
         
             <table class="table table-bordered" border="1" style="padding-top:5px; font-size: 12px;">
                 <thead>
-                    <tr>
+                    <tr>            
                         <th>Sr. No.</th>
-                        <th>Plastic Collector</th>
-                        <th>Customer Name</th>
-                        <th>Collection Date</th>
-                        <th>Total Collection</th>
-                        <th>Total Wastage</th>
-                        <th>Total Usage</th>
+                        <th>Recycling Company</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
                         
                     </tr>
                 </thead>
                 
                 
                 <tbody>
-                    {% if customer %}
-                    {% for i in customer %}
+                    {% if company %}
+                    {% for i in company %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>{{i.plastic_id.pc_name}} </td>
+                        <td>{{i.company_id.comp_name}}</td>
                         <td>{{i.cust_id.fname}} {{i.cust_id.lname}}</td>
-                        <td>{{i.collection_date|date:"Y-m-d"}}</td>
-                        <td>{{i.total_collection}}</td>
-                        <td>{{i.wastage}}</td>
-                        <td>{{i.usage}}</td>                                               
+                        <td>{{i.rp_id.rproduct_name}}</td>
+                        <td>{{i.cart_price}}</td>
+                        <td>{{i.cart_quantity}}</td>
+                        <td>{{i.order_date|date:"Y-m-d"}}</td>
+                        
                     </tr>
                     {% endfor %}   
                     {% else %} 
@@ -113,7 +114,6 @@
                     </tr>
                     {% endif %}
                 </tbody>
-
             </table>
             
         </center>

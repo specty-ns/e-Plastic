@@ -7,6 +7,7 @@
                         <h1 class="mt-4">Plastic Selling to Recycling Company</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item">Reports</li>
                             <li class="breadcrumb-item active">Plastic Collector Data</li>
                         </ol>
                         
@@ -56,7 +57,7 @@
                                                 <td>{{forloop.counter}}</td>
                                                 <td>{{i.rc_id.comp_name}} <br> &lt;{{i.rc_id.master_id.email}}&gt;</td>
                                                 <td>{{i.plastic_id.pc_name}} <br> &lt;{{i.plastic_id.master_id.email}}&gt; </td>
-                                                <td>{{i.collection_date}}</td>
+                                                <td>{{i.collection_date|date:"Y-m-d"}}</td>
                                                 <td>{{i.total_collection}}</td>
                                                 <td>{{i.wastage}}</td>
                                                 <td>{{i.usage}}</td>
