@@ -13,7 +13,6 @@
                     <li class="active">Customer Orders</li>
                 </ol>
             </div>
-            <!-- .col-* -->
             <div class="col-md-6 text-md-right">
                 <span class="dashboard-daterangepicker">
                     <i class="fa fa-calendar"></i>
@@ -21,11 +20,8 @@
                     <i class="caret"></i>
                 </span>
             </div>
-            <!-- .col-* -->
         </div>
-        <!-- .row -->
     </div>
-    <!-- .container -->
 </section>
             <div id="layoutSidenav_content">
                 <main>
@@ -52,7 +48,6 @@
                 <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
             </div>
             <button type="submit" class="theme_button color1">Search</button>
-                    <!-- </div> -->
         </form>
     </div>
     <br>
@@ -126,9 +121,6 @@
                         {% endif %}
                     </li>
                     
-                    <!-- {% for p in num %}
-                    <li><a href="#">{{p.num_pages}}</a></li>
-                    {% endfor %} -->
                     
                     {% for c in count.page_range %}
                         {% if order.number == c %}
@@ -162,5 +154,4 @@
     </div>
 </div>
 {% endblock %}
-<!-- Data Table area End-->
 

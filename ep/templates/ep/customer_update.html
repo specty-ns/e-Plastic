@@ -1,25 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js">
-<!--<![endif]-->
-<!-- Mirrored from webdesign-finder.com/html/gogreen/admin_bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Oct 2020 04:12:50 GMT -->
 <head>
 	<title>E-Plastic</title>
 	<link rel = "icon" href = "{% static 'images/logo.png' %}"type = "image/x-icon">
 
 	<meta charset="utf-8">
-	<!--[if IE]>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<![endif]-->
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/animations.css' %}">
 	<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
@@ -27,24 +15,14 @@
 	<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" class="color-switcher-link' %}">
 	<script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
 
-	<!--[if lt IE 9]>
-		<script src="js/vendor/html5shiv.min.js"></script>
-		<script src="js/vendor/respond.min.js"></script>
-		<script src="js/vendor/jquery-1.12.4.min.js"></script>
-	<![endif]-->
-
 </head>
 
 <body class="admin">
-	<!--[if lt IE 9]>
-		<div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="highlight">upgrade your browser</a> to improve your experience.</div>
-	<![endif]-->
 
 	<div class="preloader">
 		<div class="preloader_image"></div>
 	</div>
 
-	<!-- search modal -->
 	<div class="modal" tabindex="-1" role="dialog" aria-labelledby="search_modal" id="search_modal">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">
@@ -61,23 +39,12 @@
 		</div>
 	</div>
 
-	<!-- Unyson messages modal -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
 		<div class="fw-messages-wrap ls with_padding">
-			<!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
-			<!--
-		<ul class="list-unstyled">
-			<li>Message To User</li>
-		</ul>
-		-->
 
 		</div>
 	</div>
-	<!-- eof .modal -->
-	
-	<!-- Unyson messages modal -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="admin_contact_modal">
-		<!-- <div class="ls with_padding"> -->
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<form class="with_padding contact-form" method="post" action="http://webdesign-finder.com/html/gogreen/">
@@ -120,13 +87,8 @@
 		</div>
 	</div>
 
-	<!-- eof .modal -->
-
-	<!-- wrappers for visual page editor and boxed version of template -->
 	<div id="canvas">
 		<div id="box_wrapper">
-
-			<!-- template sections -->
 			<section class="ls section_padding_top_100 section_padding_bottom_100 section_full_height">
 				<div class="container">
 					<div class="row">
@@ -283,26 +245,16 @@
 								</div>
 
 							</div>
-							<!-- .with_border -->
-
 							<p class="divider_20 text-center">
 					
 				</p>
 
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 				</div>
-				<!-- .container -->
 			</section>
 		</div>
-		<!-- eof #box_wrapper -->
 	</div>
-	<!-- eof #canvas -->
-
-
-	<!-- chat -->
 	<div class="side-dropdown side-chat dropdown">
 		<a class="side-button side-chat-button" id="chat-dropdown" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			<i class="fa fa-comments-o"></i>
@@ -372,39 +324,24 @@
 			</li>
 		</ul>
 	</div>
-	<!-- .chat-dropdown -->
-
-
 	<a class="side-button side-contact-button" data-target="#admin_contact_modal" href="#admin_contact_modal" data-toggle="modal" role="button">
 		<i class="fa fa-envelope"></i>
 	</a>
 
 
-	<!-- template init -->
 	<script src="{% static 'js/compressed.js' %}"></script>
 	<script src="{% static 'js/main.js' %}"></script>
 
-	<!-- dashboard libs -->
-
-	<!-- events calendar -->
 	<script src="{% static 'js/admin/moment.min.js' %}"></script>
 	<script src="{% static 'js/admin/fullcalendar.min.js' %}"></script>
-	<!-- range picker -->
 	<script src="{% static 'js/admin/daterangepicker.js' %}"></script>
-
-	<!-- charts -->
 	<script src="{% static 'js/admin/Chart.bundle.min.js' %}"></script>
-	<!-- vector map -->
 	<script src="{% static 'js/admin/jquery-jvectormap-2.0.3.min.js' %}"></script>
 	<script src="{% static 'js/admin/jquery-jvectormap-world-mill.js' %}"></script>
-	<!-- small charts -->
 	<script src="{% static 'js/admin/jquery.sparkline.min.js' %}"></script>
-
-	<!-- dashboard init -->
 	<script src="{% static 'js/admin.js' %}"></script>
 
 </body>
 
 
-<!-- Mirrored from webdesign-finder.com/html/gogreen/admin_signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Oct 2020 04:12:50 GMT -->
 </html>

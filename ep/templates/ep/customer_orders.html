@@ -34,21 +34,17 @@
                                         <form method="GET" action="{% my_url order.number 'page' request.GET.urlencode %}">
                                         <input list="brow" name="status" onchange="form.submit();" style="width: auto; float: left;height: 50px;" placeholder="Select Order Status">
                                         <datalist id="brow"  style="height: fit-content;">
-                                            <!-- <option value="" selected disabled>Select Plastic Collector</option>
-                                            <option value="">All</option> -->
                                             <option value="Shipped">Shipped</option>
                                                 <option value="Order Placed">Order Placed</option>
                                                 <option value="Out of Delivery">Out of Delivery</option>
 												<option value="Delivered">Delivered</option>
                                         </datalist>
-                                            <!-- <div class="form-group-wrap"> -->
                                             <div class="form-group">
                                                 <label class="sr-only" for="widget-search">Search for:</label>
                                                 <input id="widget-search" type="text" style="width: auto; float: right;" value="" name="search" class="form-control" placeholder="Search Keyword">
                                             </div>
                                             <button class="theme_button color2"  style="padding: 10px 20px;">Search</button>
 
-                                            <!-- </div> -->
                                         </form>
                                     </div>
 
@@ -122,9 +118,7 @@
                                                     {% endif %}
                                                 </li>
                                                 
-                                                <!-- {% for p in num %}
-                                                <li><a href="#">{{p.num_pages}}</a></li>
-                                                {% endfor %} -->
+                                               
                                                 {% for c in page.page_range %}
                                                     {% if order.number == c %}
                                                         <li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>
@@ -160,5 +154,4 @@
             </div>
 
 {% endblock %}
-<!-- Data Table area End-->
 

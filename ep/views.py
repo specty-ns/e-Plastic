@@ -28,6 +28,11 @@ def IndexPage(request):
     for y in report_i:
         totalwastage_i+=y.wastage
     return render(request,"ep/index-2.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
+def AboutUs(request):
+    return render(request,"ep/about.html")
+def FAQ(request):
+    return render(request,"ep/faq.html")
+
 def CompanyIndexPage(request):
     if "email" in request.session and "password" in request.session:
         user = Master.objects.get(id=request.session['id'])

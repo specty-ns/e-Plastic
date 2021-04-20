@@ -14,7 +14,6 @@
 								<li class="active">Order Summary</li>
 							</ol>
 						</div>
-						<!-- .col-* -->
 						<div class="col-md-6 text-md-right">
 							<span class="dashboard-daterangepicker">
 								<i class="fa fa-calendar"></i>
@@ -22,14 +21,10 @@
 								<i class="caret"></i>
 							</span>
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 				</div>
-				<!-- .container -->
 			</section>
 {% if odetails %}
-<!-- odetails.payment_status == 'TXN_SUCCESS' -->
 			<section class="ls section_padding_top_50 section_padding_bottom_50 columns_padding_10">
 				<div class="container-fluid">
 
@@ -38,7 +33,6 @@
 							<h3>Order Summary</h3>
 						</div>
 					</div>
-					<!-- .row -->
 					
 					<form class="form-horizontal" action="{% url 'save' pk=odetails.id %}" method="POST">
 						{% csrf_token %}
@@ -93,7 +87,6 @@
 
 										</table>
 									</div>
-									<!-- .table-responsive -->
 
 
 									<div class="row form-group">
@@ -120,15 +113,9 @@
 											<a href="{% url 'custorder' %}" class="theme_button inverse wide_button">Cancel</a>
 										</div>
 									</div>
-									<!-- .row  -->
-
 								</div>
-								<!-- .with_border -->
-
 							</div>
-							<!-- .col-* -->
 						</div>
-						<!-- .row  -->
 					</form>
 
 					<div class="row flex-row">
@@ -205,9 +192,7 @@
 
 
 							</div>
-							<!-- .muted_background -->
 						</div>
-						<!-- .col-* -->
 
 						<div class="col-md-6">
 							<div class="with_border with_padding">
@@ -281,13 +266,9 @@
 								</ul>
 
 							</div>
-							<!-- .muted_background -->
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 				</div>
-				<!-- .container -->
 			</section>
 {% endif %}
 			<section class="page_copyright ds darkblue_bg_color">
@@ -304,12 +285,7 @@
 			</section>
 
 		</div>
-		<!-- eof #box_wrapper -->
 	</div>
-	<!-- eof #canvas -->
-
-
-	<!-- chat -->
 	<div class="side-dropdown side-chat dropdown">
 		<a class="side-button side-chat-button" id="chat-dropdown" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			<i class="fa fa-comments-o"></i>

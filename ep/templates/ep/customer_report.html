@@ -85,7 +85,6 @@
 							&nbsp;&nbsp;&nbsp;
 							<input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
 							<datalist id="brow"  style="height: fit-content;">
-								<!-- <option value="" selected disabled>Select Plastic Collector</option>-->
 								<option value="All">All</option> 
 								{% for r in comp %}
 								<option value="{{r.comp_name}}">{{r.comp_name}}</option>
@@ -157,9 +156,7 @@
 									{% endif %}
 								</li>
 								
-								<!-- {% for p in num %}
-								<li><a href="#">{{p.num_pages}}</a></li>
-								{% endfor %} -->
+								
 								{% for c in total.page_range %}
 									{% if report.number == c %}
 										<li class="active"><span>{{ c }} <span class="sr-only">(current)</span></span></li>

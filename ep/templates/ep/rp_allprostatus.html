@@ -13,7 +13,6 @@
 								<li class="active">Plastic Requests</li>
 							</ol>
 						</div>
-						<!-- .col-* -->
 						<div class="col-md-6 text-md-right">
 							<span class="dashboard-daterangepicker">
 								<i class="fa fa-calendar"></i>
@@ -21,11 +20,8 @@
 								<i class="caret"></i>
 							</span>
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 				</div>
-				<!-- .container -->
 			</section>
 
 {% load ep_extras %}
@@ -38,22 +34,17 @@
 						<div class="col-md-12">
 							<h3>Plastic Requests</h3>
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="with_border with_padding">
 
 								<div class="row admin-table-filters">
-									<!-- .col-* -->
                                     <div class="widget widget_search">
                                         <form method="GET" action="{% my_url status.number 'page' request.GET.urlencode %}">
                                             <input list="brow" name="status" onchange="form.submit();" style="width: auto; float: left;height: 50px;" placeholder="Select Order Status">
 									<datalist id="brow"  style="height: fit-content;">
-										<!-- <option value="" selected disabled>Select Plastic Collector</option>
-										<option value="">All</option> -->
 										<option value="" selected disabled>Select Status</option>
                                                 <option value="">All</option>
                                                 <option value="Pending">Pending</option>
@@ -65,13 +56,9 @@
 										<input id="widget-search" type="text" style="width: auto; float: right; height: fit-content;" value="" name="search" class="form-control" placeholder="Search Keyword">
 									</div>
 									<button type="submit" class="theme_button color1">Search</button>
-									<!-- </div> -->
                                         </form>
                                     </div>
-
-									<!-- .col-* -->
 								</div>
-								<!-- .row -->
 
 								<div class="table-responsive">
 									<table class="table table-striped table-bordered text-center w-100">
@@ -127,13 +114,9 @@
 									</table>
                                     
 								</div>
-								<!-- .table-responsive -->
 							</div>
-							<!-- .with_border -->
 						</div>
-						<!-- .col-* -->
 					</div>
-					<!-- .row -->
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="row">
@@ -154,9 +137,7 @@
 											{% endif %}
 										</li>
 										
-										<!-- {% for p in num %}
-										<li><a href="#">{{p.num_pages}}</a></li>
-										{% endfor %} -->
+										
 										
 										{% for c in count.page_range %}
 											{% if status.number == c %}
@@ -189,9 +170,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- .row main columns -->
 				</div>
-				<!-- .container -->
 			</section>
 
 			<section class="page_copyright ds darkblue_bg_color">
@@ -208,12 +187,7 @@
 			</section>
 
 		</div>
-		<!-- eof #box_wrapper -->
 	</div>
-	<!-- eof #canvas -->
-
-
-	<!-- chat -->
 	<div class="side-dropdown side-chat dropdown">
 		<a class="side-button side-chat-button" id="chat-dropdown" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 			<i class="fa fa-comments-o"></i>

@@ -53,14 +53,12 @@
 													<div class="form-group">
 														<input id="widget-search" type="text" style="width: auto; float: right;" name="search"  placeholder="Search">
 													</div>
-													<!-- </div> -->
 													<button type="submit" class="theme_button color1">Search</button>
 						
 												</form>
 											</div>
 								
 							</div>
-							<!-- <div class="columns-4">
 								
 								
 											
@@ -92,41 +90,7 @@
 							</tbody>
 						</table>
 				
-						<!-- <div class="col-sm-6">
-							
-							<ul id="" class="">
-								<li class="">
-									<div class="horizontal-item">
-										<div style="max-width: 500px;">
-											<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
-										</div>
-										<div class="item-content">
-											<h4 class="poppins bottommargin_10">
-												<a href="{% url 'prodesc' pk=i.id %}">{{i.rproduct_name}}</a>
-											</h4>
-											<p class="price">
-									 
-									<ins>
-										₹<span class="amount">{{i.rproduct_price}}</span>
-									</ins>
-									{{i.company_id.comp_name}} 
-
-								</p>
-								<form action="{% url 'addtocart' %}" method="post">
-									{% csrf_token %}
-									
-									Enter Quantity
-									<input type="number" min="1" max="{{i.rproduct_quantity}}"class="product-quantity"  name="product_quantity">
-									<input type="hidden" name="atcprice" value="{{i.rproduct_price}}">
-									<input type="hidden" name="pid" value="{{i.id}}">
-									<button class="theme_button color1" >Add to Cart</button>		
-								</form>	
-									</div>
-									</div>
-								</li>
-							</ul>
-							
-						</div> -->
+						
 						{% endfor %}
 							
 {% endif %}
