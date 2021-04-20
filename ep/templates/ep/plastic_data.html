@@ -78,7 +78,7 @@
                     <br><br>
                     <form action="{% my_url report_r.number 'page' request.GET.urlencode %}" class="form-inline filters-form" method="GET">
 
-                    <input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
+                    <input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Company">
 							<datalist id="brow"  style="height: fit-content;">
 								<option value="All">All</option> 
 								{% for r in comp %}
@@ -93,22 +93,23 @@
 							<thead>
                                 <tr>
                                     <th>Sr. No.</th>
-                                    <th>Name</th>
+                                    <th>Company Name</th>
                                     <th>Total Collection</th>
                                     <th>Usage</th>
                                     <th>Wastage</th>
+									<th>Types</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% if report_r %}
                                 {% for i in report_r %}
                                 <tr>
-                                
                                     <td>{{report_r.start_index|add:forloop.counter0 }}</td>
                                     <td>{{i.rc_id.comp_name}}</td>
                                     <td>{{i.total_collection}} KGs</td>
                                     <td>{{i.usage}} KGs</td>
                                     <td>{{i.wastage}} KGs</td>
+									<td>{{i.types}}</td>
                                 </tr>
                                 {% endfor %}
                                 {% else %}
@@ -116,8 +117,6 @@
 								<tr>
 									<td colspan="5"><center>No Records</center></td>
 								</tr>
-								
-
                                 {% endif %}
                             </tbody>
 						</table>

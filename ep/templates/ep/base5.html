@@ -191,12 +191,7 @@
 												Edit Profile
 											</a>
 										</li>
-										<li>
-											<a href="{% url 'report' pk=request.session.id %}">									
-												<i class="rt-icon2-document-text"></i>
-												Report
-											</a>
-										</li>
+										
 										<li>
 											<a href="{% url 'logout' %}">
 												<i class="fa fa-sign-out"></i>
@@ -208,7 +203,7 @@
 									</ul>
 								</li>
 								<li>
-									<a href="admin_posts.html">
+									<a href="">
 										<i class="fa fa-file-text"></i>
 										Data 
 									</a>
@@ -218,8 +213,23 @@
 							Customer Data
 						</a>
 										</li>
-										
-
+									</ul>
+								</li>
+								<li>
+									<a href="">
+										<i class="rt-icon2-clipboard"></i>Reports
+									</a>
+									<ul>
+										<li>
+											<a href="{% url 'report' pk=request.session.id %}">									
+												View
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'plasticdl' %}">
+												Download
+											</a>
+										</li>
 									</ul>
 								</li>
 								<li>

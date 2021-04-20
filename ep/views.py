@@ -46,7 +46,6 @@ def CollectorIndexPage(request,pk):
         count_r =0
         for c in enumerate(report_r): 
             count_r=count_r+1
-            print(count_r)
         for i in report_r:
             totalcollection_r += i.total_collection
         for u in report_r:
@@ -92,19 +91,22 @@ def CustomerProfile(request):
         return redirect('adminin')
 def CompanyOrderDl(request):
     if "email" in request.session and "password" in request.session:
-
         return render(request,"ep/company_orders_dl.html",{'cust':Customer.objects.all()})
     else:
         return redirect('adminin')
 def CompanyProfile(request):
     if "email" in request.session and "password" in request.session:
-
         return render(request,"ep/company_profile.html")
     else:
         return redirect('adminin')
 def PlasticCollectorProfile(request):
     if "email" in request.session and "password" in request.session:
         return render(request,"ep/plasticCollector_profile.html")
+    else:
+        return redirect('adminin')
+def PlasticDataDl(request):
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/plastic_data_dl.html",{'rc':Company.objects.all()})
     else:
         return redirect('adminin')
 def PProduct(request):
@@ -153,7 +155,6 @@ def download(request):
         return redirect('signin')
 def AdminCustDataDl(request):
     if "Role" in request.session and "password" in request.session:
-
         return render(request,"ep/admin/customer_data_dl.html",{'cust':Customer.objects.all()})
     else:
         return redirect('alogin')
@@ -1540,6 +1541,38 @@ class ReportPdf(View):
                     else:
                         msg = "No data"
                         return render(request,"ep/company_orders_dl.html",{'error':msg})
+            except Exception as pdf:
+                msg = "No Internet Connection"
+                print("PDDDDDDDDDDDDDDDDD",pdf)
+                return render(request,"ep/company_orders_dl.html",{'error':msg})
+        if request.session['Role'] == "PlasticCollector":
+            try:
+                orders=PlasticData.objects.all().filter(plastic_id__master_id__id=request.session['id'])
+                name = request.GET.get('comp')
+                start_date = request.GET['sdate']
+                end_date = request.GET['edate']
+                if name =='' and start_date =='' and end_date =='':
+                    msg = "Field empty"
+                    return render(request,"ep/plastic_data_dl.html",{'error':msg})
+                else:
+                    if name !='' and name is not None and name !='All Companies':
+                        orders = orders.filter(rc_id__comp_name=name)
+                    if start_date !='' and start_date is not None:
+                        orders = orders.filter(collection_date__gte=start_date)
+                    if end_date !='' and end_date is not None:
+                        orders =orders.filter(collection_date__lte=end_date)
+                    if orders.exists():
+                        data = {'plastic':orders,'sdate':start_date,'edate':end_date}
+                        pdf = render_to_pdf('ep/report.html', data)
+                        if pdf:
+                            response = HttpResponse(pdf, content_type='application/pdf')
+                            filename = "Reports_%s_%s_%s.pdf" %(name,start_date,end_date)
+                            content = "filename='%s'" %(filename)
+                            response['Content-Disposition'] = content
+                            return response
+                    else:
+                        msg = "No data"
+                        return render(request,"ep/plastic_data_dl.html",{'error':msg})
             except Exception as pdf:
                 msg = "No Internet Connection"
                 print("PDDDDDDDDDDDDDDDDD",pdf)

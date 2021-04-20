@@ -161,6 +161,52 @@
         
     </div>
 </section>
+{% elif plastic %}
+<section class="ls section_padding_100">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="divider_40"> Plastic Selling Reports {% if sdate %} from {{sdate}}{% endif %}{% if edate %} upto {{edate}} {% endif %} :</h1>
+            </div>
+        </div>
+        
+        <div class="row">
+            <center>
+        
+            <table class="table table-bordered" border="1" style="padding-top:5px; font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Recycling Company</th>
+                        <th>Collection Date</th>
+                        <th>Total Collection</th>
+                        <th>Total Wastage</th>
+                        <th>Total Usage</th>
+                        <th colspan="2">Type of Plastic</th>
+                        
+                    </tr>
+                </thead>
+                
+                <tbody style="width: auto;">
+                    {% for i in plastic %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.rc_id.comp_name}}</td>
+                        <td>{{i.collection_date|date:"Y-m-d"}}</td>
+                        <td>{{i.total_collection}}</td>
+                        <td>{{i.wastage}}</td>
+                        <td>{{i.usage}}</td>
+                        <td colspan="2">{{i.types}}</td>
+                        
+                    </tr>
+                    {% endfor %}   
+            </table>
+        </center>
+        </div>
+        
+        
+    </div>
+</section>
   <!-- Footer -->
 {% endif %}
 </div>

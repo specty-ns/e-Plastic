@@ -70,6 +70,7 @@ urlpatterns = [
     path("data",views.CustData,name="custdata"),
     path("adddata/",views.AddData,name="adddata"),
     path("Reports/<int:pk>",views.Report,name="report"),
+    path("ReportsDl/",views.PlasticDataDl,name="plasticdl"),
     path("rcdata",views.RCData,name="rcdata"),
     path("invoice/<int:pk>",views.invoice,name="invoice"),
     path("Customer_Orders/",views.OrderDetails,name="custorder"),
