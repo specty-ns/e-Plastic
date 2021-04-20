@@ -80,7 +80,6 @@ urlpatterns = [
     path("PlasticData/",views.AdminPCData,name="aplastic"),
     path("PlasticDataDl/",views.AdminPCDataDl,name="aplasticdl"),
     path("PlasticDataPdf/",views.AdminPCDataPdf.as_view(),name="aplasticpdf"),
-
     path("CustomerData/",views.AdminCustData,name='acustomer'),
     path("CompanyData/",views.AdminRCData,name="rcdata"),
     path("CustomerDataPdf/",views.AdminCustDataPdf.as_view(),name='acustomerpdf'),

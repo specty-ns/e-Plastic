@@ -29,45 +29,54 @@ def IndexPage(request):
         totalwastage_i+=y.wastage
     return render(request,"ep/index-2.html",{"report_i":report_i,"totalcollection_i":totalcollection_i,"count_i":count_i,"t_usage_i":totalusage_i,"t_waste_i":totalwastage_i})
 def CompanyIndexPage(request):
-    user = Master.objects.get(id=request.session['id'])
-    comp = Company.objects.get(master_id=user)
-    return render(request,"ep/company_index.html",{'image':comp.comp_image})
+    if "email" in request.session and "password" in request.session:
+        user = Master.objects.get(id=request.session['id'])
+        comp = Company.objects.get(master_id=user)
+        return render(request,"ep/company_index.html",{'image':comp.comp_image})
+    else:
+        return redirect('adminin')
 def CollectorIndexPage(request,pk):
-    user = Master.objects.get(id=pk)
-    plast = PlasticC.objects.get(master_id=user)
-    report_r=PlasticData.objects.all().filter(plastic_id=plast)
-    totalcollection_r = 0
-    totalusage_r = 0
-    totalwastage_r = 0
-    count_r =0
-    for c in enumerate(report_r): 
-        count_r=count_r+1
-        print(count_r)
-    for i in report_r:
-        totalcollection_r += i.total_collection
-    for u in report_r:
-        totalusage_r+=u.usage
-    for w in report_r:
-        totalwastage_r+=w.wastage
-    return render(request,"ep/plasticCollector_index.html",{"report_r":report_r,"totalcollection_r":totalcollection_r,"count_r":count_r,"t_usage_r":totalusage_r,"t_waste_r":totalwastage_r})
+    if "email" in request.session and "password" in request.session:
+        user = Master.objects.get(id=pk)
+        plast = PlasticC.objects.get(master_id=user)
+        report_r=PlasticData.objects.all().filter(plastic_id=plast)
+        totalcollection_r = 0
+        totalusage_r = 0
+        totalwastage_r = 0
+        count_r =0
+        for c in enumerate(report_r): 
+            count_r=count_r+1
+            print(count_r)
+        for i in report_r:
+            totalcollection_r += i.total_collection
+        for u in report_r:
+            totalusage_r+=u.usage
+        for w in report_r:
+            totalwastage_r+=w.wastage
+        return render(request,"ep/plasticCollector_index.html",{"report_r":report_r,"totalcollection_r":totalcollection_r,"count_r":count_r,"t_usage_r":totalusage_r,"t_waste_r":totalwastage_r})
+    else:
+        return redirect('adminin')
 def Index2Page(request):
-    user= Master.objects.get(id=request.session['id'])
-    cust = Customer.objects.get(master_id=user)
-    report_s=CustomerData.objects.all().filter(cust_id=cust)
-    totalcollection_s = 0
-    totalusage_s = 0
-    totalwastage_s = 0
-    count_s =0
-    for b in enumerate(report_s): 
-        count_s=count_s+1
-        print(count_s)
-    for s in report_s:
-        totalcollection_s += s.total_collection
-    for d in report_s:
-        totalusage_s+=d.usage
-    for k in report_s:
-        totalwastage_s+=k.wastage
-    return render(request,"ep/index-2.html",{"report_s":report_s,"totalcollection_s":totalcollection_s,"count_s":count_s,"t_usage_s":totalusage_s,"t_waste_s":totalwastage_s})
+    if "email" in request.session and "password" in request.session:
+        user= Master.objects.get(id=request.session['id'])
+        cust = Customer.objects.get(master_id=user)
+        report_s=CustomerData.objects.all().filter(cust_id=cust)
+        totalcollection_s = 0
+        totalusage_s = 0
+        totalwastage_s = 0
+        count_s =0
+        for b in enumerate(report_s): 
+            count_s=count_s+1
+            print(count_s)
+        for s in report_s:
+            totalcollection_s += s.total_collection
+        for d in report_s:
+            totalusage_s+=d.usage
+        for k in report_s:
+            totalwastage_s+=k.wastage
+        return render(request,"ep/index-2.html",{"report_s":report_s,"totalcollection_s":totalcollection_s,"count_s":count_s,"t_usage_s":totalusage_s,"t_waste_s":totalwastage_s})
+    else:
+        return redirect('signin')
 def CustomerSignUp(request):
     return render(request,"ep/customer_signup.html")
 def CustomerSignIn(request):
@@ -77,40 +86,81 @@ def AdminSignUp(request):
 def AdminSignIn(request):
     return render(request,"ep/admin_signin.html")
 def CustomerProfile(request):
-    return render(request,"ep/customer_profile.html")
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/customer_profile.html")
+    else:
+        return redirect('adminin')
 def CompanyProfile(request):
-    return render(request,"ep/company_profile.html")
+    if "email" in request.session and "password" in request.session:
+
+        return render(request,"ep/company_profile.html")
+    else:
+        return redirect('adminin')
 def PlasticCollectorProfile(request):
-    return render(request,"ep/plasticCollector_profile.html")
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/plasticCollector_profile.html")
+    else:
+        return redirect('adminin')
 def PProduct(request):
-    return render(request,"ep/addpproduct.html")
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/addpproduct.html")
+    else:
+        return redirect('adminin')
 def RProduct(request):
-    return render(request,"ep/addrproduct.html")
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/addrproduct.html")
+    else:
+        return redirect('adminin')
 def AdminLogin(request):
     return render(request,"ep/admin/login.html")
+    
 def Dashboard(request):
-    return render(request,"ep/admin/aindex.html")
+    if "Role" in request.session and "password" in request.session:
+        return render(request,"ep/admin/aindex.html")
+    else:
+        return redirect('alogin')
 def CustData(request):
-    return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/customer_data.html",{"cust":Customer.objects.all()})
+    else:
+        return redirect('adminin')
 def RCData(request):
-    comp = Company.objects.get(master_id=request.session['id'])
-    return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),'image':comp.comp_image})
+    if "email" in request.session and "password" in request.session:
+        comp = Company.objects.get(master_id=request.session['id'])
+        return render(request,"ep/rc_data.html",{"rc":PlasticC.objects.all(),'image':comp.comp_image})
+    else:
+        return redirect('adminin')
 def invoice(request,pk):
-    invoice = AddToCart.objects.get(id=pk)
-    return render(request,"ep/invoice.html",{"invoice":invoice})
+    if "email" in request.session and "password" in request.session:
+        invoice = AddToCart.objects.get(id=pk)
+        return render(request,"ep/invoice.html",{"invoice":invoice})
+    else:
+        return redirect('signin')
 
 def OTP(request):
     return render(request,"ep/otpverify.html")
 
 def download(request):
-    return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
+    if "email" in request.session and "password" in request.session:
+        return render(request,"ep/download.html",{'plast':PlasticC.objects.all()})
+    else:
+        return redirect('signin')
 def AdminCustDataDl(request):
-    return render(request,"ep/admin/customer_data_dl.html",{'cust':Customer.objects.all()})
-def AdminRCDataDl(request):
-    return render(request,"ep/admin/company_data_dl.html",{'rc':Company.objects.all()})
-def AdminPCDataDl(request):
-    return render(request,"ep/admin/collector_data_dl.html",{'plast':PlasticC.objects.all()})
+    if "Role" in request.session and "password" in request.session:
 
+        return render(request,"ep/admin/customer_data_dl.html",{'cust':Customer.objects.all()})
+    else:
+        return redirect('alogin')
+def AdminRCDataDl(request):
+    if "Role" in request.session and "password" in request.session:
+        return render(request,"ep/admin/company_data_dl.html",{'rc':Company.objects.all()})
+    else:
+        return redirect('alogin')
+def AdminPCDataDl(request):
+    if "Role" in request.session and "password" in request.session:
+        return render(request,"ep/admin/collector_data_dl.html",{'plast':PlasticC.objects.all()})
+    else:
+        return redirect('alogin')
 def Register(request):
     try:
         if request.POST['role']=="customer":
@@ -852,8 +902,8 @@ def ALogin(request):
         username = request.POST['username']
         password= request.POST['password']
         if username == "admin" and password == "admin":
-            request.session['Username']=username
-            request.session['Password']=password
+            request.session['Role']=username
+            request.session['password']=password
             return render(request,"ep/admin/aindex.html")
         else:
             message = "Invalid Username or Password"
@@ -861,13 +911,13 @@ def ALogin(request):
     except Exception as ll:
         print("Admin Login-------------------------------.",ll)
 def SAdmin(request):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         all_preq = Master.objects.all()     
         return render(request,"ep/admin/tables.html",{'key18':all_preq})
     else:
         return redirect('alogin')       
 def AButton(request,pk):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         try:
             ab = Master.objects.get(id=pk)
             print("IDt--------->",id)
@@ -877,7 +927,7 @@ def AButton(request,pk):
     else:
         return redirect('alogin')
 def AUpdate(request,pk):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         try:
             udata = Master.objects.get(id=pk)
             udata.is_verified = request.POST['verification'] 
@@ -892,7 +942,7 @@ def AUpdate(request,pk):
         return redirect('alogin')
 
 def AdminPCData(request):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         pc_data = PlasticData.objects.all()
         pc_name = request.GET.get('coll')
         start_date = request.GET.get('sdate')
@@ -918,7 +968,7 @@ class AdminPCDataPdf(View):
                 msg = "Field Empty"
                 return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
             else:
-                if pc_name !='' and pc_name is not None and pc_name !="All":
+                if pc_name !='' and pc_name is not None and pc_name !="All Collectors":
                     pc_data = pc_data.filter(plastic_id__pc_name__icontains=pc_name)
                 if start_date !='' and start_date is not None:
                     pc_data = pc_data.filter(collection_date__gte=start_date)
@@ -941,7 +991,7 @@ class AdminPCDataPdf(View):
             print("pcPDDDDDDDDDDDDDDDDD",pcpdf)
             return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
 def AdminCustData(request):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         cust_data = CustomerData.objects.all()
         cust_name = request.GET.get('cust')
         start_date = request.GET.get('sdate')
@@ -968,7 +1018,7 @@ class AdminCustDataPdf(View):
                 msg = "Field Empty"
                 return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
             else:
-                if cust_name !='' and cust_name is not None and cust_name !="All":
+                if cust_name !='' and cust_name is not None and cust_name !="All Customers":
                     cust_data = cust_data.filter(cust_id__fname__icontains=cust_name) 
                 if start_date !='' and start_date is not None:
                     cust_data = cust_data.filter(collection_date__gte=start_date)
@@ -991,7 +1041,7 @@ class AdminCustDataPdf(View):
             print("PDDDDDDDDDDDDDDDDD",pdf)
             return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
 def AdminRCData(request):
-    if "Username" in request.session and "Password" in request.session:
+    if "Role" in request.session and "Password" in request.session:
         rc_data = AddToCart.objects.all().filter(payment_status='TXN_SUCCESS')
         rc_name = request.GET.get('rc')
         start_date = request.GET.get('sdate')
@@ -1017,7 +1067,7 @@ class AdminRCDataPdf(View):
                 msg = "Field Empty"
                 return render(request,"ep/admin/company_data_dl.html",{'error':msg})
             else:
-                if rc_name !='' and rc_name is not None and rc_name !="All":
+                if rc_name !='' and rc_name is not None and rc_name !="All Companies":
                     rc_data = rc_data.filter(company_id__comp_name__icontains=rc_name) 
                 if start_date !='' and start_date is not None:
                     rc_data = rc_data.filter(order_date__gte=start_date)
@@ -1066,40 +1116,7 @@ def AddCart(request):
             print("Add to cart nai thatu--------------->",aaaa)
     else:
         return redirect('signin')
-class AdminCustDataPdf(View):
-   
-    def get(self, request, *args, **kwargs):
-        try:
-            cust_data = CustomerData.objects.all()
-            cust_name = request.GET.get('cust')
-            start_date = request.GET.get('sdate')
-            end_date = request.GET.get('edate')
-            if cust_name =='' and start_date =='' and end_date =='':
-                msg = "Field Empty"
-                return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
-            else:
-                if cust_name !='' and cust_name is not None and cust_name !="All":
-                    cust_data = cust_data.filter(cust_id__fname__icontains=cust_name) 
-                if start_date !='' and start_date is not None:
-                    cust_data = cust_data.filter(collection_date__gte=start_date)
-                if end_date !='' and end_date is not None:
-                    cust_data = cust_data.filter(collection_date__lte=end_date)
-                if cust_data.exists():
-                    data =  {'customer':cust_data,'sdate':start_date,'edate':end_date}
-                    pdf = render_to_pdf('ep/admin/customer_data_report.html', data)
-                    if pdf:
-                        response = HttpResponse(pdf, content_type='application/pdf')
-                        filename = "Reports_%s_%s_%s.pdf" %(cust_name,start_date,end_date)
-                        content = "filename='%s'" %(filename)
-                        response['Content-Disposition'] = content
-                        return response
-                else:
-                    msg = "No data"
-                    return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
-        except Exception as pdf:
-            msg = "No Internet Connection"
-            print("PDDDDDDDDDDDDDDDDD",pdf)
-            return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
+
 def ShowCart(request,pk):
     if "email" in request.session and "password" in request.session:
         try:
@@ -1474,7 +1491,7 @@ class ReportPdf(View):
                 msg = "Field empty"
                 return render(request,"ep/download.html",{'error':msg})
             else:
-                if name !='' and name is not None and name !='All':
+                if name !='' and name is not None and name !='All Collectors':
                     report = report.filter(plastic_id__pc_name=name)
                 if start_date !='' and start_date is not None:
                     report = report.filter(collection_date__gte=start_date)
@@ -1659,6 +1676,10 @@ def second(request):
         return render(request, 'ep/callback.html', context=received_data)
 
 def Logout(request):
+    if request.session['Role'] == 'admin':
+        del request.session['Role']
+        del request.session['password']
+        return HttpResponseRedirect(reverse('alogin')) 
     if request.session['Role'] == "customer":
         del request.session['email'] 
         del request.session['password']   
@@ -1688,7 +1709,7 @@ def Logout(request):
         del request.session['Ogen'] 
         del request.session['Ocon']  
         del request.session['Oemail']
-        return render(request,"ep/admin_signin.html")
+        return HttpResponseRedirect(reverse('adminin')) 
 
     if request.session['Role'] == "PlasticCollector":
         del request.session['email'] 
@@ -1708,4 +1729,6 @@ def Logout(request):
         del request.session['Ogen'] 
         del request.session['Ocon']  
         del request.session['Oemail'] 
-        return render(request,"ep/admin_signin.html")
+        return HttpResponseRedirect(reverse('adminin')) 
+    
+    
