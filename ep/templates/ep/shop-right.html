@@ -32,7 +32,13 @@
 							<div class="shop-sorting">									
 									{% if msg %}
 											
-										<strong><p style="color: green;">{{msg}}</p></strong>
+									<div class="alert alert-success" role="alert">
+										<button type="button" class="close" data-dismiss="alert">
+											<span aria-hidden="true">×</span>
+											<span class="sr-only">Close</span>
+										</button>
+										<strong>{{error}}</strong>
+									</div>>
 								
 									{% endif %}
 									

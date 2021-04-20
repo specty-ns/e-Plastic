@@ -136,23 +136,43 @@
 								</h4>
 								{% if msg2 %}
 								
-								<strong><p style="color: green;">{{msg2}}</p></strong>
-
+								<div class="alert alert-success" role="alert">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">×</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<strong>{{msg2}}</strong>
+								</div>
 								{% endif %}
 								{% if msg9 %}
 								
-								<strong><p style="color: red;">{{msg9}}</p></strong>
-
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">×</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<strong>{{msg9}}</strong>
+								</div>
 								{% endif %}
 								{% if msg %}
 								
-								<strong><p style="color: red;">{{msg}}</p></strong>
-
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">×</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<strong>{{msg}}</strong>
+								</div>
 								{% endif %}
 								{% if msg5 %}
 								
-								<strong><p style="color: red;">{{msg5}}</p></strong>
-
+								<div class="alert alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">×</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<strong>{{msg5}}</strong>
+								</div>
 								{% endif %}
 								<form action="{% url 'login' %}" method="post">
 									{% csrf_token %}

@@ -35,13 +35,24 @@
 						{% csrf_token %}
 						{% if msg %}
 								
-							<strong><p style="color: green;">{{msg}}</p></strong>
+						<div class="alert alert-success" role="alert">
+							<button type="button" class="close" data-dismiss="alert">
+								<span aria-hidden="true">×</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<strong>{{msg}}</strong>
+						</div>
 
 						{% endif %}
 						{% if qty %}
 								
-							<strong><p style="color: green;">{{qty}}</p></strong>
-
+						<div class="alert alert-success" role="alert">
+							<button type="button" class="close" data-dismiss="alert">
+								<span aria-hidden="true">×</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<strong>{{qty}}</strong>
+						</div>
 						{% endif %}
 						<div class="row">
 							<div class="col-md-8">

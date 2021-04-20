@@ -27,7 +27,13 @@
 						<div class="">
 							<!-- <div class="col-sm-7 col-md-8 col-lg-9 col-sm-push-5 col-md-push-4 col-lg-push-3"> -->
 							{% if msg %}
-							<strong><p style="color: red;">{{msg}}</p></strong>
+							<div class="alert alert-danger" role="alert">
+								<button type="button" class="close" data-dismiss="alert">
+									<span aria-hidden="true">×</span>
+									<span class="sr-only">Close</span>
+								</button>
+								<strong>{{msg}}</strong>
+							</div>
 							{% endif %}
 							<div class="table-responsive">
 								<table class="table shop_table cart cart-table">
