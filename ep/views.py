@@ -656,9 +656,8 @@ def CompanyCheckOut(request):
         total = 0
         if udata.role == "RecyclingCompany":
             cdata = Company.objects.get(master_id=udata)
-            cartdata = PlasticRequest.objects.all().filter(comp_id=cdata,pproduct_id=request.POST['pro_id'])
-            for t in cartdata:
-                total = t.request_quantity*t.pproduct_id.pproduct_price
+            cartdata = PlasticRequest.objects.get(id=request.POST['pro_id'])
+            total = cartdata.request_quantity*cartdata.pproduct_id.pproduct_price
             return render(request,"ep/company_checkout.html",{"key26":cartdata,"total":total,"key27":cdata})
     else:
         return redirect('signin')
@@ -911,13 +910,13 @@ def ALogin(request):
     except Exception as ll:
         print("Admin Login-------------------------------.",ll)
 def SAdmin(request):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         all_preq = Master.objects.all()     
         return render(request,"ep/admin/tables.html",{'key18':all_preq})
     else:
         return redirect('alogin')       
 def AButton(request,pk):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         try:
             ab = Master.objects.get(id=pk)
             print("IDt--------->",id)
@@ -927,7 +926,7 @@ def AButton(request,pk):
     else:
         return redirect('alogin')
 def AUpdate(request,pk):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         try:
             udata = Master.objects.get(id=pk)
             udata.is_verified = request.POST['verification'] 
@@ -942,7 +941,7 @@ def AUpdate(request,pk):
         return redirect('alogin')
 
 def AdminPCData(request):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         pc_data = PlasticData.objects.all()
         pc_name = request.GET.get('coll')
         start_date = request.GET.get('sdate')
@@ -991,7 +990,7 @@ class AdminPCDataPdf(View):
             print("pcPDDDDDDDDDDDDDDDDD",pcpdf)
             return render(request,"ep/admin/collector_data_dl.html",{'error':msg})
 def AdminCustData(request):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         cust_data = CustomerData.objects.all()
         cust_name = request.GET.get('cust')
         start_date = request.GET.get('sdate')
@@ -1041,7 +1040,7 @@ class AdminCustDataPdf(View):
             print("PDDDDDDDDDDDDDDDDD",pdf)
             return render(request,"ep/admin/customer_data_dl.html",{'error':msg})
 def AdminRCData(request):
-    if "Role" in request.session and "Password" in request.session:
+    if "Role" in request.session and "password" in request.session:
         rc_data = AddToCart.objects.all().filter(payment_status='TXN_SUCCESS')
         rc_name = request.GET.get('rc')
         start_date = request.GET.get('sdate')
@@ -1616,8 +1615,7 @@ def initiate_payment(request):
         
         transaction.save()
         comp = request.POST['comp']
-        comp_id  = Company.objects.get(id=comp)
-        req = PlasticRequest.objects.get(comp_id=comp,payment_status="pending")
+        req = PlasticRequest.objects.get(id=comp,payment_status="pending")
         req.transaction_id = transaction
         req.save()
         # pstatus = request.POST['paystatus']
