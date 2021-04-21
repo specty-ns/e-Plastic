@@ -188,7 +188,6 @@
 								</center>
 								<hr class="bottommargin_30">
 								<div class="wrap-forms">
-									<form>
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group has-placeholder">
@@ -219,7 +218,8 @@
 										</div>
 										<button type="submit" name="login" class="theme_button block_button color1">Log In</button>
 									</form>
-								</div>
+									
+								</div>	
 
 								<div class="darklinks text-center topmargin_20">
 
@@ -229,10 +229,12 @@
 
 								</div>
 								<div class="collapse form-inline-button" id="signin-resend-password">
-									<form class="form-inline topmargin_20">
+									<form action = "{% url 'forgotpass' %}" method="post" class="form-inline topmargin_20">
+										{% csrf_token %}
 										<div class="form-group">
 											<label class="sr-only">Enter your e-mail</label>
-											<input type="email" class="form-control" placeholder="E-mail">
+											<input type="email" name="email" class="form-control" placeholder="E-mail">
+
 										</div>
 										<button type="submit" class="theme_button with_icon">
 											<i class="fa fa-share"></i>

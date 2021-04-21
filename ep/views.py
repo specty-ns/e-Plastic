@@ -198,13 +198,11 @@ def Register(request):
                     sendmail(email_subject,'mail_template',email,{'name':fname,'otp':otp})
                     mail = email
                     request.session['email']=newMaster.email
-
                     return render(request,"ep/otpverify.html",{'email':mail})
                 else:
                     message= "Password doesn't match!"
                     return render(request,"ep/customer_signup.html",{'msg':message})
            
-        
         if request.POST['role']=="RecyclingCompany":
             role = request.POST['role']
             name=request.POST['name']
@@ -383,6 +381,55 @@ def LoginUser(request):
             print("Pccccc---------------------->",pc)
             return render(request,"ep/admin_signin.html",{'msg5':message})
 
+def ForgotPassword(request):
+    email = request.POST['email']
+    user=Master.objects.filter(email=email)
+    if user:
+        return render(request,"ep/admin_forgotpassword.html",{'email' : email})
+
+    else:
+        message = "Your email doesn't match"
+        return render(request,"ep/admin_signin.html",{'msg' : message })
+
+def ChangePassword(request):
+    password = request.POST['password']
+    cpassword = request.POST['cpassword']
+    if password==cpassword:
+        email = request.POST['email']
+
+        passs = Master.objects.get(email = email)
+        passs.password = request.POST['password']
+        passs.save()
+        message = "Password Updated"
+        return render(request,"ep/admin_signin.html",{'msg' : message})
+    else:
+        message = " Wrong password "
+        return render(request,"ep/admin_forgotpassword",{'msg' : message})   
+
+def CustomerForgotPassword(request):
+    email = request.POST['email']
+    user=Master.objects.filter(email=email)
+    if user:
+        return render(request,"ep/customer_forgotpassword.html",{'email' : email})
+
+    else:
+        message = "Your email doesn't match"
+        return render(request,"ep/customer_signin.html",{'msg' : message })   
+
+def CustomerChangePassword(request):
+    password = request.POST['password']
+    cpassword = request.POST['cpassword']
+    if password==cpassword:
+        email = request.POST['email']
+
+        passs = Master.objects.get(email = email)
+        passs.password = request.POST['password']
+        passs.save()
+        message = "Password Updated"
+        return render(request,"ep/customer_signin.html",{'msg' : message})
+    else:
+        message = " Wrong password "
+        return render(request,"ep/customer_forgotpassword",{'msg' : message})
                 
 def CustomerProfileData(request,pk):
     if "email" in request.session and "password" in request.session:
