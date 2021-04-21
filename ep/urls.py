@@ -90,6 +90,4 @@ urlpatterns = [
     path("CompanyDataPdf/",views.AdminRCDataPdf.as_view(),name="rcdatapdf"),
     path("aboutus/",views.AboutUs,name="aboutus"),
     path("faq/",views.FAQ,name="faq"),
-
-
 ]
