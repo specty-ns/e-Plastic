@@ -45,21 +45,43 @@
 				</span>
 				<div class="scrollbar-macosx">
 					<div class="side_header_inner">
+						{% if request.session.id %}
 						<div class="text-center">
 							<a href="{% url 'index2' %}" class="logo top_logo">
 								<img src="{% static 'images/logo.png' %}" alt="">
-							</a>
+							</a><br>
+							<span class="logo_text" style="color: black;">
+								<span class="big">E-Plastic</span>
+								<span class="small-text">Recycling</span>
+							</span>
 						</div>
+						{% else %}
+						<div class="text-center">
+							<a href="{% url 'index' %}" class="logo top_logo">
+								<img src="{% static 'images/logo.png' %}" alt="">
+							</a><br>
+							<span class="logo_text" style="color: black;">
+								<span class="big">E-Plastic</span>
+								<span class="small-text">Recycling</span>
+							</span>
+						</div>
+						{% endif %}
 						<div class="header-side-menu darklinks">
 							<nav class="mainmenu_side_wrapper">
 								<ul class="nav menu-click">
+									{% if request.session.id %}
 									<li>
 										<a href="{% url 'index2' %}">Home</a>
 
 									</li>
-									
+									{% else %}
 									<li>
-										<a href="about.html">Shop</a>
+										<a href="{% url 'index' %}">Home</a>
+
+									</li>
+									{% endif %}
+									<li>
+										<a href="">Shop</a>
 										<ul>
 											<li>
 												<a href="{% url 'showpro' %}">Products</a>
@@ -82,9 +104,17 @@
 									{% if request.session.id %}
 
 										<li><a href="{% url 'custorder' %}">My Orders</a></li>
-										<li><a href="#pickup">Schedule Pickup</a></li>
+										<li><a href="{% url 'index' %}#pickup">Schedule Pickup</a></li>
 										<li>
-											<a href="{% url 'report' pk=request.session.id %}">Reports</a>
+											<a href="">Reports</a>
+											<ul>
+												<li>
+													<a href="{% url 'report' pk=request.session.id %}">View</a>
+												</li>
+												<li>
+													<a href="{% url 'download' %}">Download</a>
+												</li>
+											</ul>
 										</li>
 									
 										<li>

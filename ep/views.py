@@ -789,11 +789,15 @@ def AddRProduct(request,pk):
                 rpro_price = int(request.POST['rpprice'])
                 rpro_image = request.FILES['rpimage']
                 rpro_quantity = int(request.POST['rpqty'])
-                if rpro_quantity<=0 or rpro_price<=0 :
-                    message= "Invalid quantity or price"
+                rpro_desc = request.POST['rpdesc']
+                if rpro_quantity<=0:
+                    message= "Invalid quantity"
+                    return render(request,"ep/addrproduct.html",{'qty':message})
+                elif rpro_price<=0:
+                    message= "Invalid price"
                     return render(request,"ep/addrproduct.html",{'qty':message})
                 else:
-                    newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity)
+                    newRProduct=RecycleProduct.objects.create(company_id=rc,rproduct_name=rpro_name,rproduct_price=rpro_price,rproduct_image=rpro_image,rproduct_quantity=rpro_quantity,rproduct_desc=rpro_desc)
                     message= "Product Added Successfully"
                     return render(request,"ep/addrproduct.html",{'msg':message})   
         except Exception as asp:
@@ -886,6 +890,7 @@ def UpdateRProduct(request,pk):
             pro.rproduct_price = request.POST['pprice']
             pro.rproduct_image = request.FILES['pimage']
             pro.rproduct_quantity = request.POST['pqty']
+            pro.rproduct_desc = request.POST['pdesc']
             pro.save()
             pp = request.session['id']
             url = f"/allrproducts/{pp}"

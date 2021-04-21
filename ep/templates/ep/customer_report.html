@@ -11,8 +11,10 @@
 							Home
 						</a>
 								</li>
-								
-								<li class="active">Reports</li>
+								<li>
+									<a href="">Reports</a>
+								</li>
+								<li class="active">View</li>
 							</ol>
 						</div>
 					</div>
@@ -94,7 +96,6 @@
 							Ending Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
 							<br><br>
 							<button class="theme_button color2" formaction="{% my_url report.number 'page' request.GET.urlencode %}" style="padding: 10px 20px;">Search</button>
-							<a class="fa fa-download theme_button color2" style="padding: 10px 20px;" href="{% url 'download' %}">Download</a>
 							
 						</form>
 						

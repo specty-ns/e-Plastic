@@ -23,6 +23,17 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-sm-12 display_table">
+							{% if request.session.id %}
+							<div class="header_left_logo display_table_cell">
+								<a href="{% url 'index2' %}" class="logo top_logo">
+									<img src="{% static 'images/logo.png' %}" alt="">
+									<span class="logo_text">
+										<span class="big">E-Plastic</span>
+										<span class="small-text">Recycling</span>
+									</span>
+								</a>
+							</div>
+							{% else %}
 							<div class="header_left_logo display_table_cell">
 								<a href="{% url 'index' %}" class="logo top_logo">
 									<img src="{% static 'images/logo.png' %}" alt="">
@@ -32,12 +43,13 @@
 									</span>
 								</a>
 							</div>
+							{% endif %}
 							<div class="header_mainmenu display_table_cell text-center">
+								{% if request.session.id %}
 								<nav class="mainmenu_wrapper">
 									<ul class="mainmenu nav sf-menu">
 										<li>
-											<a href="{% url 'index' %}">Home</a>
-	
+											<a href="{% url 'index2' %}">Home</a>
 										</li>
 										<li>
 											<a>Shop</a>
@@ -45,7 +57,6 @@
 												<li>
 													<a href="{% url 'showpro' %}">Products</a>
 												</li>
-											{% if request.session.id %}
 												<li>
 													<a href="{% url 'showthecart' pk=request.session.id %}">Shopping Cart</a>
 												</li>
@@ -53,27 +64,54 @@
 												<li>
 													<a href="{% url 'checkout' pk=request.session.id %}">Checkout</a>
 												</li>
-												{% endif %}
+												
 											</ul>
 										</li>
-										{% if request.session.id %}
-											<li><a href="{% url 'custorder' %}">My Orders</a></li>
-											<li><a href="#pickup">Schedule Pickup</a></li>
-											<li>
-												<a href="{% url 'report' pk=request.session.id %}">Reports</a>
-											</li>
-											<li>
-												<a>{{request.session.Firstname}}</a>
-												<ul>
-													<li>
-														<a href="{% url 'profiledata' pk=request.session.id %}">My Profile</a>
-													</li>
-													<li>
-														<a href="{% url 'logout' %}">Log Out</a>
-													</li>
-												</ul>
-											</li>
-										{% else %}
+										<li><a href="{% url 'custorder' %}">My Orders</a></li>
+										<li><a href="#pickup">Schedule Pickup</a></li>
+										<li>
+											<a href="">Reports</a>
+											<ul>
+												<li>
+													<a href="{% url 'report' pk=request.session.id %}">View</a>
+												</li>
+												<li>
+													<a href="{% url	 'download' %}">Download</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<a>{{request.session.Firstname}}</a>
+											<ul>
+												<li>
+													<a href="{% url 'profiledata' pk=request.session.id %}">My Profile</a>
+												</li>
+												<li>
+													<a href="{% url 'logout' %}">Log Out</a>
+												</li>
+											</ul>
+										</li>
+										
+											
+										</li>
+									</ul>
+								</nav>
+								{% else %}
+								<nav class="mainmenu_wrapper">
+									<ul class="mainmenu nav sf-menu">
+										<li>
+											<a href="{% url 'index' %}">Home</a>
+										</li>
+										<li>
+											<a>Shop</a>
+											<ul>
+												<li>
+													<a href="{% url 'showpro' %}">Products</a>
+												</li>
+											
+											</ul>
+										</li>
+										
 											<li>
 												<a>Account</a>
 												<ul>
@@ -85,10 +123,11 @@
 													</li>
 												</ul>
 											</li>
-											{% endif %}
+											
 										</li>
 									</ul>
 								</nav>
+								{% endif %}
 								<span class="toggle_menu">
 									<span></span>
 								</span>

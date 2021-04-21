@@ -57,6 +57,7 @@
                                             <th>Price</th>
                                             <th>Quantity</th>
                                             <th>Image</th>
+											<th>Description</th>
                                             <th>Update</th>
                                             <th>Delete</th>
                                         </tr>
@@ -91,11 +92,15 @@
 											<td class="media-middle">
 												{{i.rproduct_quantity}}
                                             </td>
+											
                                             <td class="media-middle" >
 												<img src="{{MEDIA_URL}}{{ i.rproduct_image.url }}" alt="{{post.title}}" width="20%" height="20%">
                                             </td>
+											<td>
+												{{i.rproduct_desc}}
+											</td>
                                             <td>
-                                              <a href="{% url 'rpbutton' pk=i.id %}"><button type="submit"  class="theme_button color2">Update</button></a>
+                                              <a href="{% url 'rpbutton' pk=i.id %}"  class="theme_button color2">Update</a>
                                             </td>
                                             <td>
 												<input type="hidden" name="id" value="i.id">
