@@ -12,6 +12,7 @@ urlpatterns = [
     path("adminin/",views.AdminSignIn,name="adminin"),
     path("register/",views.Register,name="register"),
     path("signin/",views.CustomerSignIn,name="signin"),
+    # path("custforgotpasss/",views.CustForgotPass,name="custforgotpasss"),
     path("forgotpass/",views.ForgotPassword,name="forgotpass"),
     path("changepass/",views.ChangePassword,name="changepass"),
     path("custforgotpass/",views.CustomerForgotPassword,name="custforgotpass"),

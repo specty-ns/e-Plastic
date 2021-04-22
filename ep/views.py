@@ -32,6 +32,8 @@ def AboutUs(request):
     return render(request,"ep/about.html")
 def FAQ(request):
     return render(request,"ep/faq.html")
+# def CustForgotPass(request):
+#     return render(request,"ep/customer_forgotpassword.html")
 
 def CompanyIndexPage(request):
     if "email" in request.session and "password" in request.session:
@@ -84,6 +86,7 @@ def Index2Page(request):
 def CustomerSignUp(request):
     return render(request,"ep/customer_signup.html")
 def CustomerSignIn(request):
+
     return render(request,"ep/customer_signin.html")
 def AdminSignUp(request):
     return render(request,"ep/admin_signup.html")
@@ -401,7 +404,7 @@ def ChangePassword(request):
         passs.password = request.POST['password']
         passs.save()
         message = "Password Updated"
-        return render(request,"ep/admin_signin.html",{'msg' : message})
+        return render(request,"ep/admin_signin.html",{'achangepass' : message})
     else:
         message = " Wrong password "
         return render(request,"ep/admin_forgotpassword",{'msg' : message})   
@@ -410,6 +413,9 @@ def CustomerForgotPassword(request):
     email = request.POST['email']
     user=Master.objects.filter(email=email)
     if user:
+        # email_subject = "Forgot Password"
+        # forgotpassword(email_subject,'fp',email,{'email':email})
+        # message = "Email Send"
         return render(request,"ep/customer_forgotpassword.html",{'email' : email})
 
     else:
@@ -421,12 +427,11 @@ def CustomerChangePassword(request):
     cpassword = request.POST['cpassword']
     if password==cpassword:
         email = request.POST['email']
-
         passs = Master.objects.get(email = email)
         passs.password = request.POST['password']
         passs.save()
         message = "Password Updated"
-        return render(request,"ep/customer_signin.html",{'msg' : message})
+        return render(request,"ep/customer_signin.html",{'passupd' : message})
     else:
         message = " Wrong password "
         return render(request,"ep/customer_forgotpassword",{'msg' : message})
