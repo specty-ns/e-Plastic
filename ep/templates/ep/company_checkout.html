@@ -183,7 +183,7 @@
 								<form action="{% url 'pay' %}" method="post">
 									{% csrf_token %}
 									
-									<input type="hidden" name="comp" value="{{key26.comp_id.id}}">
+									<input type="hidden" name="comp" value="{{key26.id}}">
 									
 									<input type="hidden" name="total" value="{{total}}"><br>
 									<button class="theme_button color1">checkout</button>

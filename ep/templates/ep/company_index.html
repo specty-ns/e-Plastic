@@ -1,4 +1,5 @@
 {% extends 'ep/base2.html' %}
+{% load static %}
 {% block content %}
 			<section class="ls with_bottom_border">
 				<div class="container-fluid">
@@ -11,13 +12,7 @@
 								<li class="active">Dashboard</li>
 							</ol>
 						</div>
-						<div class="col-md-6 text-md-right">
-							<span class="dashboard-daterangepicker">
-								<i class="fa fa-calendar"></i>
-								<span></span>
-								<i class="caret"></i>
-							</span>
-						</div>
+						
 					</div>
 				</div>
 			</section>
@@ -32,26 +27,6 @@
 								<small>{{request.session.Role}}</small>
 							</h3>
 						</div>
-						<div class="col-md-8 text-md-right">
-							<h3 class="sparklines-title">
-								<sup>Today Earnings:</sup>
-
-								$3,000
-
-								<span class="sparklines" data-values="670,350,135,-170,-324,-386,-468,-200,55,375,520,270,790,-670,-350,135,170,324,386,468,10,55,375,520,270,790" data-type="bar" data-line-color="#eeb269" data-neg-color="#dc5753" data-height="30" data-bar-width="2">
-								</span>
-
-							</h3>
-
-							<h3 class="sparklines-title">
-								<sup>Yesterday Earn: </sup>
-								$4,000
-
-								<span class="sparklines" data-values="670,350,135,-170,-324,386,-468,-10,55,375,520,-270,790,670,-350,135,170,324,386,468,10,-55,-375,-520,270,790" data-type="bar" data-line-color="#4db19e" data-neg-color="#007ebd" data-height="30" data-bar-width="2">
-								</span>
-							</h3>
-
-						</div>
 
 					</div>
 
@@ -59,9 +34,9 @@
 						<div class="col-lg-3 col-sm-6">
 
 							<div class="teaser warning_bg_color counter-background-teaser text-center">
-								<span class="counter counter-background" data-from="0" data-to="1257" data-speed="2100">0</span>
-								<h3 class="counter highlight" data-from="0" data-to="1278" data-speed="2100">0</h3>
-								<p>Reviews / Month</p>
+								<span class="counter counter-background" data-from="0" data-to="{{products}}" data-speed="2100">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{products}}" data-speed="2100">0</h3>
+								<p>Products</p>
 							</div>
 
 						</div>
@@ -69,9 +44,9 @@
 						<div class="col-lg-3 col-sm-6">
 
 							<div class="teaser danger_bg_color counter-background-teaser text-center">
-								<span class="counter counter-background" data-from="0" data-to="346" data-speed="1500">0</span>
-								<h3 class="counter highlight" data-from="0" data-to="378" data-speed="1500">0</h3>
-								<p>Clients / Month</p>
+								<span class="counter counter-background" data-from="0" data-to="{{tcust}}" data-speed="1500">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{tcust}}" data-speed="1500">0</h3>
+								<p>Clients</p>
 							</div>
 
 						</div>
@@ -79,9 +54,9 @@
 						<div class="col-lg-3 col-sm-6">
 
 							<div class="teaser success_bg_color counter-background-teaser text-center">
-								<span class="counter counter-background" data-from="0" data-to="216" data-speed="1900">0</span>
-								<h3 class="counter highlight" data-from="0" data-to="216" data-speed="1900">0</h3>
-								<p>Orders / Month</p>
+								<span class="counter counter-background" data-from="0" data-to="{{torders}}" data-speed="1900">0</span>
+								<h3 class="counter highlight" data-from="0" data-to="{{torders}}" data-speed="1900">0</h3>
+								<p>Orders</p>
 							</div>
 
 						</div>
@@ -89,68 +64,45 @@
 						<div class="col-lg-3 col-sm-6">
 
 							<div class="teaser info_bg_color counter-background-teaser text-center">
-								<span class="counter counter-background" data-from="0" data-to="15" data-speed="1800">0</span>
-								<h3 class="counter-wrap highlight" data-from="0" data-to="346" data-speed="1800">
-									<small>$</small>
-									<span class="counter" data-from="0" data-to="346" data-speed="1500">0</span>
-									<small class="counter-add">k</small>
+								<span class="counter counter-background" data-from="0" data-to="{{earnings}}" data-speed="1800">0</span>
+								<h3 class="counter-wrap highlight" data-from="0" data-to="{{earnings}}" data-speed="1800">
+									₹
+									<span class="counter" data-from="0" data-to="{{earnings}}" data-speed="1500">0</span>
 								</h3>
-								<p>Total Profit</p>
+								<p>Total Earnings</p>
 							</div>
 
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-xs-12 col-md-6">
-							<div class="with_border with_padding">
-								<h4>Visitor Statistics</h4>
-								<div class="canvas-chart-wrapper">
-									<canvas class="canvas-chart-line-yearly-visitors"></canvas>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-md-6">
-							<div class="with_border with_padding">
-								<h4>Visitor vs Sells</h4>
-								<div class="canvas-chart-wrapper">
-									<canvas class="canvas-chart-line-visitors-sels"></canvas>
-								</div>
-								
-							</div>
-						</div>
-
-					</div>
-					<div class="row">
-
-						<div class="col-xs-12 col-md-6">
-							<div class="with_border with_padding">
-								<h4>Monthly Visitor Statistics</h4>
-								<div class="canvas-chart-wrapper">
-									<canvas class="canvas-chart-line-monthly-visitors"></canvas>
-								</div>
-							</div>
-						</div>
-						<div class="col-xs-12 col-md-6">
-							<div class="with_border with_padding">
-								<h4>Monthly Conversion</h4>
-								<div class="canvas-chart-wrapper">
-									<canvas class="canvas-chart-line-conversions"></canvas>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</section>
-
-			<section class="page_copyright ds darkblue_bg_color">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-sm-6">
-							<p class="grey">&copy; Copyrights 2017</p>
+			<section class="ls section_padding_top_100 section_padding_bottom_100">
+				<div class="container">
+					<div class="row columns_padding_25 columns_margin_bottom_20">
+						<div class="col-md-6">
+							<img src="{% static 'images/gallery/05.jpg' %}" alt="">
 						</div>
-						<div class="col-sm-6 text-sm-right">
-							<p class="grey">Last account activity <i class="fa fa-clock-o"></i> 52 mins ago</p>
+						<div class="col-md-6">
+							<h2 class="section_header with_icon">
+								Recycling Company
+							</h2>
+							<p>
+					Thank You for becoming a Recycling Company there are certain thing you should know before being a Recycling Company such as : 
+				</p>
+							<ul class="list2 grey bottommargin_0">
+								<li>You need to add recycled palstic products to shop where customer will buy your product</li>
+								<li>You need to buy customer's plastic from plastic collector</li>
+								<li>You need to differentiate Plastic from 7 different types</li>
+								<li>You need to seprate unsable plastic and non usable plastic</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<p>
+								Our Vision is be a leader in Plastic Conversion while providing Quality, Technology & Professional Development to our customers and the market whilst catering for our shareholders at all times.
+				</p>
 						</div>
 					</div>
 				</div>
@@ -158,73 +110,5 @@
 
 		</div>
 	</div>
-	<div class="side-dropdown side-chat dropdown">
-		<a class="side-button side-chat-button" id="chat-dropdown" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			<i class="fa fa-comments-o"></i>
-		</a>
 
-		<ul class="dropdown-menu list-unstyled" aria-labelledby="chat-dropdown">
-			<li class="dropdown-title darkgrey_bg_color">
-				<h4>
-					Small Chat
-					<span class="pull-right">14.03.2017</span>
-				</h4>
-			</li>
-			<li>
-
-				<ul class="list-unstyled">
-					<li class="side-chat-item item-secondary">
-						<h5>
-							Michael Anderson
-							<time class="pull-right small-chat-date" datetime="2017-03-13T08:50:40+00:00">
-								08:50
-							</time>
-						</h5>
-						<div class="danger_bg_color">
-							Duis autem veum iriure dolor in hendrerit
-						</div>
-					</li>
-					<li class="side-chat-item item-primary">
-						<h5>
-							Jane Walker
-							<time class="pull-right small-chat-date" datetime="2017-03-13T08:50:40+00:00">
-								08:52
-							</time>
-						</h5>
-						<div class="warning_bg_color">
-							Vulputate vese molestie consequatl illum
-						</div>
-					</li>
-					<li class="side-chat-item item-secondary">
-						<h5>
-							Michael Anderson
-							<time class="pull-right small-chat-date" datetime="2017-03-13T08:50:40+00:00">
-								08:50
-							</time>
-						</h5>
-						<div class="danger_bg_color">
-							Duis autem veum iriure dolor in hendrerit
-						</div>
-					</li>
-				</ul>
-			</li>
-
-
-			<li role="separator" class="divider"></li>
-
-			<li>
-				<div class="side-chat-answer">
-					<form class="form-inline button-on-input">
-						<div class="form-group">
-							<label for="side-chat-message" class="sr-only">Message</label>
-							<input type="text" class="form-control" id="side-chat-message" placeholder="Message">
-						</div>
-						<button type="submit" class="btn btn-danger">
-							<i class="fa fa-paper-plane-o"></i>
-						</button>
-					</form>
-				</div>
-			</li>
-		</ul>
-	</div>
 {% endblock %}

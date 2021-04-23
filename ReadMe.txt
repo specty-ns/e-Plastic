@@ -1,1 +1,1 @@
-pip install --pre xhtml2pdf 
+pip install -r requirements.txt

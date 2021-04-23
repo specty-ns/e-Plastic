@@ -85,11 +85,11 @@
 						</div>
 						<form  class="form-inline filters-form" method="GET">
 							&nbsp;&nbsp;&nbsp;
-							<input list="brow" name="pc_name" onchange="form.submit();" placeholder="Select Plastic Collector">
+							<input list="brow" name="pc_name"  placeholder="Select Plastic Collector">
 							<datalist id="brow"  style="height: fit-content;">
 								<option value="All">All</option> 
-								{% for r in comp %}
-								<option value="{{r.comp_name}}">{{r.comp_name}}</option>
+								{% for r in plast %}
+								<option value="{{r.pc_name}}"></option>
 								{% endfor %}
 							</datalist>&nbsp;
 							Starting Date<input type="text" name="date" placeholder="YYYY-MM-DD" onfocus="(this.type='date')"onblur="(this.type='text')">
