@@ -38,4 +38,5 @@ uritools==5.0.0
 urllib3==2.5.0
 webencodings==0.5.1
 wheel==0.45.1
+whitenoise==6.9.0
 xhtml2pdf==0.2.16
